@@ -1,5 +1,5 @@
 ---
-title: <center>The Basics</center>
+title: <center>Selection I.  The Basics</center>
 author: <center>Bruce J Cochrane</center>
 date: <center>August 10, 2014</center>
 output:

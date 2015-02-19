@@ -1,10 +1,18 @@
-Extended Haplotype Homozygosity Analysis
-========================================================
+---
+title: <center>Extended Haplotype Homozygosity Analysis</center>
+date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
+output:
+  html_document:
+    css: Chapter.css
+    keep_md: yes
+    toc: yes
+    toc_depth: 5
+---
 
-```{r,echo=FALSE}
-setwd("/Users/cochrabj/Dropbox/Public/QPopgen")
-source("./R/dfunctions.R")
-source("./R/printx.R")
+```{r,echo=FALSE,message=FALSE}
+
+#source("./R/dfunctions.R")
+#source("./R/printx.R")
 library(calibrate)
 
 ```
@@ -38,7 +46,8 @@ The bad news, however, is that it requires considerable data manipulation to, fo
 What we are going to do is to work with some previously prepared data from five million base pairs of human chromosome 3 (positions 50M to 55M in HapMap).
 ``
 ```{r}
-hap.rehh<-data2haplohh(hap_file="./Data/hyal2.hap",map_file="./Data/hyal2.map",chr.name=3) # read in the data and put it into a usable object
+
+hap.rehh<-data2haplohh(hap_file="/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.hap",map_file="/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.map",chr.name=3) # read in the data and put it into a usable object
 
 ```
 Now, instead of a core haplotype, we're going to start with a single snp - rs2680672.  Why we chose this one will become apparent shortly.  We need to specify it as the "mark" and go from there.
@@ -76,7 +85,7 @@ res.scan<-scan_hh(hap.rehh)
 Where hap.rehh is our haplohh object we created earlier.  However, running this is a fairly lengthy process, so while you may wish to do it yourself as an excercise, we will load the results of a previous run with the same chromosome 3 dataset.
 
 ```{r}
-load("./Data/hyal2.res-scan")
+load("/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.res-scan")
 
 ```
 That creates the object "res.scan"; we can look at a bit of it:
