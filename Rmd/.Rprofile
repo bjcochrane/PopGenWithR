@@ -1,0 +1,5 @@
+library(pegas)
+library(compare)
+library(devtools)
+library(TeachingPopGen)
+#source("./R/style.Chapter.R")

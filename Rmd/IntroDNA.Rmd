@@ -1,0 +1,97 @@
+---
+title: "DNA Sequence Variation - Introduction"
+output:
+  html_document:
+    css: Chapter.css
+    keep_md: yes
+    toc: yes
+    toc_depth: 5
+---
+
+
+### Background
+
+The most basic level of genetic variation is, of course, that of DNA sequence.  Indeed, we have been thinking about that implicitly up until this point; now, before going further, we need to make it explicit.  So our first objective will be to consider how we make such comparisons; from there we will ask how we can use those comparisons to make evolutionary inferences.
+
+### Some data
+
+As an example, we are going to use data from the acp29 locus in *Drosophila melanogaster*,  Popset [11245776](http://www.ncbi.nlm.nih.gov/popset/11245776), downloaded as a FASTA file (see [the video vignette on doing this for further information.  It can be loaded from the TeachingPopGen package; in addition, we will be using functions from pegas and ape, so we will load pegas (and ape as a dependency as well)
+
+```{r}
+library(TeachingPopGen)
+data(acp29)
+acp29.seq
+```
+
+
+We see that there are 17 sequences, each 702 base pairs in length.  As a cleanup for now, we will rename them as simply 1 through 17.  In addition, we will convert them from a list to a matrix (only possible when the sequences are all of the same length).
+```{r}
+names(acp29.seq) <-c(1:17)
+acp.mat <-as.matrix(acp29.seq) # makes the data a little easier to work with
+```
+Note that our data (acp.mat) is now a DNAbin object.  This is a data type used extensively in Ape and related packages.  A note of caution - for this to work, all of the sequences must be the same length prior to conversion.
+
+Now, we need to visualize them, for a couple of reasons.  First, it is essential that the sequences be aligned - that is, in doing our analyses, we are as certain as we can be that we are comparing evolutionarily homologous positions.  Second, we need to see, at least qualitatively, how variable the sequences are.  
+
+To do this, we will use the image.DNAbin function, part of the package "ape"
+```{r}
+image.DNAbin(acp.mat)
+```
+And with this, we can, at least qualitatively, address our question.  The fact that most bases are identical in all 17 sequences tells us that the sequence alignment looks good; the fact that there are some exceptions to this says that there are is in fact variation.
+
+But how much variation?  There are two measures that we will use extensively for this:
+
+#### Number of segregating sites
+
+Since we are interested in variation, our attention should be focused on those sites that are in fact polymorphic.  ape provides a function to give us those sites:
+```{r}
+acp.sites <-seg.sites(acp29.seq)
+acp.sites
+```
+And we can count them rather easily
+```{r}
+acp.nss <-length(acp.sites)
+acp.nss
+```
+And we see there are 15 out of the total of 702 positions that show some degree of variation.  These are what we need to focus on - from a population perspective the remaining 687 sites tell us nothing.
+
+#### Average pairwise differences
+
+OK, so we have 15 segregating sites.  But there is another question we need to ask - on average, how many differences are there between two sequences?
+
+Let's choose a couple of sequences at random and see how many differences there are between them.
+
+```{r}
+
+seqs <-as.integer(runif(2,1,17))
+seqs
+```
+Now let's see how many segregating sites there are.
+```{r}
+ss <-length(seg.sites(acp.mat[seqs,]))
+ss
+```
+And we see there are `r ss`.  If we reran the above block of code, we could select two other sequences, and we'd get another number.  In fact, there are n(n-1)/2 such comparisons; the average of them is our measure of diversity.  Again, there is an R function (in the package pegas) that gets at this
+
+```{r}
+acp.div <-nuc.div(acp.mat)
+acp.div
+```
+But this is an important point to note.  What we see here is the average diversity *per nucleotide*.  In other words, if we were to pick a random position from two random sequences, this would be the probability that they would be different bases.  We will use this occasionally, but for now, something that will be much more useful will be π, or the average number of differences *per sequence*.  We can get this simply by multiplying the diversity number by the length of the sequence (702 in this case).
+
+```{r}
+acp.pi <-ncol(acp.mat)*acp.div
+acp.pi
+```
+
+
+### Summary
+
+In this brief introduction, we have seen how we can quantify DNA sequence variation based on estimates of two parameters - the number of segregating sites and the average pairwise difference between sites.  To an extent, these are analogous to the measures used in the electrophoresis days - the fraction of loci that are polymorphic and average heterozygosity.  However, as we shall see, there is much more that can be learned based on sequence variation, especially when it comes to making inferences about past evolutionary processes.  To get there, we have to consider a few more factors:
+
+1.  What are the processes that underly generation of variation?  In other words, how can we model the mutational process?
+2.  What are the dynamics of the interaction between mutation and finite population size?
+3.  How can we make inferences about the processes that gave rise to an observed pattern of sequence variation?
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

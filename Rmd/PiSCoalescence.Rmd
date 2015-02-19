@@ -1,0 +1,60 @@
+---
+title: "<center>π, S, and &Theta;</center>"
+output:
+  html_document:
+    css: Chapter.css
+    keep_md: yes
+    toc: yes
+    toc_depth: 5
+---
+
+========================================================
+
+### Background
+So at this point, we have the following:
+
+#### DNA variation
+
+We have seen how, with aligned allelic sequences, we can quantitate the amount of variation in a population in terms of the number of segregatinv sites (S) and the average pairwise difference between species (π).  We have also seen, that akin to the distribution of allele frequencies, we can visualize the distribution of variation in the population in terms of the site frequency spectrum.  However, thus far, it is not obvious how we can compare what we have observed to what is expected under a mutation-drift model.
+
+#### Coalescence
+
+Using some fairly basic logic, we have seen that we can start with the simple idea that if there are 2N gametes, in generation t, the probability of a single coalescent event occurring in generation t-1 is 1/2N and extend that to calculate two expectations for n alleles:
+
+1.  E[TMRCA] = ∑2/(k(K-1)) summed over k=2 to n, and
+2.  E[Tree Length] = 2∑(1/k) summed over K=1 to n-1.
+
+So what we need to do is to bring these together, that is to use coalescent theory to generate expectations for our measures of sequence variation
+
+### The infinite sites model
+
+Up to this point, we have been using the infinite allele model, which says in essence that every mutation happens only once, so any homozgote carries two alleles that are identical by descent.  The infinite sites model is a variant on this theme.  It assumes that mutations can occur at an infinite number of sites, so again every mutation is unique, **and** no more than one mutation will ever occur at a particular site.  This actually turns out to be a fairly good approximation of the mutational process for the time scale with which we are dealing.
+
+###  π and coalescence.
+
+This turns out to be a fairly simple relationship.  Since every mutation can occur only once, the number of differences between to sequences is simply the number of mutations that has occurred.  Now  consider a single coalescent event - two lineages converging into 1.  From what has gone before, we would expect that to occur in 2N generations.  Now, suppose mutations are occurring on both branches at a rate of µ per generation.  It is simple to see, that in 2N generations, we would expect 2Nµ mutations to occur.  But that's for only one lineage leading to the coalescence; the same is occurring on the other lineage as well.  Thus, the total number of mutations separating the two lineages, or d<sub>ij</sub>, is simply 4Nµ, or our old friend &theta;.
+
+But of course, in real data, we have n sequences and n(n-1)/2 comparisons that we average to get π.  We can now combine the above result with that, as described in Equation 3.7 of Nielsen and Slaktin:
+
+![NS7](https://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/NS3007.jpg)
+
+We can see, by some very simple rearrangement, that **the expectation for π, based on coalescent theory, is simply &theta;**! Therefore,  the observed value of π can be used as an estimator of &theta; - it is often referred to as Tajima's estimator.  This is a simple but remarkable result.  Remember that we first encountered &theta; in the context of classical drift/mutation theory.  Now we see that it recurs in the context of DNA sequence coalescence, and in fact we have obtained a very simple estimator of it.  But wait, there is more.
+
+### S and coalescence
+
+We now turn to S, the number of segregating sites.  Under the infinite sites model, it also has a simple interpretation - it is the total number of mutations that has occurred in the time between the MRCA and the sequences being analyzed (remember, one site mutates only once, so sites with identical bases are, by definition, ibd).  So what we now have to ask is, given a sample of n sequences, how many mutations would we expect to occur?  
+
+We start by remembering our formula for total tree length, given above.  We also remember that, in our discussion of the expectation for π, we saw that the expected number of mutations in time t is t&theta;/2 (half the number that separate two coalescing lineages).  So given those relationships, we can easily derive the following (Equations 3.14-3.16):
+
+![NS3](https://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/NS3014.jpg)  
+![NS4](https://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/NS3015.jpg)
+![NS5](https://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/NS3016.jpg)
+
+
+And we see that now we have a second estimator of &theta;, also known as the Watterson estimator, or &theta;<sub>w</sub>
+
+### Conclusion
+
+So now it appears we may have something useful from an empirical standard.  We can sample a number of alleles, easily calculate π and S, and with some further simple manipulation based on coalescence, obtain two estimators of &theta;.  Of course, as noted earlier, it is still challenging to interpret what this parameter means, given that it is based on the product of two numbers, one large and one small, that are inherently difficult to estimate.  But nevertheless, we now have a framework in which we can start asking questions about the evolutionary histories of genes, and by extension, the populations from whence they were drawn.  But before we can jump headlong into analyzing the data, we need to explore the relationship between our two estimators of &theta; more closely.  Then we will need to see how we can use simulation to determine whether actual values, determined from real data, are consistent with the model of mutation and drift that has been inherent in our considerations so far.
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
