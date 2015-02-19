@@ -4,7 +4,7 @@
 ========================================================
 ```{r,echo=FALSE}
 #source("./R/style.Chapter.R")
-source("http://db.tt/A6tReYEC")
+#source("http://db.tt/A6tReYEC")
 source("http://sph.umich.edu/csg/abecasis/Exact/snp_hwe.r")
 ```
 Needs a bunch of work - 
@@ -27,7 +27,7 @@ One well-known problem with the &chi;^2 test arises when the expected number of 
 
 So how much of this is a problem?  To explore this, we will examine SNP data from chromosome 3 in the CEU population.  Furthermore, we will focus our attention on the more polymorphic SNPs, ones in which there are at least 10 individuals in each of the three genotypic classes.  First, we get the data
 ```{r}
-dat <-read.table("./Data/ch3.gfreq.ceu.txt",skip=3)
+dat <-read.table("/Users/cochrabj/Dropbox/Public/QPopgen/Data/ch3.gfreq.ceu.txt",skip=3)
 ```
 Now we will extract the columns of interest (the genotype numbers)
 ```{r}
