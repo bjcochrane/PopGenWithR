@@ -1,4 +1,11 @@
-<center>Data in R
+---
+title: <center>Data in R</center>
+output:
+  html_document:
+    css: Chapter.css
+    keep_md: yes
+    toc: yes
+    toc_depth: 5
 ========================================================
 
 ### Background
@@ -10,7 +17,7 @@ We said that one of the justifications for using R is its power in data manipula
 First, we need to load out web-scraping package
 ```{r}
 library (XML)
-source("printx.R")
+#source("printx.R")
 ```
 Next, remember that we used the following command to retrieve the frequency data table.  We will repeat that here, and then look more closely at how we do it and what we get when we do.
 
@@ -81,16 +88,11 @@ And what we have is much cleaner, but we still have some problems.  For one, do 
 
 ### Avoiding All of This - Use of a Custom Function
 
-To fix all of this, we could do a bunch more manipulations.  However, for our current purposes, the goal of this unit is to get data we can work with, not to explore the vagaries of data munging.  So, let's load a function I wrote for just this purpose:
+To fix all of this, we could do a bunch more manipulations.  However, for our current purposes, the goal of this unit is to get data we can work with, not to explore the vagaries of data munging.  So let's use the read.alfred function to get some data from the web
 
 ```{r}
-source("ALFRED.R")
-```
-Notice that now a bunch of functons have shown up in the workspace.  What we are interested now is the read.alfred function.  Note that it has "the.url" as an argument.  So, what we need to do is to provide it with the complete url that we created above.
 
-```{r}
-url2 <-paste(url, siteid, sep="")
-dat <-read.alfred(url2)
+dat <-read.alfred(siteid)
 ```
 And we can look at dat:
 ```{r createtable2, results="asis"}
