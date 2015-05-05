@@ -19,7 +19,7 @@ library(TeachingPopGen)
 
 So now we need to think more closely about what DNA does.  Historically, the definition of a gene was that portion of DNA that encodes a particular polypeptide, and since much of molecular population genetic theory developed in the era of protein polymorphism studies, many  of the classical tests of selection involve analysis of protein coding regions.  We will start by looking at a few of them; we will then move on to see how the comprehensive nucleotide polymorphism data that are available to us today allow us to broaden our scope to include all DNA sequences, coding or other.
 
-Before we explore this question, remember that we have already explored two for departure from neutral expecations  - Ewens-Watterson and the Tajima test.  However, these both suffer from two shortcomings..  First, they are relatively insensitive - only in the most extreme cases do the test statistic sdiffer greatly from neutral expectations.  Second, if deviation is observed, there can be multiple explanations, and the role of selection (directional or balancing) is only one of them.
+Before we explore this question, remember that we have already explored two for departure from neutral expecations  - Ewens-Watterson and the Tajima test.  However, these both suffer from two shortcomings.  First, they are relatively insensitive - only in the most extreme cases do the test statistic sdiffer greatly from neutral expectations.  Second, if deviation is observed, there can be multiple explanations, and the role of selection (directional or balancing) is only one of them.
 
 ### Remember the genetic code
 
@@ -32,7 +32,7 @@ To quickly summarize, the genetic code has the following properties:
 
 So let's think about evolutionary change in this context.  Suppose all mutations, (synonymous or nonsynonymous) are neutral, something that we assumed when we developed the Jukes and Cantor model for estimating rates of substitutions.  If so, then if we calculate d for both classes, the expectation is that they should be equal, or dN=dS.
 
-So what do we see?  First, in a sample of 16 eukaryotic genes, we find that  dN=.88 and dS = 4.65.  So if we compute the ratio, we get the following
+So what do we see?  First, in a sample of 16 eukaryotic genes, we find that  kN=.88 and kS = 4.65.  So if we compute the ratio, we get the following
 ```{r}
 .88/4.65
 ```
@@ -97,7 +97,12 @@ The MK test is probably the most widely used for  evidence of selection in prote
   
 The data that McDonald and Kreitman analyzed, once again for Adh, are as follows:
 
-![MK](https://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/MK.png)
+
+
+Site Type|Divergent Between Species|Polymorphic Within Species
+---|---|---
+Nonsynonymous|7|2
+Synonymous|17|42
 
 Once again, polymorphism data were from *D. melanogaster*; substitution data ("fixed") are based on comparison with two sibling species - *D. simulans* and *D. yakuba*.
 
@@ -112,21 +117,21 @@ FI - (DnPs)/(DsPn)
 Note that this the numerator is the divergence to polymorphism ratio for nonsynonymous changes, while the denomintor is the same for synonymous ones.  We could thus imagine the following scenarios:
 
 1.  If mutation is selectively neutral, the type of mutation doesn't matter, and FI = 1
-2.  If substitutions between species are adaptive, then we would expect Dn/Pn >Ds>Ps, and thus FI >1
+2.  If substitutions between species are adaptive, then we would expect Dn/Pn >Ds/Ps, and thus FI >1
 3.  In the case of heterozygote advantage within species, then (based on the second formulation) Pn >Ps, making FI <1.
 4.  If most nonsynonymous mutations within species are detrimental, then again, we would expect to see Pn to be small and FI >1.  However, we would also expect to see an excess of low-frequency derived alleles within species, which could allow us to distinguish this from possibility 2.  We will return to this point in a bit.
 
 
 
-The function MK does the above analysis:
+The function MK does the above analysis The input for it is two vectors, consisting of the rows from the  table above:
 
 ```{r}
-MK(c(2,7),c(42,17))
+MK(c(7,2),c(17,42))
 ```
 And returns the result of the chi-square test, as well as the value of FI.  In this case we note:
 
 1.  The chi-square value (1 d. f) is significant, indicating that we can reject the null hypothesis that the dN/dS and pN/Ps ratios are the same.
-2.  FI is positive, suggesting a deficiency of nonsynonymous polymorphisms (something that should be evident based on visual inspection of the data)
+2.  FI is greater than 1, suggesting a deficiency of nonsynonymous polymorphisms (something that should be evident based on visual inspection of the data)
 
 Note that, using the G test with a correction for small sample size, a more conservative approach, McDonald and Kreitman obtained similar results.  Their conclusion, explained quite well in the paper, suggest that most of the replacements that have occurred are in fact adaptive, so that nonsynonymous polymorphisms, when they occur, have a short life time.
 
@@ -144,5 +149,4 @@ We see that it is little more than a call to the built-in function chisq.test.  
 So we've seen that we can take three different approaches to the detection of selection, all of which involve, one way or another, a comparison of substitution rates and levels of polymorphism.  Note, however, that, as described so far, we are, by and large, approaching the problem on a gene-by-gene basis.  Ideally, we'd like to tak a broader view, using available data to assess patterns of selection in the genome as a whole.  In our next unit, we will begin to do that, using the MK statistic as a means to look for evidence of selection in the *Drosophila* genome.
 
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 

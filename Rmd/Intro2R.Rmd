@@ -1,5 +1,14 @@
-Introduction to R and R Studio
-========================================================
+---
+title: "Introduction to R and RStudio"
+output:
+  html_document:
+    css: Chapter.css
+    keep_md: yes
+    toc: yes
+    toc_depth: 5
+---
+
+
 ## Why R?
 From the outset, we need to recognize that there are lots of valuable standalone programs for evolutionary genetic analysis, many of which operate on Windows, Mac and Linux platforms and do so in a user-friendly fashion.  However, there is one serious downside to exclusive dependence on such packages - many of them require specialized data formats, and outputs from one such program are often not readily input into another.
 
