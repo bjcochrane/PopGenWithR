@@ -121,6 +121,25 @@ f.range
 ```
 So we see that the mean of f is very close to zero, although there are outliers that might be worth exploring further.
 
+#### The Chromosomal Distribution of F values
+
+So what if we want to look at the distribution of chi-squared or F values based on chromosomal position?  Doing so might show regions of the chromosome that show systematic departure from Hardy-Weinberg expectations and thus might be targets of further investigation.  Those positions were in our original data set that we loaded (ch6.yri), so we can extract them and plot them for our selected data as follows: 
+```{r,fig.height=10}
+snps <-rownames(ch6.sub)
+pos <-ch6.yri$V3[rownames(ch6.yri) %in% snps]
+par(mfrow=c(2,1))
+plot(pos/1000000,Hw.ch,xlab="Chromosomal Position",ylab="chi-squared",pch=20,main="Chi-squared")
+abline(h=3.84,lty=2,col="blue")
+plot(pos/1000000,Hw.f,pch=20,xlab="Chromosomal Position (MB)",ylab="F",main="F")
+abline(h=0,col="red")
+abline(h=c(-.2,.2),lty=2,col="blue")
+par(mfrow=c(1,1))
+```
+What constitutes a "significant" departure from zero?  That is not an easy question to address at this point, but we'll somewhat arbitrarily consider any value greater than &plusnm; 0.2 to be significant.  For chi-squared, we'll use the standard p <0.05 significance level for one degree of freedom (3.84).  These values are indicated on the two plots with dashed blue lines.  There are a few bits of information we can glean
+
+1.  The chi-squared plot shows the positions of the eight SNPs that show significant departures from HW expectations.  They appear to be fairly randomly distributed over the chromosome.
+2.  We see a similar number of SNPs that show values of F outside of the range of &plusmn; 0.2.  However, we note that some show a positive values and others a negative.  As a thought question, how do these two classes of SNPs differ with respect to the nature of their departure from Hardy-Weinberg Expectations?
+
 ### Summary
 
 There are a few reasons for undertaking this exercise.  
@@ -128,5 +147,7 @@ There are a few reasons for undertaking this exercise.
 1.  We need to remember that the Hardy Weinberg equilibrium (or departure therefrom) is a property of the *population*, not of any individual locus.  Therefore since some loci will, by chance, depart from the expected proportions in a given sample, we need to be conservative about extrapolating from single locus data to population-level properties.  
 1.  When we do see outliers, we have to proceed with caution.  For example, in bioinformatics, departure from Hardy-Weinberg is used as an indicator of possible problems with the raw data - for example if heterozyotes are erroneously scored as homozygotes, then there will be apparent departures.
 2.  In cases where an allele occurs at low frequency, the chi-squared test is fraught with danger.  In such cases, and especially in typical sample sizes (N~100), the expected numbers of homozygotes of the low frequency allele are very small, which can artificially inflate chi-squared values.
+
+
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
