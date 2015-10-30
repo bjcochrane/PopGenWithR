@@ -55,7 +55,15 @@ And we come up with the surprisingly low figure of `r as.integer(n.hum)` (note t
 
 ### E. coli
 
-`r citep("10.1093/molbev/msk025")`
+This quesion is addressed by Charlesworth and Eyre-Walker `r citep("10.1093/molbev/msk025")`, using synonymous differences in 10 genes.  In this case, the estimate &theta; (using the Watterson estimator) was 0.76; the mutation rate had previously been estimated to be 5X10^-10/nucleotide per generation.  Our estimate of Ne can thus be made by
+
+```{r}
+th.ecoli <-.78
+mu.ecoli <-5*10^(-10)
+n.ecoli <-th.ecoli/(4*mu.ecoli*2)
+n.ecoli
+```
+
 
 ### References
 
