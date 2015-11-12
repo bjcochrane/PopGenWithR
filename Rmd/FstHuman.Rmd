@@ -1,14 +1,20 @@
 ---
 title: <center>Fst, ALFRED and Human Subdivision</center>
-author: <center>Bruce Cochrane</center>
-date: "August 10, 2014"
-output: 
-    html_document:
-       keep_md: yes
-       css: Chapter.css
-       toc: yes
-       toc_depth: 5
+date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
+bibliography: "bibliography.bib"
+csl:  "genetics.csl.txt"
+output:
+  html_document:
+    css: Chapter.css
+    keep_md: yes
+    toc: yes
+    toc_depth: 5
 ---
+
+```{r,echo=FALSE}
+library(knitcitations)
+cite_options("citation_format" = "pandoc",hyperlink = TRUE,max.names = 2)
+```
 
 
 
@@ -28,7 +34,7 @@ library(TeachingPopGen)
 
 ### Loading the Data
 
-In surfing through R, we have identified a SNP that we would like to analyze further.  It is rs11130248, a marker in the region that Ding et al. implicated as having originated from Neanderthals via introgression and having been the apparent target of selection in Asian populations.  We will use those data to do a bit of F statistic manipulation.
+In a very compelling paper, `r citet("10.1093/molbev/mst260")` reported evidence showing that for a region of chromosome 21, a particular haplotype of Neanderthal origin has been the subject of recent positive selection in Tibetan populations.  The evidence included geographic differentiation of allele frequencies of SNPs in the resion.  One such marker is rs11130248;  we will use frequency data from the ALFRED database to do a bit of F statistic analysis.
 
 First of all, we need to read the data.  To do so, we are going to "scrape" it directly from the Internet, using a function in the package XML.  Before we can do so, however, we need to browse to the Allele Frequency table for the data; to get there, search for the SNP on Alfred.  You should get to [this page](http://alfred.med.yale.edu/alfred/recordinfo.asp?condition=sites.site_uid=%27SI087775I); on it you will note that there is a table at the top that includes a cell with the header "Alfred UID".  This number needs to be in the following code.
 
@@ -129,7 +135,7 @@ And in fact se see negligible evidence for differentiation at any level.  So wha
 What we will do now is to look at Fst values for 1000 random SNPs drawn from the ALFRED database.  It is possible to download a table that includes those values for over 600,000 snps from ALFRED, however to save time, such a sample has been included as data in TeachingPopGen; we can load it as follows
 
 ```{r}
-data(HumanFstSample)
+data(HsFstSample)
 ```
 
 ```{r}
@@ -147,7 +153,7 @@ abline(v=fst.c, col="blue")
 abline(v=dat2.cont.fst,col="darkgreen")
 ```
 
-For the total Alfred dataset, the mean value for Fst is `r fmean`.  This is actually in quite good agreement with the value of 0.12 recently reported based on a data set of 1.1 million autosomal snps.  And in fact, the two SNPs we analyzed are in the opposite tails of the distribution, suggesting that neither, by itself, is a good indicator of population structure.
+For the total Alfred dataset, the mean value for Fst is `r fmean`.  This is actually in quite good agreement with the value of 0.12 recently reported based on a data set of 1.1 million autosomal snps `r citep("10.1371/journal.pone.0049837")`.  And in fact, the two SNPs we analyzed are in the opposite tails of the distribution, suggesting that neither, by itself, is a good indicator of population structure.
 
 ### Conclusions
 
@@ -156,3 +162,9 @@ We started this unit by focusing in on one particular SNP, in a region in which 
 We also showed that the mean value for intercontinental Fst, based on `r nrow(ch1.sub)` SNPs is `r fmean`.  It is important to understand what this means -  **ca. `r as.integer(fmean *100)` percent of the variation in human population is the result of genetic differentiation among continents`.**  Figures like this have been reported using a variety of genetic markers - allozymes, microsatellites, SNPs and others - and have been used as evidence to argue against race (at least as correlated with continent) as a meaningful biological construct.  
 
 But there is one important point we have overlooked.  In everything we have discussed, we have considered each SNP in isolation.  In fact, of course, a population consists of individuals with multilocus genomes, not ones with collections of independently assorting genetic elements.  So what happens if we broaden our view and address questions about population structure questions based on genotypes rather than genes?  Stay tuned.
+
+### References
+
+```{r,echo=FALSE,message=FALSE}
+write.bibtex(file="bibliography.bib")
+```
