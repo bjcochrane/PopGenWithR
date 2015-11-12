@@ -1,12 +1,14 @@
 ---
-title: 
-- <center>Combining Data and Simulation</center>
-output:
-  html_document:
-    css: Chapter.css
-    toc: yes
-    toc_depth: 5
+title: <center>Combining Data and Simulation</center>
+author: <center></center>
+date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
+output: 
+    html_document:
+       css: Chapter.css
+       toc: yes
+       toc_depth: 5
 ---
+
 
 
 
@@ -24,7 +26,7 @@ As has been mentioned previously, ms and related programs were originally writte
 
 At this point, we need to address two questions.  First, goven some value of Tajima's D statistic, how do we determine its significance?  Second, if it is significant, what does it tell us about the evolution of the gene and/or population?
 
-The first question is probably of lesser significance - indeed, as we have seen, the tajima.test function addresses it by comparing the value to either a normal or a beta distribution, and a rule of thumb that works pretty well is that if -1.8 < D <1.8, then its difference from expectation is not significant.  However, addressing the question does give us an opportunity to further explore the capabilities of ms and its associated program sample_ stats, which we will do now.  In this case, we will execute ms and sample_stats using the system() function, since while doing so with the phyclust function is possible, there is a glitch in it that can create problems.
+The first question is probably of lesser significance - indeed, as we have seen, the tajima.test function addresses it by comparing the value to either a normal or a beta distribution, and a rule of thumb that works pretty well is that if -1.8 < D <1.8, then its difference from expectation is not significant.  However, addressing the question does give us an opportunity to explore how we can use ms to calculate summary statistics, such as Tajima's D, and analyze their distribution.  
 
 For this unit, we will work with an aligned portion of the spaghetti squash data from *D. mauritiana* NCBI Popset [345105052](http://www.ncbi.nlm.nih.gov/popset/345105052):
 
@@ -49,7 +51,6 @@ And, as we saw before, the value of `r D$D` that we obtain suggests that there m
 
 ss.ms <-ms(nsam=n,nreps=1000,opts=(paste("-s",s,"-r",0,nbase,sep=" ")))
 
-#ss.ms <-read.ms.output(txt=ss.ms)
 ```
 Now we will use the function ms.sumstats (part of TeachingPopGen) to calculate summary statistics on all 1000 simulations
 ```{r}
@@ -65,12 +66,12 @@ colhist(ss.sum$Tajima.D,labs=c("D","Number","Distribution of Tajima Statistic"))
 Dmean <-mean(ss.sum$Tajima.D)
 Dmean
 abline(v=Dmean, col="blue")
-abline (v=D$D, col="darkgreen")
+
 ```
 So we see that, based on the simulation:
 
-1.  The expectation, shown by the red line, is close to zero - not surprising (the reason it is not zero is not important to us)
-2.  Our observed value of D, `r D$D`, shown by the green line, is significantly different from the expectation, in the negative direction.  This suggests, as we've mentioned before, that in these data, there are an excess of singletons, but how we can explain that remains a problem.
+1.  The expectation, shown by the blue line, is close to zero - not surprising (the reason it is not zero is not important to us)
+2.  Our observed value of D, `r D$D`,  is significantly different from the expectation, in the negative direction.  This suggests, as we've mentioned before, that in these data, there are an excess of singletons, but how we can explain that remains a problem.
 
 ### Estimating &theta;
 
@@ -113,7 +114,7 @@ ms.sum <-do.call(rbind.data.frame,out.ms)
 head(ms.sum)
 ```
 
-And we get the typical kind of output.  So let's first look graphically at the distribution of segregaring sites:
+And we get the typical kind of output.  So let's first look graphically at the distribution of segregating sites:
 ```{r}
 hist(ms.sum$S)
 ```
@@ -176,6 +177,7 @@ tr.growth <-read.tree(text=m.out)
 par(mfrow=c(2,1))
 plot(tr.const,main="Constant")
 plot(tr.growth,main="Growth")
+par(mfrow=c(1,1))
 ```
 And what we see is that, in the growth model, we have much longer tip branches than we do on the constant one.  Per our earlier discussion of D and π,  our expectation would be a site frequency spectrum with an excess of singletons, and thus a negative value of D.
 
