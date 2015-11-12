@@ -20,14 +20,14 @@ As an example, we are going to use data from the acp29 locus in *Drosophila mela
 ```{r}
 library(TeachingPopGen)
 data(acp29)
-acp29.seq
+acp29
 ```
 
 
 We see that there are 17 sequences, each 702 base pairs in length.  As a cleanup for now, we will rename them as simply 1 through 17.  In addition, we will convert them from a list to a matrix (only possible when the sequences are all of the same length).
 ```{r}
-names(acp29.seq) <-c(1:17)
-acp.mat <-as.matrix(acp29.seq) # makes the data a little easier to work with
+names(acp29) <-c(1:17)
+acp.mat <-as.matrix(acp29) # makes the data a little easier to work with
 ```
 Note that our data (acp.mat) is now a DNAbin object.  This is a data type used extensively in Ape and related packages.  A note of caution - for this to work, all of the sequences must be the same length prior to conversion.
 
@@ -45,7 +45,7 @@ But how much variation?  There are two measures that we will use extensively for
 
 Since we are interested in variation, our attention should be focused on those sites that are in fact polymorphic.  ape provides a function to give us those sites:
 ```{r}
-acp.sites <-seg.sites(acp29.seq)
+acp.sites <-seg.sites(acp29)
 acp.sites
 ```
 And we can count them rather easily

@@ -64,7 +64,7 @@ output:
 2.  [Effective Population Size](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/NeDetermination.html)
 1.  [Mutation - Random or Adaptive?](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/Mutation.html)
 2.  [The Fate of New Mutations](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/MutationFate.html)
-3. [Drift, Mutation and the Infinite Alleles Model](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/InfiniteSites.html)
+3. [Drift, Mutation and the Infinite Alleles Model](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/InfiniteAlleles.html)
 
 
 ### The History of Finite Populations - Introduction to Coalescence

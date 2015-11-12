@@ -33,7 +33,7 @@ plot(read.tree(text=tr),use.edge.length=FALSE)
 
 #### Look at the data
 
-So now we see the actual gametes that gave rise to this tree
+Now let's  see the actual gametes that gave rise to this tree
 ```{r}
 tr.out <-read.ms.output(txt=tr) #Get data in usable form
 gams <-as.data.frame(tr.out$gametes)
@@ -121,7 +121,7 @@ Based on this, look back at our two hypothetical situations.  In the first case,
 
 ### Conclusion.  
 
-We can now see the basis for the different estimates we get for theta - one is simply based on mutation number, while the other incorporates the distribution of those mutations on the gene geneology.  Again, given that &theta; is a single parameter, what we have is two estimators of the same thing, so
+We can now see the basis for the different estimates we get for &theta; - one is simply based on mutation number, while the other incorporates the distribution of those mutations on the gene geneology.  Again, given that &theta; is a single parameter, what we have is two estimators of the same thing, so
 
 E[π] = E[&theta;<sub>w</sub>] = &theta;
 

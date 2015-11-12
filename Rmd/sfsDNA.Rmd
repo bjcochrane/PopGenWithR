@@ -39,7 +39,7 @@ But let's go to something more realistic. Let's return to the acp29 data.  The d
 data(acp29) #Load data from TeachingPopGen
 
 
-spec.acp <-site.spectrum(acp29.seq)
+spec.acp <-site.spectrum(acp29)
 plot(spec.acp)
 ```
 So we have 10 positions with 1 derived allele, 1 each with 2 and 3, and so forth.  The question then becomes what to do with them - as with the examples we did with the Ewens data, we need to compare these to some sort of expectation.  
@@ -52,7 +52,7 @@ But the question is, what should that distribution look like.  Nielsen and Slatk
 
 First, we have seen that the data set contains 17 sequences of 703 bases.  We need to know the number of segregating sites
 ```{r}
-length(seg.sites(acp29.seq))
+length(seg.sites(acp29))
 ```
 There are 15.  So now we will use ms to simulate that, and then send the results to ms2dna to produce simulated bases (rather than 1's and zeros).  The results are stored in a fasta file (called test.fasta) Note that in this case, we are not using ms as implemented in phyclust; rather we are making a system call directly to ms, rerouting the outcome to ms2dna, which converts the output to simulated DNA sequences, and having that saved as a fasta file.
 ```{r}

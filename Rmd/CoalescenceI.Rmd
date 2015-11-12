@@ -48,7 +48,7 @@ Furthermore, note that we are now dealing with expectations for for a tree, not 
 
 ### Generating random trees
 
-We now introduce the program ms, one that we will use extensively.  What it does is to simulate sequence evolution under the neutral model - that is, given either a value of &theta; or S (as well as, when appropriate, some other population parameters), it will generate simulated data sets; in addition it can, if the appropriate options are set, generate the data necessary for illustrating each set as a tree.  ms can be run either from the command line or as part of the package phyclust; to the greatest extent possible we will use the latter approach.
+We returen to program ms.  Remember that it does is to simulate sequence evolution under the neutral model - that is, given either a value of &theta; or S (as well as, when appropriate, some other population parameters), it will generate simulated data sets; in addition it can, if the appropriate options are set, generate the data necessary for illustrating each set as a tree.  ms can be run either from the command line or as part of the package phyclust; to the greatest extent possible we will use the latter approach.
 
 #### Running the simulations
 
@@ -64,11 +64,12 @@ We will talk a lot more about using ms output, but for now, we can use the read.
 par(mfrow=c(3,2))
 trees <-read.tree(text=tr)
 sapply(trees,plot)
+par(mfrow=c(1,1))
 ```
 These could be thought of as the gene genealogies of six different genes, **all sampled from the same individuals**.  What we see is a veritable forest (and if we increased nreps, we could get even more - ms is VERY fast, so that generation of 1000 simulations is a simple matter).  The question now becomes how to summarize the simulations in a way that is amenable to our usual form of analysis.  That is where we will go next.
 
 ### Summary
 
-Everything we have covered assumes that a given set of alleles has a common ancestor (usually referred to as MRCA, or most recent common ancestor).  We have also assumed that the processes that gave rise to the set of alleles we've sequenced are the stochastic processes of mutation and drift, which are the components that go int &theta;, the neutral parameter.  What we see, however, is that there are, even for a small sample of alleles, a nearly infinite number of geneologies that can give rise to the observed data.  What we will now do is to divert into theory for a bit and ask how we might use some of the work we have done in analyzing DNA polymorphisms to see how we can better quantify the coalescent process.
+Everything we have covered assumes that a given set of alleles has a common ancestor (usually referred to as MRCA, or most recent common ancestor).  We have also assumed that the processes that gave rise to the set of alleles we've sequenced are the stochastic processes of mutation and drift, which are the components that go into &theta;, the neutral parameter.  What we see, however, is that there are, even for a small sample of alleles, a nearly infinite number of geneologies that can give rise to the observed data.  What we will now do is to divert into theory for a bit and ask how we might use some of the work we have done in analyzing DNA polymorphisms to see how we can better quantify the coalescent process.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

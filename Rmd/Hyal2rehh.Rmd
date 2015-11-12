@@ -86,8 +86,7 @@ A bit more to do on that, but the map file is easy
 ```{r}
 map.input <-data.frame(cbind(rownames(dat.sub),3,as.numeric(hya.anc.sub.ordered$chrom_start),1,2),stringsAsFactors=FALSE)
  
-colnames(map.input) <-c("SNP","chr","pos","anc","der")
-head(map.input)  
+
 ```
 
 As a temporary test, and recognizing we still have to fool with haps, let's move forward

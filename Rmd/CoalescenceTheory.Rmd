@@ -1,5 +1,8 @@
 ---
 title: "<center>Coalescence - A Little Theory</center>"
+date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
+bibliography: "bibliography.bib"
+csl:  "genetics.csl.txt"
 output:
   html_document:
     css: Chapter.css
@@ -9,17 +12,15 @@ output:
 ---
 
 ```{r,echo=FALSE}
-library(TeachingPopGen)
-
-
+library(knitcitations)
+cite_options("citation_format" = "pandoc",hyperlink = TRUE,max.names = 2)
 ```
-
 
 ### Introduction
 
 So keep in mind - our essential questions is the following:  *Given an observed set of allelic DNA sequences, what can we infer about the evolutionary processes that gave rise to them?*  For now, we're going to simplify the question by only asking whether the data can be explained by the processes of mutation and drift occurring in a finite population.  Furthermore, since we are working backwards from extant species, we needn't be concerned about the vast number of new variants that would have been lost by the processes we've already discussed.
 
-The approach, which we already outlined, is to make inferences about the ancestry of alleles.  The classic approach, developed by Kingman [(1982)](https://dl.dropboxusercontent.com/u/9752688/422-2014P/References/Kingman%201982.pdf) is to consider the problem from the standpoint of the whole population.  However, in most cases, the data one works from consists of a sample drawn from that data.   We will briefly consider the first approach, but focus most of our attention on the second.
+The approach, which we already outlined, is to make inferences about the ancestry of alleles.  The classic approach, developed by  `r citet("10.1016/0304-4149(82)90011-4")` is to consider the problem from the standpoint of the whole population.  However, in most cases, the data one works from consists of a sample drawn from that data.   We will briefly consider the first approach, but focus most of our attention on the second.
 
 ### Looking back one generation
 
@@ -145,4 +146,9 @@ The top panel shows the distribution of TMRCA; the bottom one that of total leng
 
 Remember where we want to be.  We want to be able to find summary statistics that describe the coalescent process, which we can then use to compare observed data to the expected distribution.  Now we have two numbers for coalescence - TMRCA and total tree length - and we can simulate both their expected values and their distributions.  But remember the summary statistics we have for DNA - π (mean pairwise differences) and S (number of segregating sites).  How can we bring these together?  That's where we're headed next.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+### References
+
+```{r,echo=FALSE,message=FALSE}
+write.bibtex(file="bibliography.bib")
+```
+

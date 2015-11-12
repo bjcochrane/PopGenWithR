@@ -89,7 +89,7 @@ fharm <-fexp(nharm)
 plot(Fhat, main="Mean Heterozygosity within Replicates",type="l")
 lines (fharm, col="blue")
 ```
-And we see a much better fit to the data.
+And we see a much better fit to the data.  And there is a logical biological reason for this.  When a bottleneck occurs, genetic variation is lost, and in particular low frequency alleles may be eliminated.  Thus, absent new mutation (which we can ignore over the time period we are examining here), that loss of variation persists.  Thus, those time periods in which population numbers are low make have a disproportianely large impact on heterozygosity and thus Ne.  The same is true of the harmonic mean of a series of numbers - the reciprocal of a small number is large, and it is those reciprocals that are being averaged.
 
 ### Summary
 
