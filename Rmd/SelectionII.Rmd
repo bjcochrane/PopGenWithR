@@ -242,7 +242,7 @@ blank()
 Ns2 <-c(-.5,-.25,-.125,-.1,.1,.125,.25,.5)
 x <-sapply(Ns2,fix.p)
 ```
-[Tomoko Ohta (1976)](http://www.sciencedirect.com/science/article/pii/0040580976900198#) investigating this further by looking at both probability of fixation and, perhaps more importantly, expected heterozygosity, for this case.  In essence, the question she addressed was what are the predicted dynamics of weakly deleterious alleles in finite populations?
+[Tomoko Ohta (1976)](http://www.sciencedirect.com/science/article/pii/0040580976900198#) investigated this further by looking at both probability of fixation and, perhaps more importantly, expected heterozygosity, for this case.  In essence, the question she addressed was what are the predicted dynamics of weakly deleterious alleles in finite populations?
 
 First, let's look at fixation probability over the same range as above (-.5 < Ns <.5); furthermore we'll assume that N=500, so 2N=1000, and we are varying s to vary Ns.
 ```{r}

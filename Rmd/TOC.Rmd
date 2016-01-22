@@ -76,7 +76,7 @@ output:
 4.  [S, &pi; and Coalescence](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/PiSCoalescence.html)
 5.  [Exploring &pi; and &theta;w](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/PiSCoalescenceII.html)
 6.  [The Tajima Statistic](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/Tajima.html)
-7.  [The Fay-Wu Statistic](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/FayWu.Rmd)
+7.  [The Fay-Wu Statistic](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/FayWu.html)
 7.  [Comparing Data with Simulation](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/ms-sstats.html)
 
 ### Population Subdivision
@@ -120,9 +120,6 @@ output:
 1.  [Starting your First Project](https://dl.dropboxusercontent.com/u/9752688/QPopgen/Demo/mp4/InstallTPG.mp4)
 2.  [A Little Bit of Markdown](https://dl.dropboxusercontent.com/u/9752688/QPopgen/Demo/mp4/MarkDownIntro.mp4)
 
-### Exploratory materials (links to R code only)
-
-1.  [Selection detection via coalescent simulation in guppies](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/GuppyOpsinSelection.Rmd)
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 

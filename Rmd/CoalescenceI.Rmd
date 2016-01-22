@@ -35,7 +35,7 @@ names(acp29)<-c(1:17) # rename the sequences to clean up the output
 What we want to do is to find a tree that requires the fewest changes.  We won't delve into methodology here; the important point is that we will attempt to find the tree that requires the fewest mutational changes, or the most parsimonious tree.  The easiest way to do that is with a function in the package phangorn (which may need to be installed in the usual way)
 ```{r, eval=FALSE}
 #install.packages("phangorn") # uncomment if you need to install
-#library (phangorn) #note that this make take a while to load
+library (phangorn) #note that this make take a while to load
 ```
 ```{r}
 

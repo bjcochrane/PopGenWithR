@@ -29,7 +29,7 @@ The idea that mutation is a random process is so engrained in modern biology tha
 1.  The mutations occurred at random, while the bacteria were being grown *in the absence of T4*.
 
 
-In 1943, [Luria and Delbruck](http://www.genetics.org/content/28/6/491.full.pdf) did exactly in this experiment, but in a way that allowed them to elegantly distinguish between the two hypotheses.  The basic experiment was simple - grow several cultures sensitive cells as described above, and then plate samples of those  cultures on T4-containing agar plates.  Count the resistant colonies on the replicate plates and then compute the mean and variance.  
+In 1943, [Luria and Delbruck](http://www.genetics.org/content/28/6/491.full.pdf) did exactly in this experiment, but in a way that allowed them to elegantly distinguish between the two hypotheses.  The basic experiment was simple - grow several cultures of sensitive cells as described above, and then plate samples of those  cultures on T4-containing agar plates.  Count the resistant colonies on the replicate plates and then compute the mean and variance.  
 
 So what does that give us?  Consider the two possibilities; in both cases recognizing that the number of mutations that occurs relative to the total number of bacterial cells is quite small
 

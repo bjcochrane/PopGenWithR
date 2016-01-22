@@ -39,7 +39,7 @@ The problem is the ninth - the double heterozygotes (AaBb).  In fact, these indi
 To do this, Hill proposed use of a procedure called expectation maximization.  We won't go into the details, as  yhe mathematics are a bit involved, but in essence we do the following:
 
 1.  Count those gametes that can be directly identified
-2.  Select a possible starting frequency for the AB gametes
+2.  Based on those, select a possible starting frequency for the AB gametes
 3.  Use these two to re-estimate the AB frequency (that is, use the number actually counted plus the number that would be contributed by the double heterozygotes given the estimate of AB frequency used)
 4.  Estimate D based on these numbers
 4.  Repeat steps 3 and 4, using the newly calculated value
