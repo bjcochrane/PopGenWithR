@@ -12,7 +12,6 @@ output:
 
 ```{r,echo=FALSE}
 library(knitr)
-library(RefManageR)
 ```
 
 
@@ -31,7 +30,7 @@ So we start with our prior information, which in this case is simply the distrib
 ```{r}
 pr.c <-.819 #proportion that is Caucasian
 pr.m <-.137 # Maori
-pr.wp <-.044 # Western polynesion
+pr.wp <-.044 # Western Polynesion
 ```
 We then need the likelihoods that the particular genotype would be found in these populations (presumably done by some prior population-based genotyping)
 ```{r}
