@@ -1,0 +1,72 @@
+---
+title: "Introduction to R and RStudio"
+date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
+bibliography: TPG.bib
+output:
+  html_document:
+    css: Chapter.css
+    keep_md: yes
+    toc: yes
+    toc_depth: 5
+---
+
+
+## Why R?
+
+From the outset, we need to recognize that there are lots of valuable standalone programs for evolutionary genetic analysis, many of which operate on Windows, Mac and Linux platforms and do so in a user-friendly fashion.  However, there is one serious downside to exclusive dependence on such packages - many of them require specialized data formats, and outputs from one such program are often not readily input into another.
+
+R [@RHome], on the other hand, has a couple of advantages:
+
+###  It is a data oriented programming language,
+
+so virtually any data can be input in some form or another.  For example, one can directly read data from [HapMap](http://www.hapmap.org), [ALFRED](http://alfred.med.yale.edu), [Dryad](http://www.datadryad.org) and other such data bases, and with some manipulation (a. k. a. munging) get them into a format that can be used for a wide variety of applications.
+
+### R is vector-based
+
+For those who remember the days of having to wrestle with subscript indices in languages like FORTRAN and BASIC, R is a delight.  For example, suppose you wish to create a vector of integers from 1:100.  It is as easy as
+
+```{r}
+x=c(1:100)
+x
+```
+
+No need to set dimenstions or any of that stuff.  And we can then do simple manipulations on those objects, such as 
+
+```{r}
+x*2
+```
+
+And every element is multiplied by 2.  
+
+### And we can do plots.  
+
+Working with our same vector, we can easily get a simple working plot by
+
+```{r}
+plot(x)
+```
+
+### R is imminently extensible
+
+with both built-in functions that carry out complex tasks based on simple commands, as well as add on packages that provide additional capabilities for specialized tasks.  For example, suppose we want to generate a bunch of random binomial variants, akin to doing 100 experiments  of flipping a coin 100 times qne plotting how many heads we get.  We can write
+
+```{r}
+h <-rbinom(100,100,.5)
+hist(h)
+```
+
+### And then there are packages.  
+
+R is open source, so there are legions of skilled programmers specifically developing add-on packages that can be installed and provide additional functionality.  We will use a lot of these packages, including
+
+>* ape [@Paradis2004] and pegas [@Paradis2010]  - provide essential functions for population genetic analysis and tree manipulation
+>* phyclust [@Phyclust] - an independently developed package that has the interesting ability to run some otherwise command-line stand-alone programs (ms [@ms], seq-gen) directly within R
+>* rehh [@rehh] - Brings the world of Pardis Sabeti and extended haploytpe analaysis to R.  Data munging is challenging, but once done, it is rewarding.
+
+### RStudio
+
+By itself, R can be intimidating.  In particular, it is a "command line" program, meaning that once a command is entered, it is executed, something that is not necessarily desirable when performing complex tasks.  The program becomes much more functional if multiple lines of code can be entered simultaneously, and  importantly *the code can be annotated such that a reader can understand what's being done*.
+
+
+
+### References
