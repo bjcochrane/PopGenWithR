@@ -14,7 +14,7 @@ library(TeachingPopGen)
 
 ```
 
-### The Basic Problem - Bionomial Variables.
+## The Basic Problem - Bionomial Variables.
 
 In the simplest case, working with genetic data is an exercise in the manipulation of binomial (or in the multi-allelic case multinomial) random variables. For now, consider the case of a biallelic locus, with alleles A and a, both with equal frequencies (p=q=.5).  If we think of a population as consisting of a collection of gametes, then drawing samples from it would be akin to  a coin flip.  To determine the probability of a particular outcome, we  could consider consider combinations and permutations, and then apply the binomial theorem.  Alternatively, the same result can be obtained via simulation, and in a way that leads more directly to dealing with more complex situations.
 
@@ -103,7 +103,7 @@ q
 So what this says is that 2.5% of the trials resulted in fewer than 6 heads, while 2.5% resulted in more than 14.  And of course, we observed 18.  We can illustrate this graphically, using the  colhist() from TeachingPopGen, which will color in those portions of the distribution that fall within these ranges and abline(), which will draw a line showing where our outcome fell
 ```{r}
 
-colhist(flips,tail=2,xr=c(0,20),labs=c("# Heads","# Ocurrences","Is it a Fair Coin?"))
+colhist(flips,tail=2,xr=c(0,20),xlab="# Heads",,ylab="# Ocurrences",main="Is it a Fair Coin?")
 abline(v=17,col="blue")
 ```
 And we see that our outcome (17 Heads) falls falls well outside the range of deviation from our expectation that we would expect to see by chance.

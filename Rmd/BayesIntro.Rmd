@@ -17,7 +17,7 @@ library(RefManageR)
 
 
 
-### Background
+## Bayesian Inference
 
 Up until now, we have been working from the standpoint of null hypothesis testing.  That is, we have asked, given some expected value of a parameter or set of parameters, how frequently we would see a departure from that expectation as great or greater than that which we see in our data?  But, as has been pointed out before, if we reject our null hypothesis based on this analysis, all we really know is that the null hypothesis doesn't explain the data.  We do not directly obtain an alternative expected value of our parameter.
 

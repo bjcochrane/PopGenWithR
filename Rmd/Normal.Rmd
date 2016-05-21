@@ -16,7 +16,7 @@ library(TeachingPopGen)
 ```
 
 
-### Background
+## The Normal Distribution
 
 In the last unit, we used simulation to test whether a particular outcome (18 heads in 20 coin tosses) was consistent with the hypothesis that it is a fair coin.  We did so by simulating the experiment 1000 times and asking how often we got results comparable to the one reserved.  That we did so very infrequently led us to reject our null hypothesis.
 
@@ -63,7 +63,7 @@ as.integer(quantile(runners, c(.025,.975)))
 And we can do this on a version of the plot
 ```{r}
 
-colhist(runners,,tail=2,xr=c(140,190),labs=c("Weight","Number","Is the Mystery Person a Runner?"))
+colhist(runners,,tail=2,xr=c(140,190),xlab="Weight",ylab="Number",main="Is the Mystery Person a Runner?")
 abline(v=185,col="blue")
 ```
 And we see that, based on this analysis, just as in the case of the coin flip with 8 of 10 heads, we would reject the hypothesis that the 185 pound individual is a runner.
