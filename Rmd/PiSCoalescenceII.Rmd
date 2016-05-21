@@ -8,6 +8,10 @@ output:
     toc_depth: 5
 ---
 
+```{r}
+library(knitr)
+```
+
 ### Background
 
 So, combining analysis of DNA sequence variation with coalescence theory, we see that we have two simple estimators of &theta;, one based on the number of segregating sites in the data (S) and the other, which is in fact just the mean pairwise differences, or π.  Since they are estimates of the same paramter (and are both unbiased), we might expect them to yield the same value, right?  Let's explore that further.
@@ -19,7 +23,7 @@ library(TeachingPopGen)
 
 ### A simple tree
 
-So what we will do is to use ms to get us a very simple data set.  We will then look at the tree, first with the mutations as they were simulated, and second with the same *number* of mutations (S) but with them occurring on different branches;
+So what we will do is to use ms to get us a very simple data set.  We will then look at the tree, first with the mutations as they were simulated, and second with the same *number* of mutations (S) but with them occurring on different branches.
 
 #### Generate the tree
 
@@ -38,8 +42,9 @@ Now let's  see the actual gametes that gave rise to this tree
 tr.out <-read.ms.output(txt=tr) #Get data in usable form
 gams <-as.data.frame(tr.out$gametes)
 colnames(gams) <-c("p1","p2","p3")
-gams
+kable(gams,align="l")
 ```
+
 As an exercise, you should now be able to walk through the tree, remembering that the ancestral haplotype was (0 0 0) and position the mutations accordingly.  Having done that, we now want to calculate the two estimators of &theta;.
 
 #### Calculating π
@@ -88,9 +93,10 @@ We can make up a dataset as follows:
 ```{r}
 g2 <-as.data.frame(rbind(c(0,0,0),c(1,0,0),c(0,0,0), c(0,0,0),c(0,1,0),c(0,0,1)))
 colnames(g2) <-colnames(gams)
-g2
+kable(g2,align="l")
 ```
-And as you map these mutation, you will see that they all occur in the tip branches, and as a result, each mutation is represented only once in the data set, and each in a different sequence.  So now we can calculate π with our function and compare it to what we got with the original data.
+
+And as you map these mutations, you will see that they all occur in the tip branches, and as a result, each mutation is represented only once in the data set, and each in a different sequence.  So now we can calculate π with our function and compare it to what we got with the original data.
 
 ```{r}
 pi.2 <-picalc(g2)
@@ -105,7 +111,7 @@ Remember that the site frequency spectrum simply consists of the numbers of site
 
 where &eta;<sub>i</sub> is the number of sites in class i of the SFS.
 
-Don't worry too much about the math of the above expression; what we want to ask is which of the classes of the SFS makes the most significant contribution to π.  To get at that, we simply have to ask when n(n-i) is maximized, when i varies from 1 to n/2.  Suppose n=10.  We can plot that relationship:
+Don't worry too much about the math of the above expression; what we want to ask is which of the classes of the SFS makes the most significant contribution to π.  To get at that, we simply have to ask when n(n-i), which is the average pairwise difference for a single site when there are i derived sequences, is maximized.  We can visualize that over the range of i=1:n, where n=10.
 
 
 ```{r}
@@ -114,7 +120,9 @@ i <-c(0:10)
 v <-i*(n-i)
 plot(i,v,type="l")
 ```
-So the conclusion we draw from this function is maximized when i=n/2, which would be the case for sites in which f(0) = f(1) = .5
+
+If you don't want to fight with the math, then remember the analogy between &pi; at the sequence level and heterozygosity at the allelic level.  We know that heterozygosity is maximized when p=q=.5,
+so the conclusion we draw here is similar - &pi; is maximized when i=n/2, which would be the case for sites in which f(0) = f(1) = .5
 
 
 Based on this, look back at our two hypothetical situations.  In the first case, with mutations that divide the tree earlier in the process, we get a higher value of π than we do when they occur in tip branches, each separating only one sequence from all of the rest.  Now, as we look at the data matrix for the original simulation, we see that p2 and p3 have frequencies of (2,4), closer to that maximum than the frequencies of (1,5) that all three sites have in the second case.

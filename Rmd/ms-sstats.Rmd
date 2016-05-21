@@ -10,17 +10,10 @@ output:
 ---
 
 
-
-
-Combining Data and Simulation
-========================================================
 ### Background
 
 Having now seen how we can begin to compare observed data to the expectations of the drift/mutation coalescence model, we now want to delve a bit more deeply.  In what follows, we will address three related areas, all of which involve combining data with simulations run in ms.  In essence, the common approach will be to compare observed results (in the form of S, π, and D) to those generated as a result of repeated simulations.  
 
-#### A note on code
-
-As has been mentioned previously, ms and related programs were originally written to be standalone programs, run from the command line in a Unix system.  Thus, they can be used in that way (or with the system() function in R) on Mac's or in most versions of UNIX/Linux.  Unfortunately, they are less compatible with Windows.  However, ms (but not other associated programs) has been implemented as a function in the phyclust R package, so whenever possible, we will work in that environment
 
 ### Assessing the Tajima Statistic
 
@@ -42,27 +35,33 @@ nbase;s;pi
 ```
 
 So we see that we have a set of sequences, each of which is `r nbase` bases long, with S= `r s` and π = `r pi`.  Now, we can calculate the Tajima statistic:  
+
 ```{r}
 D <-tajima.test(dat)
 D$D
 ```
+
 And, as we saw before, the value of `r D$D` that we obtain suggests that there may in fact be a significant difference from expectation.  To look at that more closely, we can  use ms to generate 1000 simulations, in which S = `r s` and there are `r n` sequences of `r nbase` nucleotides. We will then convert the results into a manageable form as always.
+
 ```{r}
 
 ss.ms <-ms(nsam=n,nreps=1000,opts=(paste("-s",s,"-r",0,nbase,sep=" ")))
 
 ```
-Now we will use the function ms.sumstats (part of TeachingPopGen) to calculate summary statistics on all 1000 simulations
+
+Now we will use the function ms.sumstats  to calculate summary statistics on all 1000 simulations
+
 ```{r}
 ss.sum <-ms.sumstats(ss.ms)
 head(ss.sum)
 ```
+
 Notice that the Watterson estimator is the same for all simulations.  This is to be expected, since, as we know, it is derived solely from the number of segregating sites, which is fixed in this example.
 
 And what we have is a nicely arranged data frame, containing six statistics.  Two of them, th.H and H, we will ignore for now.  However Tajima.D is the Tajima statistic, so we can look at the distribution of it in the usual way.
 
 ```{r}
-colhist(ss.sum$Tajima.D,labs=c("D","Number","Distribution of Tajima Statistic"))
+colhist(ss.sum$Tajima.D,xlab="D",ylab="Number",main="Distribution of Tajima Statistic")
 Dmean <-mean(ss.sum$Tajima.D)
 Dmean
 abline(v=Dmean, col="blue")
@@ -142,7 +141,7 @@ There are many reasons not to place a lot of faith in this result.  In addition 
 
 ### Looking at demographic scenarios
 
-Finally, we really want to address what forces - demographic, selection, etc.  - might underlie any departure from expectation.  To do that, we're going to look at only one example as a means of framing the problem we face.  Suppose we use our results so far to set theta to be 12 (the value estimated from the Bayesian analysis), and let's compare two demographic models - one with constant population size, and one in which the population has been undergoing exponential growth.
+Finally, we really want to address what forces - demographic, selection, etc.  - might underlie any departure from expectation.  To do that, we're going to look at only one example as a means of framing the problem we face.  Suppose we use our results so far to set S to 42 (the number observed in the data), and let's compare two demographic models - one with constant population size, and one in which the population has been undergoing exponential growth.
 
 #### Tree topology
 
@@ -150,7 +149,7 @@ To simplify our display, suppose we only have 10 sequences.  First we'll do our 
 
 ```{r}
 set.seed(4321)
-tr.const <- ms(nsam=10, nreps=1, opts=("-t 12 -r 0 702 -T"))
+m.const <- ms(nsam=10, nreps=1, opts=("-s 92 -r 0 702 -T"))
 ```
 Now, let's construct a growth scenario.  Suppose our current population is 10^5 , but it is the result of growth at the rate of 2% per year and there are 5 generations per year.  To factor growth into ms, we need to convert the yearly growth rate into the growth rate per 4N generations.  We can do so as follows:
 ```{r}
@@ -164,40 +163,62 @@ g
 Now, we can put that into ms using the -G parameter and a value:
 
 ```{r}
-m.out <-ms(nsam=10, nreps=1, opts=(paste("-t 12 -T -r 0 702 -G",g,sep=" ")))
+m.out <-ms(nsam=10, nreps=1, opts=(paste("-s 92 -T -r 0 702 -G",g,sep=" ")))
 
 
 ```
+
 And now we plot the two trees
+
 ```{r,fig.height=10}
 
 
-tr.const <-read.tree(text=tr.const)
+tr.const <-read.tree(text=m.const)
 tr.growth <-read.tree(text=m.out)
 par(mfrow=c(2,1))
 plot(tr.const,main="Constant")
 plot(tr.growth,main="Growth")
 par(mfrow=c(1,1))
 ```
+
 And what we see is that, in the growth model, we have much longer tip branches than we do on the constant one.  Per our earlier discussion of D and π,  our expectation would be a site frequency spectrum with an excess of singletons, and thus a negative value of D.
+
+#### The site frequency spectra
+
+We can, of course, also visualize these data as site frequency spectra
+
+```{r}
+out.const <-read.ms.output(m.const)
+out.gr <-read.ms.output(m.out)
+par(mfrow=c(1,2))
+sfs(out.const$gametes[[1]])
+sfs(out.gr$gametes[[1]])
+par(mfrow=c(1,1))
+```
+
+Notice that with the growth scenario (on the right) our the spectrum we see is quite similar to that for the original data, in that there appears (at least qualitatively) to be an excess of singletons:
+
+```{r}
+plot(site.spectrum(dat))
+```
 
 #### The impact on D
 
-Let's consider our original data, with 42 segregating sites, and look at the expected distribution of D under this scenario, using the value of theta we got from our Bayesian estimation:
+Let's consider our original data, with 92 segregating sites, and look at the expected distribution of D under this scenario, using the value of theta we got from our Bayesian estimation:
 ```{r}
-ms.gr <-ms(nsam=42,nreps=1000,opts=(paste("-t",pmean, "-r 0 702 -G",g,sep=" ")))
+ms.gr <-ms(nsam=42,nreps=1000,opts=(paste("-s",n, "-r 0 702 -G",g,sep=" ")))
 growth.sum <-ms.sumstats(ms.gr)
 head(growth.sum)
 Dg.mean <-mean(growth.sum$Tajima.D,na.rm=TRUE)
 Dg.mean
 ```
 
-And what we see is as expected. The mean value for D is `r Dg.mean`, which is less than zero.  Just to complete the story, we can do a rough histogram of the simulated values
+And what we see is as expected. The mean value for D is `r Dg.mean`, which is comparable to out observed value.  Just to complete the story, we can do a rough histogram of the simulated values
 
 ```{r}
 par(mfrow=c(1,1))
 d.gr <-growth.sum$Tajima.D[!is.na(growth.sum$Tajima.D)]
-colhist(d.gr,labs=c("D","Number","Distribution of D, Growth Model"))
+colhist(d.gr,xlab-"D", ylab="Number",main="Distribution of D, Growth Model")
 Dg.mean <-mean(growth.sum$Tajima.D,na.rm=TRUE)
 abline (v=Dg.mean, col="red")
 abline(v=D$D,col="darkgreen")
@@ -207,17 +228,7 @@ Dg.mean
 
 And we see that the mean value of D is `r Dg.mean`, which is negative as expected.  Remembering that the value of D we calculated from our original data was `r D$D`, we might be tempted to conclude that the growth scenario better fits the data than does the original constant population size neutral model (although we see that the observed value of D, shown by the green line, does differ significantly from expectation).  But of course, there are no doubt many other scenarios that could fit as well.
 
-#### An Aside on the Fay Wu Statistic
 
-We did not calculate this for the spaghetti squash data.  To do so would require us to distinguish between ancestral and derived bases, something we could do but which would require a fair amount of data manipulation.  However, since we have calculated it for our simulated data (both with and without growth), it would be interesting to compare the two:
-```{r}
-par(mfrow=c(2,1))
-hist(ss.sum$H,main="Constant")
-abline(v=mean(ss.sum$H),col="red")
-hist(growth.sum$H, main="Growth")
-abline(v=mean(growth.sum$H),col="red")
-```
-And in both cases, we see that the mean value is close to zero.  This is to be expected, since in the absence of selection, the ancestral and derived alleles are expected to have similar histories.
 
 ### Conclusion
 

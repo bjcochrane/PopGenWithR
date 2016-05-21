@@ -25,7 +25,7 @@ But let's think about it in another way.  Remember that, for a biallelic locus, 
 
 Where Hobs is the observed frequency of heterozygotes in our population.  This relationship can also be written as
 
-* F = (Hobs-Hexp)/Hexp (Equation 2)
+* F = (Hexp-Hobs)/Hexp (Equation 2)
 
 Note that if Hobs=2pq, then F=1-1=0; if Hobs<Hexp, then F>0 and vice versa.
 
@@ -53,7 +53,7 @@ So if this were all we had, we would conclude that observed heterozygosity is le
 
 ### Adding Population Subdivision - the Wahlund effect
 
-Remember the problem 3 from Chapter one in Felsenstein.  In that problem. we had two populations with the following allele frequencies
+Now consider the following - we have two populations with the following allele frequencies
 ```{r}
 pop1 <-c(.64,.32,.04)
 pop2 <-c(.09,.42,.49)
@@ -68,7 +68,7 @@ But then we asked what would happen if a single sample were considered, with 2/3
 popt <-(2/3)*(pop1)+(1/3)*(pop2)
 popt
 ```
-We can now look at the observed and expected heterozygosity in the combined sample, using a simple function to calculate F, using a simple function in the TeachingPopGen package.
+We can now look at the observed and expected heterozygosity in the combined sample, using a  function in the TeachingPopGen package.
 ```{r}
 f.comb <-Fis(popt)
 f.comb
@@ -106,7 +106,6 @@ And we see that we have varying degrees of departure from expectation.
 Think back on what we've said so far about within-population departures from expectations and those resulting from the Wahlund effect.  In the case of the former, the critical parameter is observed heterozygosity; in the latter, the critical elements are the allele frequencies of the subpopulations.  So let's create a matrix that includes those numbers - p, q, and Hobs - for each population
 ```{r}
 p <-apply(dat,2,function(x) x[1]+.5*x[2])
-p
 dat.2 <-rbind(p,1-p,dat[2,])
 rownames(dat.2) <-c("p","q","Hobs")
 dat.2
@@ -129,7 +128,7 @@ Hi; Hs
 
 So we now have a mean of the observed heterozygosity (Hi) and one of the expected (Hs).  Referring back to Equation 2, we can now define
 
-* Fis = (Hi-Hs)/Hs
+* Fis = (Hs-Hi)/Hs
 
 Which is easily calculated
 ```{r}

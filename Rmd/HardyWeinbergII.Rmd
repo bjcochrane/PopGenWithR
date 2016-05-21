@@ -10,6 +10,7 @@ output:
 
 ```{r, echo=FALSE}
 library(TeachingPopGen)
+library(knitr)
 ```
 
 ### Background
@@ -48,18 +49,49 @@ And from those, we can calculate our expected genotype *numbers*
 exp <-N*c(p^2,2*p*q,q^2)
 exp
 ```
-So now we have observed and expected numbers; it would seem a logical step to apply the chi-square test to see if the difference between the two is significant.  The calculation, as we've seen before, is easy in R:
+So now we have observed and expected numbers; it would seem a logical step to apply the chi-square test to see if the difference between the two is significant. For more details, see [the unit on the chi-squared distribution](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/chisq.html); at this point, remember that what we are doing is quantitating the departure from the expectations of an hypothesis for categorical data.  In our case, the categories are genotypes; the hypothesis is that the population is in Hardy-Weinberg equilibrium, and the data are the observed genotype *numbers*, which are compared to those expected based on HWE.
+
+We've done the calculations above, so &chi;^2^ can be calculated easily by
+
 
 ```{r}
 chi <-sum((obs-exp)^2/exp)
 chi
 ```
-But how many degrees of freedom?  Our rule of thumb previously was that degrees of freedom are one less than the number of classes, suggesting that it might be two in this case.  However there is another wrinkle.  In this case we used the actual data to estimate a parameter used in determining our expected values - p.  That costs us another degree of freedom.  So in the case of testing Hardy Weinberg with data from a biallelic locus, we only have one degree of freedom.  So we can then calculate our probability as
+
+But how many degrees of freedom?  Our rule of thumb previously was that degrees of freedom are one less than the number of classes, suggesting that it might be two in this case.  However there is another wrinkle.  In this case we used the actual data to estimate a parameter used in determining our expected values - p.  That costs us another degree of freedom.  So in the case of testing Hardy Weinberg with data from a biallelic locus, we only have one degree of freedom.  
+
+So what is the probability that we would observe this much deviation based on chance alone (in which case we would accept our hypothesis)?  One way to do that is what we did with coin flips - generate a bunch of &chi;^2^ distributed random variables and see where the 5% cutoff falls.  In this case, we will do a *one tail test*, since the range of our statistic is from zero to infinity (with zero the value obtained if the observed data exactly match the expectation)
+
+```{r}
+set.seed(123)
+ch <- rchisq(100000,1)
+colhist(ch,tail=1, xr=c(0,20),xlab="chi-square",ylab="Number",main="Are the Data Consistent with HWE?")
+abline(v=chi,col="blue")
+quantile(ch,.95)
+```
+
+And we see that the data in fact fall within the range expected be observed as a result of chance.
+
+We can also calculate the probability of this particular &chi;^2^ value as follows:
+
 ```{r}
 pr <-qchisq(chi,.95)
 pr
 ```
+
 And we see that the probability of observing this much or more deviation from Hardy-Weinberg expectations is 22%, far higher than our normal standard of 5% for rejecting the null hypothesis.  So we can conclude in this case that the hypothesis cannot be rejected.
+
+#### The more conventional approach
+
+When you've done &chi;^2^ testing in the past, you've probably used a table that lists degrees of freedom and cutoff values that have been determined analytically.  For example, for one degree of freedom, that value is 3.84; we see that it is very similar to the number we obtained from our simulation above.  A small version of the table is in [the unit on the &chi;^2^ distribution](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/chisq.html); it is also shown below:
+
+```{r}
+df <-c(1:10)
+chicrit.05 <-sapply(df, function(x) qchisq(.95,x))
+chicrit.01 <-sapply(df,function (x) qchisq(.99,x))
+kable(data.frame(df,p.05 = chicrit.05,p.01=chicrit.01))
+```
 
 #### A coding note
 
@@ -124,7 +156,7 @@ So first, what are the observed frequencies?
 genos.f.obs <-genos/sum(genos)
 genos.f.obs
 ```
-The observed heterozygosity is thus`r round(genos.f.obs[2],3); to make the notation easier, we'll assign that a name
+The observed heterozygosity is thus`r round(genos.f.obs[2],3)`; to make the notation easier, we'll assign that a name
 ```{r}
 Hobs <-genos.f.obs[2]
 ```
@@ -149,7 +181,15 @@ So what we want to do now is to come up with a numerical value to compare observ
 f.bears <-1-Hobs/Hexp
 unname(f.bears)
 ```
-This statistic has a variety of names - Wright's F Statistic and the Fixation Index are two common ones.  We won't say more about it at this point, however we will be using it extensively in the future.
+This statistic has a variety of names - Wright's F Statistic and the Fixation Index are two common ones.  We won't say more about it at this point, however we will be using it extensively in the future.  But the key points to realize are
+
+1.  If a population is in HWE, then Hobs=Hexp so F= 1-1 = 0
+2.  If there are *fewer* heterozygotes observed than expected, then F will be positive (as in the bear case)
+3.  If there are *more* heterozygotes observed than expected, then F is negative
+
+So what is a significant value of F?  At this point, we will leave that question open, but we will come back to it.
+
+Finally, as an aside, the explanation for the bear data is that bears preferentially mate with ones of their own color.  Thus, brown X white matings occur less frequently than they would in a random mating population, thus reducing the frequency of heterozygotes.
 
 ### A Few Wrinkles
 
@@ -185,7 +225,16 @@ etc. for six total genotypes
 
 And of course, we can again do a chi square test, with degrees of freedom; since we estimate both p and q from the data, we lose a total of three degrees of freedom (one for each parameter estimated and one for the number of categories) giving us a total of 6-3=3.
 
-But be forewarned, however - as i increases, the expected numbers of particular genotypes can become very small (approaching zero in the case of homozygotes for low frequency alleles,) so &chi;^2^ testing becomes problematic.  We will return to that point..
+But be forewarned, however - as i increases, the number of possible genotypes increases, and thus the expected numbers of particular genotypes can become very small (approaching zero in the case of homozygotes for low frequency alleles,) so &chi;^2^ testing becomes problematic. In fact the number of genotypes can be calculated as follows.
+
+Given k alleles, there are obviously k possible homozygotes.  The number of possible heterozygotes is (k(k-1))/2.  So we can plot this as
+
+```{r}
+k <-1:25
+ngenos <-k+(k*(k-1))/2
+plot(k,ngenos, xlab="number of alleles", ylab="number of genotypes")
+```
+
 
 #### Do we have the best estimator of p?
 
@@ -229,11 +278,16 @@ Again, this may seem like a somewhat meaningless exercise, but it does introduce
 
 We are all familiar with the ABO blood type system.  There are typically three alleles, A, B and i.  A and B are codominant, so that an AB heterozygote has the AB blood type.  However, i is recessive to both A and B so, for example, an Ai individual has type A blood, as does an AA one.  These relationships are summarized as follows:
 
-![ABO](http://dl.dropbox.com/u/9752688/ZOO%20422P/Scans/ABOGenotypes.png)
+Genotypes|Blood Type|Number|Phenotype Frequency
+---|---|---|---|---
+AA, AO|A|\(n_{A}\)|\(p^2_{A}+2p_{A}p_{O}\)
+BB, BO|B|\(n_{B}\)|\(p^2_{B}+2p_{B}p_{O}\)
+AB|AB|\(n_{AB}\)|\(2p_{A}p_{B}\)
+OO|O|\(n_{0}\)|\(p^2_{O}\)
 
 And using our multiple allele logic, we should be able to calculate the frequency of the A allele as 
 
-![ABO2](http://dl.dropbox.com/u/9752688/ZOO%20422P/Scans/ABO2.png)
+\(P_{A} = \frac{2n_{AA}+n_{AO}+n_{AB}}{2n}\)
 
 But there's a problem - we can't distinguish between AA and AO individuals, so how do we plug in the numbers?
 
@@ -241,7 +295,11 @@ Again, [Felsenstein](http://evolution.gs.washington.edu/pgbook/pgbook.pdf) sugge
 
 Felsenstein(page 31 and 32) shows the three values we wish to estimate, p <sub>A </sub>, p <sub>B </sub> and p <sub>i </sub>, can be expressed as follows:
 
-![ABO3](http://dl.dropboxusercontent.com/u/9752688/QPopgen/ABO3.png)
+\(P_{A}=\frac{2(\frac{p_{A}+p_{O}}{p_{A}+2p_{O}})n_{A}+n_{AB}}{2n}\)
+
+\(P_{B}=\frac{2(\frac{p_{B}+p_{O}}{p_{B}+2p_{O}})n_{A}+n_{AB}}{2n}\)
+
+\(P_{O}=\frac{\frac{p_{O}}{p_{A}+2p_{O}}n_{A}+\frac{p_{O}}{p_{B}+2p_{O}}n_{B}+n_{O}}{n}\)
 
 We also know that the three frequencies must sum to one.
 

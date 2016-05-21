@@ -28,7 +28,7 @@ We need to think a bit about the difference here.  If, for example, we assume th
 
 ### Departure from Hardy Weinberg
 
-Let's look at some real data.  In the human data we looked previously, we saw that departures from Hardy Weinberg were minimal.  Let's now look at another example, some microsatellite data from the legume [Medicago trunculata](http://www.biomedcentral.com/1471-2229/6/28).  The data file is available on Niihka; we will walk through the following steps in Genalex:
+Let's look at some real data.  In the human data we looked previously, we saw that departures from Hardy Weinberg were minimal.  Let's now look at another example, some microsatellite data from the legume [Medicago trunculata](http://www.biomedcentral.com/1471-2229/6/28).  The data file is available on Canvas; we will walk through the following steps in Genalex:
 
 1.  We will look at departure from Hardy Weinberg
 2.  We will use the population frequency tool to look at heterozygosity.
@@ -70,6 +70,7 @@ So what we are seeing is an extreme form of genetic drift, the result of which i
 3.  Random fixation or loss of alleles.
 
 ### A More realistic Example
+
 Now, suppose we start with a set of replicate populations, each with 16 individuals that are all heterozygotes for some gene.  What do we expect to happen?  Below are the results of simulating that experiment (the rather crude R code used is hidden)
 
 ```{r,echo=FALSE}
@@ -145,9 +146,11 @@ One thing should immediately jump out - we have populations that have gone to ei
 1.  Starts with a matrix or data frame
 2.  based on the parameter provided, looks at rows(1) or columns (2)
 3.  Applies a function (mean in this case) to the selected dimension.
+
 ```{r}
 plot(apply(sim3.out,1,mean),type="l", xlab="Generation", ylab="p", main="Mean Allele Frequency", ylim=c(0,1))
 ```
+
 We see vary little change.  But what about the variance?
 
 
@@ -155,11 +158,14 @@ We see vary little change.  But what about the variance?
 # par(mfrow=c(1,2))
 plot(apply(sim3.out,1,var),main="Variance Among Replicates",xlab="Generation",ylab="Variance")
 ```
+
 And we see that it increases, more or less monotonically, with time.  Now finally, what happens to expected heterozygosity (2pq)?  Here, in the apply function, we create our own function, one which takes each element of a row, calculates 2pq, and then averages over all replicates:
+
 ```{r}
 Fhat <-apply(sim3.out,1,function(p) mean(2*p*(1-p)))
 plot(Fhat, main="Mean Heterozygosity among Replicates",xlab="Generation",ylab="Heterozygosity")
 ```
+
 It declines monotonically
 
 These two observations lead to concept of "Effective Population size" , or N<sub>e</sub>, which is defined as *the size of a Wright-Fisher population that would exhibit the same amount of either increase in variance or level of genetic drift as observed in an actual population.*     

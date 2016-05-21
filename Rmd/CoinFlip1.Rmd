@@ -16,7 +16,7 @@ library(TeachingPopGen)
 
 ### The Basic Problem - Bionomial Variables.
 
-In the simplest case, working with genetic data is an exercise in the manipulation of binomial (or in the multi-allelic case multinomial) random variables.  Typically, one could start with the example of a coin flip,consider combinations and permutations, and then apply the binomial theorem.  Alternatively, the same result can be obtained via simulation, and in a way that leads more directly to dealing with more complex situations.
+In the simplest case, working with genetic data is an exercise in the manipulation of binomial (or in the multi-allelic case multinomial) random variables. For now, consider the case of a biallelic locus, with alleles A and a, both with equal frequencies (p=q=.5).  If we think of a population as consisting of a collection of gametes, then drawing samples from it would be akin to  a coin flip.  To determine the probability of a particular outcome, we  could consider consider combinations and permutations, and then apply the binomial theorem.  Alternatively, the same result can be obtained via simulation, and in a way that leads more directly to dealing with more complex situations.
 
 ### Flipping a Coin
 
@@ -94,7 +94,7 @@ But while R can do this calculation easily, it is a pain to do manually, and eve
 
 To do this, we will use the following standard.  **If we expect to see as much or more deviation from the expectation of the null hypothesis in less than 5% of replicated trials, then we reject the null hypothesis**.  In our case, the results suggest we may have gotten "too many" heads, however in the general case the deviation could be in either direction - that is, either too many or two few.  
 
-Thus, let's ask the question,  given our simulated results, which outcomes fall in that category.  In otherwords, of the 10000 simulations of 20 coin flips, which gave outcomes that occurred less than 5% of the time.  the R quantile () function does that; as implemented below, it finds the two tails of the distribution 
+Thus, let's ask the question,  given our simulated results, which outcomes fall in that category.  In other words, of the 10000 simulations of 20 coin flips, which gave outcomes that occurred less than 5% of the time?  The R quantile () function does that; as implemented below, it finds the two tails of the distribution 
 ```{r}
 
 q <-quantile(flips,c(.025,.975))

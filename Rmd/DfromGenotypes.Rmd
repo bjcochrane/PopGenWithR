@@ -1,12 +1,14 @@
 ---
-title: 
-- <center>Inferring D from Genotypic Data</center>
-output:
-  html_document:
-    css: Chapter.css
-    toc: yes
-    toc_depth: 5
+title: <center>Inferring D from Genotypic Data </center>
+author: <center></center>
+date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
+output: 
+    html_document:
+       css: Chapter.css
+       toc: yes
+       toc_depth: 5
 ---
+
 
 ### Background
 
@@ -45,12 +47,12 @@ To do this, Hill proposed use of a procedure called expectation maximization.  W
 4.  Repeat steps 3 and 4, using the newly calculated value
 5.  Continue this iterative process until a stable value of D is obtained.
 
-So let's see how this works with these data (HillD is a function in TeachingPopGen that does the math:
+So let's see how this works with these data (HillD is a function in TeachingPopGen that does the math).  Below are the results of 20 iterations, shown graphically and numerically.
 
 ```{r}
 HillD(gmat)
 ```
-It is quite evident from the plot produced thatan equilibrium value of D is quickly reached - in this case 0.07.  But is this correct?  To test the concept, we'll do a couple of simulations:
+It is quite evident from the plot produced that an equilibrium value of D is quickly reached - in this case 0.07.  But is this correct?  To test the concept, we'll do a couple of simulations:
 
 ### Independent Assortment
 
@@ -65,7 +67,8 @@ genos
 Now we can run HillD to see what we get:
 
 ```{r}
-HillD(genos)
+d1 <-HillD(genos)
+print(paste("Final Estimate of D = ",signif(d1[20,2],4)))
 ```
 And we see that D converges on a value close to zero, as expected.  
 
@@ -87,7 +90,8 @@ genos
 And we can do our Hill calculation as before:
 
 ```{r}
-HillD(genos)
+d1 <-HillD(genos)
+print(paste("Final Estimate of D = ",signif(d1[20,2],4)))
 ```
 And again we see rapid convergence to a value quite close to the actual value.
 

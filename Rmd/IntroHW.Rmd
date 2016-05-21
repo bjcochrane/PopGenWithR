@@ -130,6 +130,7 @@ So what have we shown?  We can summarize as follows:
 
 1.  Given a random mating population, with allele frequencies p and q, the expected genotype frequencies are p^2^, 2pq, and q^2^.
 2.  In an ideal population, allele frequencies do not change.
+3.  One generation of random mating is sufficient to restore HWE to autosomal loci (X linked are a bit different)
 3.  And what is an "ideal" population?  It is one with the following properties  
 
 >* Infinite size  

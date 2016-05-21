@@ -1,7 +1,7 @@
 ---
-title: "Using Genomic Data to Detect Selection"
-author: "Bruce Cochrane"
-date: "August 10, 2014"
+title: <center>Using Genomic Data to Detect Selection</center>
+author: <center>Bruce Cochrane</center>
+date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
 output: 
   html_document:
     css: Chapter.css
@@ -23,9 +23,10 @@ The simplest place to start is to simply look at numbers of polymorphisms and fi
 ```{r}
 MK(c(2307,465),c(6286,2411))
 ```
-So we see what looks like an overall pattern of departure from neutral expectation, suggesting that in general, the N:S ratio is higher for polymorphism than for divergence.  Balancing selection??  Not so fast.
+So we see what looks like an overall pattern of departure from neutral expectation, suggesting that in general, the N:S ratio is higher for polymorphism than for divergence.  Positive selection??  Not so fast.
 
 ###  The Problem of Pooling
+
 #### A Hypothetical Example
 
 But is pooling acrpss loci appropriate?  [Shapiro et al 2007](http://www.pnas.org/content/104/7/2271.full.pdf) - explains this rather well - if all genes have same genealogy and do not recombine, then pooling makes sense.  If not, however, problems arise.  For example, consider the hypothetical case they give in their Figure 2:
@@ -51,8 +52,12 @@ First, let's create a matrix of the overall observations
 N <-c(465,2307)
 S <-(c(2411,6286))
 Obs <-rbind(N,S)
-rownames(Obs) <-c("Nonsynonymous","Synonymous")
-colnames(Obs) <- c("Polymorphism","Divergence")
+NS <-rowSums(Obs)
+Obs <-cbind(Obs,NS)
+PD <-colSums(Obs)
+Obs <-rbind(Obs,PD)
+rownames(Obs) <-c("Nonsynonymous","Synonymous","Total")
+colnames(Obs) <- c("Polymorphism","Divergence","Total")
 Obs
 ```
 Now what we'll do is to generate 1000 simulated data sets, in which we hold the P/D and dN/dS ratios to what was in the observed data.  First, we need to load a couple of functions
@@ -69,7 +74,7 @@ boot <- function (Obs,n=1000) r2dtable(n,rowSums(Obs),colSums(Obs))
 Now we will generate our random data sets
 
 ```{r}
-all.boot <-boot(Obs)
+all.boot <-boot(Obs[1:2,1:2])
 head(all.boot)
 ```
 and  look at the expected distribution of FI values in these simulated data
@@ -84,7 +89,7 @@ mean(FI.boot)
 
 So is there heterogeneity in the data? Consider the following factors that will affect the quantities we've been talking about.
 
-1.  Constraint - limit (due to selection) on permissible substitutions - if high, the ratio of nonsynonymous to synonymous *divergence* should be low.
+1.  Constraint - limit (due to selection) on permissible substitutions - if high, the ratio of nonsynonymous to synonymous differences (totalling polymorphism and divergence) should be low.
 2.  Genealogy - do all genes have same historical topology?  In other words, do all genes have the same TMRCA?  This would be the case in the absence of recombination, but of course nuclear genes do recombine.   And most importantly, *alleles with recent common ancestors should have lower levels of polymorphism than those with older ones*.
 
 Thus, we can think of the ratio of nonsysnymous to synonymous substitutions as a measure of constraint, and the number of polymorphic sites (total) relative to divergent ones as a reflection of gene geneaology.   Now are question is, are these ratios independent of one another in the data?
@@ -101,7 +106,7 @@ data(Shapiro) # Loads a slightly revised version of Shapiro et al. supplemental 
 attach(shap.dat)
 ratio.PD <-(Ps+Pn)/(Ds+Dn)
 ratio.NS <-(Dn+Pn)/(Ds+Ps)
-plot(ratio.NS, ratio.PD,ylim =c(0,5),xlab="Selective Constraint (Pn/Ps)",ylab="Polymorphism/Divergence")
+plot(ratio.NS, ratio.PD,ylim =c(0,5),xlab="Selective Constraint (N/S)",ylab="Polymorphism/Divergence")
 ```
 How significant is the relation?  Following a little cleanup (code not shown) we can quantify
 ```{r echo=FALSE}
@@ -118,11 +123,11 @@ And with that, we can fit a regression to the data
 ```{r}
 reg <-lm(ratio.PD~ratio.NS)
 summary(reg)
-plot(ratio.NS, ratio.PD,ylim =c(0,5),xlab="Pn/Ps",ylab="Polymorphism/Divergence")
+plot(ratio.NS, ratio.PD,ylim =c(0,5),xlab="Selective Constraint (N/S)",ylab="Polymorphism/Divergence")
 abline(reg,col="red")
 #abline(a=reg$coefficients[1],b=reg$coefficients[2],col="darkred")
 ```
-What we see is that indeed the more constrained loci (with low values of Pn/Ps) do indeed tend to be more polymorphic, relative to their total divergence.   
+What we see is that indeed the more constrained loci (with low values of N/S) do indeed tend to be more polymorphic, relative to their total divergence.   
 
 #### Analyzing a random gene
 
@@ -159,14 +164,14 @@ Here, the logic is that a derived allele with low frequency is likely to be the 
 
 ![Shapiro4](http://www.pnas.org/content/104/7/2271/F4.large.jpg)
 
-Note that the first three columns (derived alleles with 1, 2, and 3 copies in the sample) have FI's higher than the rest, suggesting that,  there is a lower level of nonsynonymous polymorphism relative to synonymous because of purifying selection acting against these alleles.  based on this, we can first calculate the total ratios for these two classes:
+Note that the first three columns (derived alleles with 1, 2, and 3 copies in the sample) have N/S polymorphism levels higher than the rest, suggesting that,  there is a lower level of nonsynonymous polymorphism relative to synonymous because of purifying selection acting against these alleles.  based on this, we can first calculate the total ratios for these two classes:
 ```{r}
 as.tot <-1462/4695
-as.low <-450/2413
+as.high <-450/2413
 ```
 We can then use the normalized differences between the two to estimate the fraction of all nonsynonymous sites with deleterious nonsynonymous alleles as follows.
 ```{r}
-f.del <-(as.tot-as.low)/as.tot
+f.del <-(as.tot-as.high)/as.tot
 f.del
 ```
 #### Positive Selection
@@ -193,13 +198,13 @@ Finally, Shapiro et al. considered how these patterns are affected by recombinat
 1.  If selection is positive, then it would tend to increase the frequency of whatever neutral variants are linked to the selected allele, leading to what we call a "selective sweep"
 2.  If it is negative, then elimination of the detrimental allele would also remove variation at neighboring sites.  This is referred to as "Background selection".
 
-Discriminating between these two possibilities is difficult.  However, Shapiro et al divided their data into those genes that occur in regions with normal levels of recombination and those in recombinationally constrained regions, and doing a quick test of the aggregated data
+Discriminating between these two possibilities is difficult.  However, Shapiro et al divided their data into those genes that occur in regions with normal levels of recombination and those in recombinationally constrained regions, and doing a quick test of the aggregated data (using only the high frequency polymorphic sites, thus ignoring those likely to be ones with weakly detrimental alleles):
 
 
 ```{r}
-high.r <-MK(c(1315,297),c(3442,1883))
-low.r <-MK(c(992,152),c(481,528))
-high.r; low.r
+high.r <-MK(c(1315,297),c(3442,1883)) #MK for high recomb rate; high frequency sites
+low.r <-MK(c(  992,152),c(2844,528))
+high.r$FI; low.r$FI
 ```
 We see that the signal of positive selection is much greater in the case of the high recombination regions than in the low.  
 
@@ -207,36 +212,3 @@ We see that the signal of positive selection is much greater in the case of the 
 
 It is well worth taking some time to read this paper and understand the logic that underlies it.  It constitutes a very nice demonstration about how logic developed based on single-gene analysis can be applied at the genomic level.  We shall see that, in more recent years, as genomic data have become increasingly available, more sophisticated analytical approaches have been developed and applied.  Nevertheless, the MacDonald-Krietman test remains a staple of population genetics, and the analysis we have just walked through remains a paradigm.
 
-### Supplemental code on recombination data
-
-Create matrices of data
-```{r}
-obs.hr <-rbind(c(297,1315),c(1883,3441)) 
-obs.lr <-rbind(c(152,992),c(528,2844))
-```
-Now bootstrap one of them
-```{r}
-boot.lr <-boot(obs.lr)
-```
-And pull out the FI's and plot
-```{r}
-FI.lr <-sapply(boot.lr,FI)
-hist(FI.lr)
-mean(FI.lr)
-```
-Now, what was FI.hr?
-```{r}
-high.r[[2]]
-```
-```{r}
-FI(obs.hr)
-FI(obs.lr)
-```
-Here,s and idea.  Can we apply our bootstrap function to all of the loci?.  We would need to 
-
-1.  create a df of the relevant columns.
-2.  add 1 to Ds and Pn
-3.  Change FI function back to original
-4.  do an apply to generate a list of matrices
-5.  apply boot to the results
-6.  Apply FI and plot

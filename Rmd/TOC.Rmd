@@ -16,7 +16,7 @@ output:
 
 ## Working in the R Environment
 
-1. [Why R (and R Studio)?](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/Intro2R.html)
+1. [Why R (and R Studio)?](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/NewIntroR.html)
 2.   [A (little bit of) Basic R](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/BasicR.html)
 3.  [Data Frames and Lists](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/DataFrames.html)
 2.  [Generating and analyzing distributions in R](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/Distributions.html)
@@ -97,7 +97,14 @@ output:
 2.  [A Detailed Example](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/SelectionIV-MKDetailed.html)
 
 ## Looking for Evidence of Selective Sweeps 
+
 1.  [Extended Homoygosity - the basics](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/EHHChapter.html)
+
+## Quantitative Genetics
+
+1. [Basic Principals of Quantitative Genetics](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/QuantGenetI.html)
+1. [QTL mapping in R](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/rqtl.html)
+3. [The Animal Model](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/html/AnimalModel.html)
 
 ##  Appendices
 

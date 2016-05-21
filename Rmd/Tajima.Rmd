@@ -31,11 +31,14 @@ data(spaghetti)
 dat <-spaghetti
 dat
 ```
+
 As before, we can plot the site frequency spectrum
+
 ```{r,warning=FALSE}
 plot(site.spectrum(dat))
 length(seg.sites(dat))
 ```
+
 And we see that most of the `r length(seg.sites(dat))` segregating sites fall in the first class, with one sequence differing from all of the rest.  The function for the Tajima test is simply
 
 ```{r}

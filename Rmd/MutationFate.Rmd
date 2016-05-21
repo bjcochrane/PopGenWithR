@@ -46,13 +46,14 @@ x1
 
 And note that if we use the results from our LB analysis above, in which we found the mean reproduction rate of mutants to be 1.08, then we would get
 ```{r}
-exp(1.08*(-1))
+exp(.95*(-1))
 
 ```
 Which is not that much different!  Even though the mutant cells have an 8% fitness advantage, usually considered to be quite large, there is still a 33% chance that it will be lost due to chance in population of constant size.
 
 
-Now what about future generations?  We can set up recursion, in which we start with x=0, and with each generation set x[i+1] to e^c(x[i]-1)^.  So to get x[2, for example], we could do the following:
+Now what about future generations?  We can set up recursion, in which we start with x=0, and with each generation set x[i+1] to e^c(x[i]-1)^.  So to get x[2, for example], we could do the following for a neutral mutation (with no effect on fitness:
+
 ```{r}
 x2 <-exp(x1-1)
 x2
@@ -89,11 +90,14 @@ lines(x1,lty=2)
 
 ```
 This suggests that, during the first few generations following the occurrence of the mutation, *the probability of loss of an advantageous mutation, by chance, is not much different from that of a neutral one*.  Furthermore, while we do see that in later generations, that mutation is more likely to survive than the neutral one, the probability of loss is still around 80%.  To illustrate this point, we can calculate the probability of the advantageous mutation surviving 100 generations as 
+
 ```{r}
  s1 <-1-x1[100]
 s1
 ```
+
 which can be contrasted with the similar probability for a neutral allele
+
 ```{r}
 s0 <-1-x0[100]
 s0
@@ -109,6 +113,10 @@ with the utmost regularity and precision when numbers of individuals of the orde
 
 As an exercise, you might want to try to repeat the calculations we did above for the case of a mutation conferring a 1% advantage.
 
+### Mutation vs. substitution
+
+This is a good point to make an important point regarding terminology.  In everything we have talked about so far, we are talking about *mutations*, as noted at the outset, as a change in DNA sequence.  Thus, when one occurs, there is a single copy of the mutation present in 2N alleles, an obviously very low frequency.  But obviously some mutations subsequently increase in frequency, and resulting from either chance (genetic drift) or deterministic (selection) processes, increase to a frequency of 1, or go to fixation.  At that point, we say that a *substitution* has occurred.  The distinction between mutation and substitution is one to keep in mind as we move forward.
+
 ### Conclusions
 
 So we are left with three observations:
@@ -119,7 +127,7 @@ So we are left with three observations:
 
 Point three, on the face of it, may seem paradoxical.  All populations are finite; many have relatively constant population sizes, If variation is the raw material of evolution, and it is those mutations that confer an advantage that benefit from natural selection, how can the process occur if most of them are lost?
 
-There are a few general responses we can make at this point.  First, although mutations in a given gene and a given generation may be rare, there are lots of genes in the genome undergoing the process, the total number of mutations occurring can be quite loarge.  Second, of course, while the probability of loss of a particular advantageous mutation is high, it is not 1, so that some will obviously survive.  And at this point, natural selection can take over, right?
+There are a few general responses we can make at this point.  First, although mutations in a given gene and a given generation may be rare, there are lots of genes in the genome undergoing the process, the total number of mutations occurring can be quite large.  Second, of course, while the probability of loss of a particular advantageous mutation is high, it is not 1, so that some will obviously survive.  And at this point, natural selection can take over, right?
 
 Not so fast.  Before we get to that, we need to consider the issue of population size more closely.  For that, we will now incorporate mutation into our thinking about genetic drift
 

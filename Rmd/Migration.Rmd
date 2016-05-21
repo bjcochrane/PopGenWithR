@@ -25,7 +25,7 @@ Here, we assume that we have two or more populations that consist of both native
 
 #### The Continent-island Model
 
-In this case, we have a large population on an island, with some allele p^*^ , and a much smaller island population with allele frequency p, which receives a fraction of its population m from the continent every generation.  We will assume that, because of the size difference between the two populations, migration from the island to the continent is effectively zero.  What we wish to do is to calculate p', the frequency on the island after one generation.  The relationship is quite simple:
+In this case, we have a large population on an island, with some allele frequency p^\*^ , and a much smaller island population with allele frequency p, which receives a fraction of its population m from the continent every generation.  We will assume that, because of the size difference between the two populations, migration from the island to the continent is effectively zero.  What we wish to do is to calculate p', the frequency on the island after one generation.  The relationship is quite simple:
 
 p' = (1-m)p + mp^\*^
 
@@ -162,11 +162,11 @@ And what we see is we get a whole bunch of data.  Some of them (those whose name
 ```{r}
 par(mfrow=c(2,1))
 fst.sim <-sum.mig$s_fst
-colhist(fst.sim,labs=c("Fst","Number","Fst - Migration"))
+colhist(fst.sim,xlab="Fst",,ylab="Number",main = "Fst - Migration")
 mean(fst.sim)
 d.sim <-sum.mig$s_tajimasD
 mean(d.sim)
-colhist(d.sim, labs=c("D", "Number","D - Migration"))
+colhist(d.sim, xlab="D",ylab= "Number",main="D - Migration")
 ```
 So we see that Fst, based on the simulation approach, is significantly different from zero.  D, while positive, is not.
 
@@ -206,12 +206,12 @@ msabc.div <-read.table("../msabc.div",header=TRUE)
 And we can look at what we see:
 
 ```{r}
-colhist(msabc.div$s_fst,labs=c("Fst","Number","Fst - Divergence"))
-colhist(msabc.div$s_tajimasD,labs=c("D","Number","D - Divergence"))
+colhist(msabc.div$s_fst,xlab="Fst",ylab="Number",main="Fst - Divergence")
+colhist(msabc.div$s_tajimasD,xlab="D",ylab="Number",main="D - Divergence")
 mean(msabc.div$s_fst)
 mean(msabc.div$s_tajimasD)
 ```
-So if we compare results from the two models, we can see that Fst does not distinguish between the two models.  With respect to D, while the migration mean of the migration model is positive and that of the divergence one is negative, in fact neither value is significantly different from zero.
+So if we compare results from the two models, we can see that Fst does not distinguish between them.  With respect to D, while the migration mean of the migration model is positive and that of the divergence one is negative, in fact neither value is significantly different from zero.
 
 ### Conclusions
 

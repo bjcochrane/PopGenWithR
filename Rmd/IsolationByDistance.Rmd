@@ -57,7 +57,10 @@ In fact, Jensen et al. explain this in their paper by noting that in fact the po
 
 ![Data](http://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/SparrowFst.png)
 
-The strongest relationship was observed in the mainland-mainland comparisons (filled circles; solid line); Fst values in general were higher for island-island comparisons.
+The strongest relationship was observed in the mainland-mainland comparisons (filled circles; solid line); Fst values in general were higher for island-island comparisons.  From these results, the concluded the following:
+
+1.  Within population variation on islands is overall lower than on the mainland, while pairwise Fst values tended to be higher, suggesting repeated independent bottlenecks and/or founder effects on the islands.
+2.  In contrast, the lower differentiation among mainland populations and patterns of Fst suggest a larger overall population, with differentiation mediated by weak isolation-by-distance population structuring.
 
 ### Conclusions
 

@@ -1,7 +1,7 @@
 ---
 title: <center>Testing for Selection</center>
 author: <center>Bruce Cochrane</center>
-date: <center>August 10, 2014</center>
+date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
 output: 
     html_document:
        css: Chapter.css
@@ -19,7 +19,7 @@ library(TeachingPopGen)
 
 So now we need to think more closely about what DNA does.  Historically, the definition of a gene was that portion of DNA that encodes a particular polypeptide, and since much of molecular population genetic theory developed in the era of protein polymorphism studies, many  of the classical tests of selection involve analysis of protein coding regions.  We will start by looking at a few of them; we will then move on to see how the comprehensive nucleotide polymorphism data that are available to us today allow us to broaden our scope to include all DNA sequences, coding or other.
 
-Before we explore this question, remember that we have already explored two for departure from neutral expecations  - Ewens-Watterson and the Tajima test.  However, these both suffer from two shortcomings.  First, they are relatively insensitive - only in the most extreme cases do the test statistic sdiffer greatly from neutral expectations.  Second, if deviation is observed, there can be multiple explanations, and the role of selection (directional or balancing) is only one of them.
+Before we explore this question, remember that we have already explored two for departure from neutral expecations  - Ewens-Watterson and the Tajima test.  However, these both suffer from two shortcomings.  First, they are relatively insensitive - only in the most extreme cases do the test statistics differ greatly from neutral expectations.  Second, if deviation is observed, there can be multiple explanations, and the role of selection (directional or balancing) is only one of them.
 
 ### Remember the genetic code
 
@@ -32,7 +32,7 @@ To quickly summarize, the genetic code has the following properties:
 
 So let's think about evolutionary change in this context.  Suppose all mutations, (synonymous or nonsynonymous) are neutral, something that we assumed when we developed the Jukes and Cantor model for estimating rates of substitutions.  If so, then if we calculate d for both classes, the expectation is that they should be equal, or dN=dS.
 
-So what do we see?  First, in a sample of 16 eukaryotic genes, we find that  kN=.88 and kS = 4.65.  So if we compute the ratio, we get the following
+So what do we see?  First, in a sample of 16 eukaryotic genes, we find that  dN=.88 and dS = 4.65.  So if we compute the ratio, we get the following
 ```{r}
 .88/4.65
 ```
@@ -67,7 +67,7 @@ Up until this point, we have  restricted ourselves almost exclusively to analysi
 
 1.  Time since divergence
 2.  Effective population size of two species
-3.  The mutation rate for the gene or genes in question 
+3.  The mutation and substitution rates for the gene or genes in question 
 
 And we can also note regarding these, that
 
@@ -82,6 +82,8 @@ The statistical analysis of these results is not straightforward, however, the f
 
 1.  Divergence between species is similar for the two genes.
 2.  Within-species variation (polymorphism) is much higher for Adh than for the flanking region - significant based on comparison to neutral expectations.
+
+Hudson et al concluded that these results were consistent with the hypothesis that the Adh locus is subject to balancing selection within *D. melanogaster*, resulting in the high level of within-species polymorphism that was observed.
 
 Note that we are assuming flanking region is neutral, and that may or may not be the case.  In addition, we have restricted our consideration to noncoding substitutions, thus ignoring what we would expect to be a very important part of the picture.  And finally, tests of significance involve fairly complicated simulations of neutral expectations.  How can we address these problems?
 
@@ -133,9 +135,16 @@ And returns the result of the chi-square test, as well as the value of FI.  In t
 1.  The chi-square value (1 d. f) is significant, indicating that we can reject the null hypothesis that the dN/dS and pN/Ps ratios are the same.
 2.  FI is greater than 1, suggesting a deficiency of nonsynonymous polymorphisms (something that should be evident based on visual inspection of the data)
 
+But remember - there are two possible explanations for a value of FI greater than one - either directional selection occurring during speciation or purifying selection within species.  Which is the case here?  McDonald and Kreitman argued for the former - a number of adaptive mutations occurring in the lineages of the two species that lead to an excess of nonysnonymous substitutions.  They argued against the alternative hypothesis on essentially parsimony grounds, arguing that the only scenario that could lead to these results is overly complex:
+
+1.  The species was historically small, so that weakly deleterious mutations are effectively neutral and thus subject to random fixation and loss.  It would be those randomly fixed mutations that result in the observed value of Dn.
+2.  In *D.melanogaster* at least, subsequent to speciation, there was a population expansion, such that now those weakly deleterious alleles are subject to selection and thus reduced in frequency.
+
+To quote them, "This slightly deleterious model requires so many assumptions about selection coefficients, population sizes and times of population expansions that we prefer the simpler explanation of the occasional fixation of an adaptive mutation."
+
 Note that, using the G test with a correction for small sample size, a more conservative approach, McDonald and Kreitman obtained similar results.  Their conclusion, explained quite well in the paper, suggest that most of the replacements that have occurred are in fact adaptive, so that nonsynonymous polymorphisms, when they occur, have a short life time.
 
-The basic mathematics is extremely simple.  In fact, if we look at the MK function
+The basic mathematics of the test is extremely simple.  In fact, if we look at the MK function
 
 ```{r}
 MK
@@ -146,7 +155,7 @@ We see that it is little more than a call to the built-in function chisq.test.  
 
 ### Summary
 
-So we've seen that we can take three different approaches to the detection of selection, all of which involve, one way or another, a comparison of substitution rates and levels of polymorphism.  Note, however, that, as described so far, we are, by and large, approaching the problem on a gene-by-gene basis.  Ideally, we'd like to tak a broader view, using available data to assess patterns of selection in the genome as a whole.  In our next unit, we will begin to do that, using the MK statistic as a means to look for evidence of selection in the *Drosophila* genome.
+So we've seen that we can take three different approaches to the detection of selection, all of which involve, one way or another, a comparison of substitution rates and levels of polymorphism.  Note, however, that, as described so far, we are, by and large, approaching the problem on a gene-by-gene basis.  Ideally, we'd like to take a broader view, using available data to assess patterns of selection in the genome as a whole.  In our next unit, we will begin to do that, using the MK statistic as a means to look for evidence of selection in the *Drosophila* genome.
 
 
 

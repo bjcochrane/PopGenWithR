@@ -2,6 +2,7 @@
 title: 
 - <center>Inferring Population History</center>
 date: <center>`r format(Sys.time(), '%d %B, %Y')`</center>
+bibliography: TPG.bib
 output:
   html_document:
     css: ~/Chapter.css
@@ -22,39 +23,57 @@ We have all seen examples in which sequence variation has been used to make infe
 
 ### Skyline plots
 
-For now, we are going to consider mutation to be a constant.  Thus, over the time course of a particular coalescent lineage, the only parameter that can vary is N. Further more, at any given time T, there will be a certain number of lineages, and those lineages will persist for some interval of time.  The theory involved here is complex, but in essence [Pybus et al, 2001](http://www.genetics.org/content/155/3/1429.full) and [Stimmer and Pybus, 2001](http://mbe.oxfordjournals.org/content/18/12/2298.full) showed that, given estimates of those over the time course of a robust phylogeny, one could estimate N for each interval.  These can then be plotted against time (measured, at least initially, in substitution rate), to generate what is known as a skyline plot.  We will look at some simple examples below.
+For now, we are going to consider mutation to be a constant.  Thus, over the time course of a particular coalescent lineage, the only parameter that can vary is N. Further more, at any given time T, there will be a certain number of lineages, and those lineages will persist for some interval of time.  The theory involved here is complex, but in essence @Pybus2000 and @Strimmer2001 showed that, given estimates of those over the time course of a robust phylogeny, one could estimate N for each interval.  These can then be plotted against time (measured, at least initially, in substitution rate), to generate what is known as a skyline plot.  We will look at some simple examples below.
 
 ### The simple case - N is constant
 
 So let's have ms generate us a phylogeny of 10 sequences, with &theta; equal to 5, returning a tree
+
 ```{r}
 set.seed(1234)
 tr <-ms(nsam=20, nreps=1, opts=("-t 5 -T"))
 tr <-read.tree(text=tr)
 ```
+
 Now we can look at the tree, along with a simple skyline plot of the tree
+
 ```{r,fig.show='hold'}
+
 plot(tr)
-plot(skyline(tr))
-```
-But remember that we are assuming that periods of rapid coalescence are associated with  population size changes, but we are basing this on the mutational process being linearly related to time. Since mutation is a stochasitic process, some of the inferred fluctuation in population size is in fact due to that randomness.   We thus need to estimate some minimum interval for which proportionality holds (i. e. correct for error) and collapse the shorter branches.  There is a function in ape that uses a liklihood procedure to estimate the best value of that minimum (&epsilon;)
-```{r}
-tr.ci <-coalescent.intervals(tr)
-eps <-find.skyline.epsilon(tr.ci)
+sk <-skyline(tr)
+plot(sk)
 
 ```
+
+Note that in all of these plots, the Y axis is in actuality Ne multiplied by the substitution rate (something that we would have to provide).  
+
+But remember that we are assuming that periods of rapid coalescence are associated with  population size changes, but we are basing this on the mutational process being linearly related to time. Since mutation is a stochasitic process, some of the inferred fluctuation in population size is in fact due to that randomness.   We thus need to estimate some minimum interval for which proportionality holds (i. e. correct for error) and collapse the shorter branches.  There is a function in ape that uses a liklihood procedure to estimate the best value of that minimum (&epsilon;).  First, let's look at the length of the coalescent intervals (in units of subsitutions) calculated from the data:
+
+```{r}
+tr.ci <-coalescent.intervals(tr)
+data.frame(tr.ci$lineages,tr.ci$interval.length)
+```
+
+Now, we will let the computer smooth the data by calculating a factor epsilon that is designed to remove the random fluctuations from the data:
+```{r]}
+eps <-find.skyline.epsilon(tr.ci)
+eps
+```
+
 And if we plug that into our skyline plot
+
 ```{r,fig.show='hold'}
 plot(skyline(tr))
 plot(skyline(tr,eps))
 ```
+
 We see that, as we modeled originally, this is in fact a constant size population.
 
 ### A population growth model.
 
 A while back, we looked at the effect of population growth on coalescence.  Our scenario is repeated below:
 
-Suppose our current population is 10^5 , but it is the result of growth at the rate of 2% per year and there are 5 generations per year.  To factor growth into ms, we need to convert the yearly growth rate into the growth rate per 4N generations. We will also do more "sequencing" by examining 100 samples.  We can do so as follows:
+Suppose our current population is 10^5^ , but it is the result of growth at the rate of 2% per year and there are 5 generations per year.  To factor growth into ms, we need to convert the yearly growth rate into the growth rate per 4N generations. We will also do more "sequencing" by examining 100 samples.  We can do so as follows:
 
 ```{r}
 N <-100000
@@ -77,7 +96,9 @@ ci.gr <-coalescent.intervals(tree.gr)
 eps.gr <-find.skyline.epsilon(ci.gr)
 
 ```
+
 And it is - `r eps.gr`, as opposed to `r eps` in the previous case.  And we can look at the skyline plots with and without the collapsing and we see
+
 ```{r,fig.show='hold'}
 plot(skyline(tree.gr))
 plot(skyline(tree.gr,eps.gr))
@@ -120,8 +141,7 @@ Notice that his is a much larger data set than what we've been modeling.  We hav
 
 ### MCMC estimation
 
-The stepwise model we have been using so far, one that assumes population changes are associated with coalescenc events, is clearly not biologically realistic.  THis method, implemented in APE, derives a smooth population size function based on the given geneologies.  The paper describing the work is quite straightforward (at least as theoretical papers go) and is worthy of at least brief perusal  [Opgen-Rhein 
-et al (2005)](http://www.biomedcentral.com/1471-2148/5/6) developed methodology for "smoothing" these curves - in essence it takes an MCMC approach to find a set of paramters that results in a smooth population growth function based on one or more gene geneologies.
+The stepwise model we have been using so far, one that assumes population changes are associated with coalescenc events, is clearly not biologically realistic.  THis method, implemented in APE, derives a smooth population size function based on the given geneologies.  The paper describing the work is quite straightforward (at least as theoretical papers go) and is worthy of at least brief perusal  @Drummond2005 developed methodology for "smoothing" these curves - in essence it takes an MCMC approach to find a set of paramters that results in a smooth population growth function based on one or more gene geneologies.
 
 #### The Bottleneck model
 
@@ -156,7 +176,7 @@ And we see more or less what we would expect to see - constant growth from the 1
 
 ### Arctic Fur Seals
 
-Hoffmann et al have reported mitochondrial DNA for fur seals from the North Atlantic.  We will look more closely at their data when we introduce BEAST;   however, we can do a little bit of rough analysis with what we've done so far
+@Hoffman2011 have reported mitochondrial DNA for fur seals from the North Atlantic.  We will look more closely at their data when we introduce BEAST;   however, we can do a little bit of rough analysis with what we've done so far
 
 We should also say a little about animal mitochondrial DNA and why it is so widely used for reconstruction of recent population structure and demographics.  It main features can be summarized as follows:
 
@@ -171,35 +191,56 @@ So to proceed, we need to do two things:
 3.  Based on an estimate of mutation rate, then we should get a profile of the population, scaled in years.
 ```{r}
 data(furseals)
+image.DNAbin(as.matrix(fur.dat))
+fur.dat
+length(seg.sites(fur.dat))
 ```
 Now make a distance matrix
 ```{r}
 
 fur.dist <-dist.dna(fur.dat)
 ```
+
 Now use the simplest possible tree building algorithm - UPGMA - to specify the inferred geneology, after which we will caclulate skyline plots, both with and without correction for mutational stochasticity
+
 ```{r,fig.show='hold'}
 library(phangorn)
 #tr.fur.u <-NJ(fur.dist)
 tr.fur.u <-upgma(fur.dist)
+plot(tr.fur.u,show.tip.label = FALSE)
+```
 
-plot(skyline(tr.fur.u))
+As such, it's not very informative (nor, in all likelihood, very accurate).  But we can use it as input for skyline analysis as follows, first withous smoothing and then with:
+
+```{r}
+#plot(skyline(tr.fur.u))
 ci.fur <-coalescent.intervals(tr.fur.u)
  eps.fur <- find.skyline.epsilon(ci.fur)
 plot(skyline(tr.fur.u,eps.fur),ylim=c(.002,1))
 ```
-Based on that, we can then do our MCMC smoothing
+
+So we could hypothesize a model of historical population growth followed by a more recent decline.  But we should be able to improve the model by mcmc analysis:
 
 ```{r}
 
 mc.fur <-mcmc.popsize(ci.fur,10000,burn.in=1000,,thinning=10,progress.bar=FALSE)
 fur.pop <-extract.popsize(mc.fur)
+```
+<!-- original code for future reference -->
+
+```{r,echo=FALSE,eval=FALSE,results="hide"}
 plot(skyline(tr.fur.u,eps.fur),ylim=c(.002,1.5))
 lines(fur.pop,col="red")
 ```
+```{r}
+rn <-rev(range(fur.pop[,1]))
+plot(fur.pop[,1],fur.pop[,3], xlim=rn,type="l",xlab="time (# Substitutions)",ylab="Ne X Subst. Rate")
+lines(fur.pop[,1],fur.pop[,4],col="red")
+lines(fur.pop[,1],fur.pop[,5],col="red")
+```
 
 
-What we see is that there is clear evidence for an historically stable population, but based on this modeling, we do not see the significant decline that appears in the generalized skyline plot.  
+What we see is that there is clear evidence for an historically stable population, but based on this modeling, while there is some evidence of recent decline, it is not dramatic
 
 #### Putting a time frame on this
 
@@ -210,12 +251,18 @@ mu <-2.71*10^-6
 Mu <-(mu/gtime)*263
 Mu
 ```
-And we can plot the results
+
+We can now scale both axes by the substitution rate and replot to get what we really want - effective population size vs. time before present:
+
 ```{r}
-par(mfrow=c(1,1))
-plot(skyline(tr.fur.u,eps.fur),show.years=TRUE, subst.rate=Mu,present.year=2010,ylim=c(.002,1.2))
-lines(fur.pop,col="red",show.years=TRUE,subst.rate=Mu,present.year=2010)
+yrs <-fur.pop[,1]/Mu
+yrs <-2012-yrs
+plot(yrs,fur.pop[,3]/Mu,type="l",xlab="Yrs. Before Present",ylab="Ne")
+lines(yrs,fur.pop[,4]/Mu,col="red")
+lines(yrs,fur.pop[,5]/Mu,col="red")
 ```
+
+
 Note that the dates are obviously quite sensitive to the mutation rate; the one employed is given as a conservative estimate by the authors.  Nevertheless, based on these fixed parameters, what we see is an historically large population, with an indication of a recent decline
 
 ### Conclusion

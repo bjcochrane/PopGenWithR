@@ -1,5 +1,7 @@
 ---
 title: "Introduction to R and RStudio"
+date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
+bibliography: TPG.bib
 output:
   html_document:
     css: Chapter.css
@@ -10,39 +12,54 @@ output:
 
 
 ## Why R?
+
 From the outset, we need to recognize that there are lots of valuable standalone programs for evolutionary genetic analysis, many of which operate on Windows, Mac and Linux platforms and do so in a user-friendly fashion.  However, there is one serious downside to exclusive dependence on such packages - many of them require specialized data formats, and outputs from one such program are often not readily input into another.
 
-R, on the other hand, has a couple of advantages:
+R [@RHome], on the other hand, has a couple of advantages:
 
-###  It is an object oriented programming language,
-so virtually any data can be input in some form or another.  For example, one can directly read data from HapMap, SNPData, and other such data bases, and with some manipulation (a. k. a. munging) get them into a format that can be used for a wide variety of applications.
-### R does data.
-For those who remember the days of having to wrestle with subscript indicese in languages like FORTRAN and BASIC, R is a delight.  For example, suppose you wish to create a vector of integers from 1:100.  It is as easy as
+###  It is a data oriented programming language,
+
+so virtually any data can be input in some form or another.  For example, one can directly read data from [HapMap](http://www.hapmap.org), [ALFRED](http://alfred.med.yale.edu), [Dryad](http://www.datadryad.org) and other such data bases, and with some manipulation (a. k. a. munging) get them into a format that can be used for a wide variety of applications.
+
+### R is vector-based
+
+For those who remember the days of having to wrestle with subscript indices in languages like FORTRAN and BASIC, R is a delight.  For example, suppose you wish to create a vector of integers from 1:100.  It is as easy as
 
 ```{r}
 x=c(1:100)
 x
 ```
+
 No need to set dimenstions or any of that stuff.  And we can then do simple manipulations on those objects, such as 
+
 ```{r}
 x*2
 ```
+
 And every element is multiplied by 2.  
+
 ### And we can do plots.  
+
 Working with our same vector, we can easily get a simple working plot by
+
 ```{r}
 plot(x)
 ```
+
 ### R is imminently extensible
+
 with both built-in functions that carry out complex tasks based on simple commands, as well as add on packages that provide additional capabilities for specialized tasks.  For example, suppose we want to generate a bunch of random binomial variants, akin to doing 100 experiments  of flipping a coin 100 times qne plotting how many heads we get.  We can write
+
 ```{r}
 h <-rbinom(100,100,.5)
 hist(h)
 ```
+
 ### And then there are packages.  
+
 R is open source, so there are legions of skilled programmers specifically developing add-on packages that can be installed and provide additional functionality.  We will use a lot of these packages, including
 
->* ape, pegas and adegent - provide essential functions for population genetic analysis and tree manipulation
+>* ape `r citep(citation("ape"))`, pegas and adegent - provide essential functions for population genetic analysis and tree manipulation
 
 >* phyclust - an independently developed package that has the interesting ability to run some otherwise command-line stand-alone programs (ms, seq-gen) directly within R
 >* biomaRt - it takes a bit of learning, but with some effort one can use it to import an amazing variety of molecular sequence data directly from web sources.
@@ -55,14 +72,18 @@ This one is purely fun, but it shows how web pages can be "scraped" to get usefu
 For example, the HYLA2 gene is of current interest, since it appears to have arisen from Neanderthal ancestors and been maintained by selection in asian population.  We can get frequency data for it as follows
 
 First, Use your browser to get to the data you want; when you have, copy the url onto the clipboard  In this case, a search on the HYAL2 Gene turns up one SNP (rs11130248), Alfred ID number SI087775I, in the gene.  We can pull down the data as follows:
+
 ```{r}
 library(XML) # install the routines that allow web page scraping
 hyal2.dat <-readHTMLTable("http://alfred.med.yale.edu/alfred/SiteTable1A_working.asp?siteuid=SI087775I",which=3)
 ```
+
 which, roughly speaking, tells R to go to the URL and bring back the data in the third table on the page.  We can inspect the first few lines of that file as follows:
+
 ```{r}
 head(hyal2.dat)
 ```
+
 And we see that we have the data broken out by continent, population, and allele frequency.  We will return to this down the road, but suffice it to say that we can scrape a lot of data, and with some patience and ingenuity, get it into a form for doing all sorts of interesting things with it.
 
 ## What is RStudio?
@@ -83,13 +104,17 @@ When you open RStudio, you are presented with four pains.
 ### Creating a "Markdown" file for Program Execution
 
 This is the coolest feature of R studio.  Suppose I've written a file that includes some text (such as this) as well as "chunks" of code that can be executed.  The code is sparated by the following delimiters:
+
 ```{r}
 #Code goes here
 ```
+
 When the HTML rendered, or knitted, you will see the actual coded in a shaded box, followed by the result of that code's execution in an unshaded one. So we can do a little bit of a demonstration with the HYAL2 data.  The delimiter code can be entered with Opt-CMD-I on a mac, once written the code"chunk" can be executed by placing the cursor anywhere in the code chunk and pressing OPT-CMD-C
+
 ```{r}
 barplot(as.numeric(hyal2.dat$V6),names.arg=as.character(hyal2.dat$V1),las=2,cex.names=.8)
 ```
+
 Admittedly a very rough plot, one we will come back to.  But it does show how stringing together  few parameters in a plot command can give one a quick overview of the data.
 
 ### Publishing as HTML
@@ -120,6 +145,7 @@ One of the most valuable sources of guidance is the basic google search.  For ex
 hyal2.dat <-hyal2.dat[-c(1:2),]
 head(hyal2.dat)
 ```
+
 And we see that everything is now cleaner.  We will talk much more about data preparation in the next unit.
 
 #### Markdown syntax

@@ -37,7 +37,7 @@ This returns the raw data (ch6.raw) for the region in question; we will now use 
 ch6.sub <-datprep(ch6.yri,min=5)
 ```
 ```{r,eval=FALSE,echo=FALSE}
-load("./Data2015/HwGenomeData")
+load("../QPopgen/Data2015/HwGenomeData")
 ```
 
 

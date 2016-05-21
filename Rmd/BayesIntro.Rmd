@@ -2,6 +2,7 @@
 title: 
 - <center>Introduction to Bayesian Statistics</center>
 date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
+bibliography: TPG.bib
 output:
   html_document:
     css: Chapter.css
@@ -9,6 +10,10 @@ output:
     toc_depth: 5
 ---
 
+```{r,echo=FALSE}
+library(knitr)
+library(RefManageR)
+```
 
 
 
@@ -20,7 +25,7 @@ In Bayesian Statistics (named after the Reverend Thomas Bayes, an 18th Century S
 
 ### A Forensic Example
 
-We are going to come back to coin flips in a bit, but before doing so, let's look at a real example, taken from forensics.  This is taken from [Shoemaker et al, 1999](http://bit.ly/1dsk7tC), a very nice introduction to Bayesian Statistics for genetics.  We are in New Zealand, and we have a genotype obtained from a  blood sample from a crime.  There are three ethnic groups in New Zealand - Caucasian, Maori and Western Polynesion - we would like to determine the probabilities that the sample came from a member of each of these groups, **given what we know about the ethnic makeup of New Zealand**.
+We are going to come back to coin flips in a bit, but before doing so, let's look at a real example, taken from forensics.  This is taken from @Shoemaker1999, a very nice introduction to Bayesian Statistics for genetics.  We are in New Zealand, and we have a genotype obtained from a  blood sample from a crime.  There are three ethnic groups in New Zealand - Caucasian, Maori and Western Polynesion - we would like to determine the probabilities that the sample came from a member of each of these groups, **given what we know about the ethnic makeup of New Zealand**.
 
 So we start with our prior information, which in this case is simply the distribution of the three ethnic groups in the population as a whole:
 ```{r}
@@ -51,9 +56,9 @@ ps.wp <-(pr.wp*l.wp)/p.X
 
 ```{r,echo=FALSE,results='asis'}
 
-res <-data.frame(c("Caucasian","Maori","W.Polynesian"),c(ps.c,ps.m,ps.wp))
-colnames(res) <-c("Ethnicity","Probability")
-printx(res)
+res <-data.frame(c("Caucasian","Maori","W.Polynesian"),c(pr.c,pr.m,pr.wp),c(ps.c,ps.m,ps.wp))
+colnames(res) <-c("Ethnicity","Prior", "Posterior")
+kable (res)
 ```
 
 So what we see is that, for example, despite the fact that Western Polynesians comprise the smallest fraction of the total population (4.4%), in fact the probability that the particular blood sample came from one of that group is the highest.
@@ -102,7 +107,7 @@ We can then plot this posterior distribution and calculate its mean and upper an
 ```{r}
 mean(post)
 
-colhist(post,xr=c(0,1),labs=c("p","Number","Posterior Distribution, # Heads = 8"))
+colhist(post,xr=c(0,1),xlab="p",ylab="Number",main="Posterior Distribution, # Heads = 8")
 mean(post)
 quantile(post,(c(.025,.975)))
 abline(v=mean(post),col="blue")
@@ -141,8 +146,8 @@ plot(out.mean, xlab="Iteration",ylab="p", type="l",main="Iterative Estimation of
 And we see that, as we expected intuitively, it approaches a value of .8.  We can also look at the final posterior distribution of p (after 50 iterations):
 ```{r}
 par(mfrow=c(1,2))
-colhist(post,labs=c("P","Frequency","Initial Posterior Distribution"))
-colhist(post1,labs=c("P","Frequency","Final Posterior Distribution"),xr=c(0,1)) 
+colhist(post,xlab="P",ylab="Frequency",main="Initial Posterior Distribution")
+colhist(post1,xlab="P",ylab="Frequency",main="Final Posterior Distribution",xr=c(0,1)) 
 ```
 Two features are evident.  First, as we already saw, the mean of the distribution is very close to .8, which is what we would intuitively expect given that we keep getting 8 heads out of 10.  Second, compare the distribution with that we saw when we did the calculation based on our initial uniform prior distribution, we got the following confidence limits:
 ```{r}
@@ -165,4 +170,4 @@ Finally, as we will see, there are many population genetics problems in which, w
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-
+### References

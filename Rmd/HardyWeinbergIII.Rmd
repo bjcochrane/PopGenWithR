@@ -12,27 +12,38 @@ output:
 
 Think about relationship between p and heterozygosity (fraction of individuals that are heterozygous).  At extremes - p= 0 and p=1, heterozygosity is obviously zero, but what  what happens in between? A very important point to recognize is that while the frequency of heterozygotes is a function of p, the frequency of homozygotes is a function of p^2.  What that means qualitatively is that as p gets small, p^2 gets very small, meaning that, in a finite sample, it is quite possible that there will be no homozygotes for the minor allele present.
 
-#### Heterozygosity when q is small
+#### Thinking about rare alleles
 
-We can look at this graphically as follows:  What we will do will be to plot the ration of expected heterozygotes to   aa homozygotes (where f(a)=q), or 2pq/q^2, first as p varies from 0 to .8
+In diploids particular allele (call it a) can exist in one of two states - either in a homozygote or a heterozygote.  If its frequency is q, and the size of the population is N, then there are 2N copies of the allele, and the number that are in homozygotes is simply 2Np^2^.  Thus, we can determine the fraction of a alleles that occur in homozygotes to be
+
+2Nq^2^/2Nq = q
+
+And the fraction that is in heterozygotes is thus
+
+1-q = p
+
+[Felsenstein](http://evolution.gs.washington.edu/pgbook/pgbook.pdf) describes this relationship particularly well (pg. 9).
+
+And that leads us to the following critical prediction:  **Most rare alleles are found in heterozygotes, while most common ones are found in heterozygotes.** We can examine this graphically by plotting q (from 0 to .99) against q/p (the ratio of the frequency in heterozygotes to that in homozygotes) as follows:
+
 
 ```{r}
-p <-seq(0,.9,.001)
-q <-1-p
-fhet <-(2*p)/q
-plot(p, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
+q <-seq(0,.9,.001)
+p <-1-q
+fhet <-q/p
+plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
 ```
-And we see that as p increases, the ratio increases exponentially.  This becomes even more extreme as we approach 1:
+And we see that as q increases, the ratio increases exponentially.  This becomes even more extreme as we approach 1:
 ```{r}
-p <-seq(.9,1,.001)
-q <-1-p
-fhet <-(2*p)/q
-plot(p, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
+q <-seq(.9,1,.001)
+p <-1-q
+fhet <-q/p
+plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
 ```
-In fact, in this range, we can use the approximation of p ≈ 1, so that the ratio then ≈ 2/q:
+In fact, in this range, we can use the approximation of q ≈ 1, so that the ratio then ≈ 1/p:
 ```{r}
-plot(p, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
-lines(p,2/q,col="red", type="l")
+plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
+lines(q,1/p,col="red", type="l")
 ```
 And we see that indeed the fit is quite close
 
