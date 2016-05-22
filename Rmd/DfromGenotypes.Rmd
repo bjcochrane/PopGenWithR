@@ -10,7 +10,7 @@ output:
 ---
 
 
-### Background
+## Estimating LD From Genotype Data
 
 In our consideration of measures of linkage disequilibrium (D, D', r) we proceeded from the assumption that we could, in some fashion, count gametes.  In a haploid population, of course, this is no problem.  However, in the case of diploids, while we can infer the gametic combinations of most individuals, in some (the double heterozygotes) we cannot.  Thus, we need to find a way to estimate linkage disequilibrium from what is effectively incomplete data.
 

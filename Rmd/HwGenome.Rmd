@@ -90,7 +90,7 @@ hwtest <-apply(ch6.sub,1,hw,print=FALSE) #use the hw function in TeachingPopGen 
 
 ```{r}
 
-colhist(Hw.ch,tail=1,labs=c("chi-squared","Number","Chi Square Distribution, ch. 6"))
+colhist(Hw.ch,tail=1,xlab="chi-squared",ylab="Number",main="Chi Square Distribution, ch. 6")
 ```
 So we see that indeed, some of the SNP's do show departure from Hardy Weinberg.  How many?  For this, we would most likely be using the "book value" for the 5% cutoff with 1 degree of freedom, or 3.84
 
@@ -148,6 +148,3 @@ There are a few reasons for undertaking this exercise.
 1.  When we do see outliers, we have to proceed with caution.  For example, in bioinformatics, departure from Hardy-Weinberg is used as an indicator of possible problems with the raw data - for example if heterozyotes are erroneously scored as homozygotes, then there will be apparent departures.
 2.  In cases where an allele occurs at low frequency, the chi-squared test is fraught with danger.  In such cases, and especially in typical sample sizes (N~100), the expected numbers of homozygotes of the low frequency allele are very small, which can artificially inflate chi-squared values.
 
-
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

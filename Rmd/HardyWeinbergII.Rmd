@@ -4,6 +4,7 @@ title:
 output:
   html_document:
     css: Chapter.css
+    number_sections: yes
     toc: yes
     toc_depth: 5
 ---
@@ -13,7 +14,7 @@ library(TeachingPopGen)
 library(knitr)
 ```
 
-### Background
+### Exploring in More Depth
 
 So at this point, we've seen how we can calculate allele frequencies, and we've also seen that in an ideal population, those frequencies do not change - the population does not evolve.  And it is worth it at this point to briefly summarize the properties of an ideal population:
 
@@ -174,7 +175,7 @@ unname(1-homo.exp)
 ```
 Which gives us the same value.
 
-#### The F statistic
+### The F statistic
 
 So what we want to do now is to come up with a numerical value to compare observed and expected heterozygosity.  Obviously, if they are equal (that is, we have a Hardy-Weinberg population), then the ratio will be 1.  Similarly, if there are no heterozygotes observed, then the ratio would be zero.  Thus, by subtracting the ratio from 1, we get a statistic that increases from zero to one, proportionate with increasing departure from HW.  Thus for our bear case here, we find that
 ```{r}
@@ -291,7 +292,7 @@ And using our multiple allele logic, we should be able to calculate the frequenc
 
 But there's a problem - we can't distinguish between AA and AO individuals, so how do we plug in the numbers?
 
-Again, [Felsenstein](http://evolution.gs.washington.edu/pgbook/pgbook.pdf) suggests an approach (see also Weir, 1996) known as "expectation maximization" to get at this problem. Look again at the  equation above.  Our problem is that, while we can get n and n<sub>AB</sub> directly from the data, AA and AO individuals both have type A blood.  The similar problem would exist for the frequency of B as well.  
+Again, @FelsensteinBook suggests an approach (see also @weir1996genetic) known as "expectation maximization" to get at this problem. Look again at the  equation above.  Our problem is that, while we can get n and n<sub>AB</sub> directly from the data, AA and AO individuals both have type A blood.  The similar problem would exist for the frequency of B as well.  
 
 Felsenstein(page 31 and 32) shows the three values we wish to estimate, p <sub>A </sub>, p <sub>B </sub> and p <sub>i </sub>, can be expressed as follows:
 
@@ -340,7 +341,6 @@ And we see that in fact we have done a pretty good job of explaining the data.
 
 So what have we done?  As Felsenstein points out, at first glance, it may seem to be an "exercise in ad-hockery".  However, he then goes on to point out that what we have done  is to find the maximum likelihood estimates of the allele frequencies, and we have done so in a way that is relatively quick and insensitive to the starting values used.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 
 

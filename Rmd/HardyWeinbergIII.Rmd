@@ -8,7 +8,7 @@ output:
     toc_depth: 5
 ---
 
-### Background
+### The Relationship between Genotype and Allele Frequencies
 
 Think about relationship between p and heterozygosity (fraction of individuals that are heterozygous).  At extremes - p= 0 and p=1, heterozygosity is obviously zero, but what  what happens in between? A very important point to recognize is that while the frequency of heterozygotes is a function of p, the frequency of homozygotes is a function of p^2.  What that means qualitatively is that as p gets small, p^2 gets very small, meaning that, in a finite sample, it is quite possible that there will be no homozygotes for the minor allele present.
 

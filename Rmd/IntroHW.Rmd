@@ -15,7 +15,7 @@ library(TeachingPopGen)
 ```
 
 
-### Background
+## What is it?
 
 The starting point for in population genetics is the  Hardy Weinberg equilibrium.  It is the basis on which everything is built, so a thorough understanding of what it says and what it assumes is critical.  In this unit, we will briefly go through the basics of it ( the familiar p and q approach).  We will then examine it in more detail.
 
@@ -160,4 +160,3 @@ Which is exactly the same formula as above.
 
 So to wrap it up, when you start a Hardy-Weinberg problem, the first question to ask is whether you are given genotype *Numbers* or *frequencies* and go from there.  What you do **not** want to do is to treat the numbers as frequencies or vice versa.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

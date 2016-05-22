@@ -8,14 +8,14 @@ output:
     toc: yes
     toc_depth: 5
 ---
-```{r}
+```{r,echo=FALSE}
 library(HardyWeinberg)
 library(knitr)
 library(gap)
 options(warn= -1)
 ```
 
-### Background
+## An Exact Test of Hardy-Weinberg
 
 We're going to start with a simple reality - *with the exception of populations with regular non-random mating schemes (which we will explore briefly soon), significant departures from Hardy-Weinberg are uncommon*.  Nevertheless, there is an extremely large literature on the subject - why?  One reason, which is relevant to some of the data we will be using, is that when sample sizes are small and/or the number of alleles is large.  The latter condition is one that is common for microsatellite data.  So some investigation of tests beyond the chi-squared approximation is worth the effort.
 
@@ -120,7 +120,7 @@ The red line is drawn at p=0.05; the interpretation is that *given that there ar
 
 ### As things get more complicated
 
-All of this is well and good, and we can use this approach quite easily for the biallelic case.  But think of what we are doing - we are *enumerating* every possible genotype distribution and calculating the exact probability of observing it.  In this case, that really only took `nrow(pgm.df)` calculations.  And even if our sample size was much larger, the computational load is not too awful.
+All of this is well and good, and we can use this approach quite easily for the biallelic case.  But think of what we are doing - we are *enumerating* every possible genotype distribution and calculating the exact probability of observing it.  In this case, that really only took `r nrow(pgm.df)` calculations.  And even if our sample size was much larger, the computational load is not too awful.
 
 The problem comes with multiple alleles.  With two alleles, there are 3 possible genotypes, with three there are 6 (3 homozgyotes, three heterozygotes), with four there are 10, etc.  In fact, with microsatellites, for example, the number of alleles and possible genotype distributions can be extremely large, so computation becomes impractical (indeed, most implementations of the exact test are limited to the biallelic case.
 
