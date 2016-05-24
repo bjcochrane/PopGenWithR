@@ -10,7 +10,7 @@ output:
        toc_depth: 5
 ---
 
-## Methodological Background
+## Other Software
 
 Below you will find a brief introduction to some of the analytical methods of modern population genetics.  The references included are ones you should review carefully prior to starting any data analysis that incorporates them.  Note that these are typically **not** the documentation for the programs themselves (which are provided elsewhere); rather they are research papers that describe the methods and assumptions that underly the particular impelementations.
 

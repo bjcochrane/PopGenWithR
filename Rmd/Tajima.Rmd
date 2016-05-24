@@ -1,11 +1,14 @@
 ---
-title: 
-- <center>Comparing Estimators - The Tajima Test</center>
+title: <h1>Comparing Estimators - The Tajima Test</h1>
+date:  <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
+bibliography:  ../TPG.bib
+csl: ../genetics.csl.txt
 output:
   html_document:
-    css: Chapter.css
+    css: ../Chapter.css
     toc: yes
     toc_depth: 5
+    code_fold: show
 ---
 
 
@@ -15,11 +18,13 @@ Now that we have our two estimators, we need to compare them and then somehow de
 
 ### The Formula
 
-The easiest way to see what is going on is to look at the formula (9.2 in Nielsen and Slatkin):
+The easiest way to see what is going on is to look at the formula (9.2 in @nielsen2013introduction):
 
-![NS9](https://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/NS9002.jpg)
+\(\large{D=\frac{\hat{\theta}_T - \hat{\theta}_W}{\sqrt{\hat{V}(\hat{\theta}_T - \hat{\theta}_W)}}}\)
 
-In this formula, &theta;<sub>T</sub> is the notation used for π; the denominator is the square root of the variance of the difference between the two estimators; it is thus always positive.  The numerator, on the other hand can be either positive or negative.  It is positive when π is large, which we've already seen occurs when there are many intermediate frequency sites; it is small (and D negative) when there are lots of sites with only a few variants each.
+
+
+In this formula, \(\theta_T\) is the notation used for π and  \(\theta_W\) is the Watterson estimator, based as we've seen previously on the number of segregating sites. the denominator is the square root of the variance of the difference between the two estimators; it is thus always positive.  The numerator, on the other hand can be either positive or negative.  It is positive when π is large, which we've already seen occurs when there are many intermediate frequency sites; it is small (and D negative) when there are lots of sites with only a few variants each.
 
 ### Some data
 
@@ -65,5 +70,3 @@ The first two hypotheses invoke natural selection as an explanation, something w
 
 As noted, Tajima's D test is one of the most widely used statistics in molecular population genetics, however we've left two problems outstanding.  First, while the expected value under our mutation-drift model is zero (or close to it), we don't know a lot about its distribution.  Second, even if we see a departure from expectation, the alternative biological hypotheses are complex and diverse.  To explore these questions, in the next unit we will see how simulation can provide real insight.
 
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

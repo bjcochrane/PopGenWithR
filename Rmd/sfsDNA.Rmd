@@ -9,7 +9,7 @@ output:
     toc_depth: 5
 ---
 
-### Background
+## The Site Frequency Spectrum
 
 Thus far, we have talked about the use of nucleotide diversity (π) and number of segregating sites (S) as possible summary statistics for characterizing DNA sequence variation.  However, there is more that can be extracted from a typical data set.  In particular, neither of these address the question of allele frequencies.  But when we are talking about DNA sequences, what do we mean by "allele"?  Let's consider sites as loci; further we can assume that each site has one of two states - ancestral or derived. Furthermore, we assume that a particular site only undergoes a single mutation, so that all sequence differences we observe when we compare two sequences are the result of unique mutational events.  This is what is known as the *infinite sites model*.   
 
@@ -92,4 +92,3 @@ par(mfrow=c(1,1))
 
 We see that we get a variety of spectra.  So how to sort through them?  Before we can address that, we need to turn to coalescent theory.
 
-### References

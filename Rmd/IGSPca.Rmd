@@ -1,10 +1,10 @@
 ---
-title: <center>Principal Components Analysis </center>
+title: <h1>Principal Components Analysis </h1>
 author: <center></center>
 date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
 output: 
     html_document:
-       css: Chapter.css
+       css: ~/Dropbox/Chapter.css
        toc: yes
        toc_depth: 5
 ---
@@ -24,12 +24,19 @@ In what we have done so far, we have been able to partition genetic variation am
 
 ### The essence of PCA
 
-PCA is, in simplest term, a way to reduce the dimensionality of multivariate data.  In a genetic context, we could have populations with allele frequencies at multiple loci or (even better) individual multilocus genotypes.  How do we take such variation and make sense of it, either visually or mathematically.
+PCA is, in simplest term, a way to reduce the dimensionality of multivariate data.  In a genetic context, we could have populations with allele frequencies at multiple loci or (even better) individual multilocus genotypes.  How do we take such variation and make sense of it, either visually or mathematically?
 
-We're going to start with a simple hypothetical example
+
+We're going to start with a simple hypothetical example, in which we look at allele frequencies for two loci in eight populations:
 
 ```{r}
 dat.samp <-data.frame(sample=1:8, p1=c(.32,.36,.58,.59,.78,.75,.85,.83),p2=c(.4,.55,.42,.78,.60,.90,.80,.95))
+dat.samp
+```
+
+Now, let's make an xy plot of the data:
+
+```{r}
 plot(dat.samp$p1,dat.samp$p2,ylim=c(0,1),xlim=c(0,1),xlab="p1",ylab="p2")
 segments(.36,.4,.85,.88,lty=2,col="red")
 segments(.57,.8,.77,.5,lty=2,col="blue")
@@ -39,7 +46,7 @@ When we look at these data, we see that the variation in it can be seen as havin
 
 ```{r}
 dat.pr <-prcomp(dat.samp[,2:3])
-biplot(dat.pr,var.axes=FALSE)
+biplot(dat.pr,var.axes=TRUE)
 summary(dat.pr)
 ```
 
@@ -63,11 +70,15 @@ And now, how can we make any sense of it?  This is where PCA begins to show its 
 
 ```{r}
 samp3.pr <-prcomp(dat.samp3[,2:4])
-biplot(samp3.pr,var.axes=FALSE)
+biplot(samp3.pr,var.axes=TRUE)
 summary(samp3.pr)
 ```
 
-Note that now, while the eight samples are relatively evenly distributed along PC1, PC2 clearly separates the samples into two groups - 1,2,5, and 6 vs. 3,4,7, and 8
+Note that now, while the eight samples are relatively evenly distributed along PC1, PC2 clearly separates the samples into two groups - 1,2,5, and 6 vs. 3,4,7, and 8.
+
+PCA is an example of what data scientists call "unsupervised learing". If you are interested in learning more, this video is an excellent overview of the method:
+
+<iframe width="100%" height="480" src="https://www.youtube.com/embed/ipyxSYXgzjQ" frameborder="0" allowfullscreen></iframe>
 
 ### Some real data
 

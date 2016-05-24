@@ -1,11 +1,12 @@
 ---
 title: 
-- <center>π and S - What do they Tell Us About Theta?</center>
+- <h1>π and S - What do they Tell Us About Theta?</h1>
 output:
   html_document:
-    css: Chapter.css
+    css: ../Chapter.css
     toc: yes
     toc_depth: 5
+    code_fold: show
 ---
 
 ```{r}
@@ -133,6 +134,6 @@ We can now see the basis for the different estimates we get for &theta; - one is
 
 E[π] = E[&theta;<sub>w</sub>] = &theta;
 
-So if our estimates are different, is it significant?  And if it is significant, what do we conclude?  That's where we have to go next.
+So if our estimates are different, is it significant?  And if it is significant, what do we conclude?  Before going on to the next section, you might want to view the video below, in which Mohammed Noor explores this question and introduces Tajima's D statistic.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+<iframe width="100%" height="360" src="https://www.youtube.com/embed/wiyay4YMq2A" frameborder="0" allowfullscreen></iframe>

@@ -1,17 +1,18 @@
 ---
-title: <center>DNA Sequence Variation - Introduction</center>
-date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
-bibliography:TPG.bib
+title: <h1>DNA Sequence Variation - Introduction</h1>
+date: <h2>`r format(Sys.Date(),format="%B %d %Y")`</h2>
+bibliography: ../TPG.bib
+csl:  ../genetics.csl.txt
 output:
   html_document:
-    css: Chapter.css
-    keep_md: yes
+    css: ../Chapter.css
     toc: yes
     toc_depth: 5
+    code_fold: show
 ---
 
 
-### Background
+## DNA Sequence Variation
 
 The most basic level of genetic variation is, of course, that of DNA sequence.  Indeed, we have been thinking about that implicitly up until this point; now, before going further, we need to make it explicit.  So our first objective will be to consider how we make such comparisons; from there we will ask how we can use those comparisons to make evolutionary inferences.
 
@@ -19,13 +20,18 @@ The most basic level of genetic variation is, of course, that of DNA sequence.  
 
 As an example, we are going to use data from the acp29 locus in *Drosophila melanogaster*,  Popset [11245776](http://www.ncbi.nlm.nih.gov/popset/11245776), downloaded as a FASTA file.  We will use the `rentrez` package to access the data directly:
 
-```{r}
+```{r,eval=FALSE,echo=FALSE}
 library(rentrez)
 
 dat.srch <-entrez_search("popset",term="11245776")
 dat <-entrez_fetch("popset",id=dat.srch$ids,rettype="fasta",retmode=xml)
 write(dat,file="./Data/acp29.fasta")
 acp29 <-read.FASTA("./Data/acp29.fasta")
+acp29
+```
+
+```{r}
+data(acp29)
 acp29
 ```
 
@@ -111,5 +117,3 @@ In this brief introduction, we have seen how we can quantify DNA sequence variat
 2.  What are the dynamics of the interaction between mutation and finite population size?
 3.  How can we make inferences about the processes that gave rise to an observed pattern of sequence variation?
 
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

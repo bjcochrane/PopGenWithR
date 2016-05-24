@@ -12,7 +12,7 @@ output:
 ---
 </br>
 
-### Population Genetics in 2016
+## Population Genetics in 2016
 
 Population genetics has a rich history.  The Hardy-Weinberg equilibrium dates back to the early part of the 20th century; the rich theoretical work of Fisher, Wright and Haldane in the 1920's and 1930's and the classic empirical work of Dobzhansky and others laid the groundwork for the selectionist-neutralist controversy of the mid-century, and the 1980's saw the Kingman [-@Kingman1982] coalescent and the beginnings of DNA sequence-based analysis of genetic variation.  But for most of its history, population genetics has been a field rich in theory but starving for data.
 
@@ -39,9 +39,17 @@ That is the approach we will be using, to the greatest extent possible.  And tha
 
 ### The Elements of this Project
 
+#### Publication and Revision
+
+This project is (and will continue to be) published as a set of interconnected html pages.  The reason for this is twofold.  First, by so doing, it is possible to include not only text and code, but also external figures, videos, etc. when appropriate.  Of course, there is some risk to that, in that links to external material can be ephemeral, however my philosophy is that while some dead links may be inevitable, this is a price we pay for what information can be incorporated from active ones.
+
+And this leads to the second reason for this approach, which is revision.  By using web-based publishing, it is a simple matter to make changes in content as needed and make the most recent versions available to readers.  Thus, each chapter includes a date, which is that of the most recent revision.  
+
 ####  Text and Code
 
-Most of the material in this project has been developed in the RStudio environment and published as html directly from it.
+Most of the material in this project has been developed in the RStudio environment and published as html directly from it.  For the most part, raw code is shown, however the reader can opt to hide some or all of it.  The original Rmd code is available on [github](http://www.github.com/bjcochrane/PopGenWithR) (and of course, the github-savvy reader could choose to clone the repository and tinker with the code at will).
+
+
 
 #### TeachingPopGen
 
@@ -65,4 +73,4 @@ library(TeachingPopGen)
 
 The R purist (and there are many) thinks first about how a problem can be approached purely in that environment.  But in the spirit of trying to be accessible to users with varying computer proficiency, there are references to other programs, and often times data manipulations outside of R may be recommended.  Again, the goal is not to train programmers but rather to teach population genetics.  Thus, for example, Excel, especially with the Genalex add-on, is often a better way to get at some problems.  Similarly, it would be foolish to ignore elegant standalone packages like STRUCTURE and BEAST.  But all of those packages produce numerical output, and at times, working with them in R provides unique new opportunities for exploration.
 
-### References
+

@@ -14,10 +14,11 @@ library(knitr)
 ```
 
 
-### Background
+##  Mitochondrial DNA and Haplotypes - A Special Case
 
 Organellar DNA has a rich history in population genetics.  In the late 1970's, John Avise, then starting his career, proposed that animal mitochondrial DNA has some unique properties that make it suitable for use in population genetic studies.  In particular
 
+1.  It is genetically haploid.
 1.  It does not recombine
 2.  It is uniparentally (usually maternally) inherited.
 3.  Experimental work (at the time involving restriction site analysis) showed it to be highly variable.
@@ -36,7 +37,7 @@ The intent here is to introduce mtDNA manipulation, so that you can consider it 
 The data we are going to look at are from popset [322367799](http://www.ncbi.nlm.nih.gov/popset/322367799), a collection of control region sequences from various dog breeds.  The data have previously been downlaoded as a FASTA file, so we can read it in as follows:
 
 ```{r}
-dog.dat <-read.FASTA("./Data/DogMt.fasta")
+dog.dat <-read.FASTA("../Data/DogMt.fasta")
 dog.dat
 ```
 
