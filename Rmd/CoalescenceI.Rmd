@@ -17,15 +17,15 @@ library(phangorn)
 library(TeachingPopGen)
 ```
 
-### Background
+## Exploring Gene Genealogies
 
 One of the two key tenets of Darwinian evolution is common descent - the idea that any two organisms share a common ancestor.  The same principle holds for alleles - two homologous sequences, regardless of their current differences, at some point in the past shared a common ancestor.  The problem is that, unlike reproductively isolated species, the relationships are reticulated, so that different pairs of alleles have different ancestries.  The objective of coalescence analysis is to develop the necessary theory to generate expectations regarding the process, and then analyze actual data within that framework.  The theory can be daunting, however it is worth the effort, since it offers the promise of providing robust insights into population and species histories.
 
 ### A Visual introduction
 
-Before delving into the theory, we can consider the problem qualitatively.  The data we have consist of homologous DNA sequences, so we know those sequences have some pattern of ancestry.  A phylogeneticist interested in that history would use one or more available algorithm to construct a phylogenetic tree, under the assumption that the most similar sequences share the most recent common ancestry.  We can do that with our acp29 data:
+Before delving into the theory, we can consider the problem qualitatively.  The data we have consist of homologous DNA sequences, so we know those sequences have some pattern of ancestry.  A phylogeneticist interested in that history would use one or more available algorithm to construct a phylogenetic tree, under the assumption that the most similar sequences share the most recent common ancestry.  We can do that with our acp29 data, reading it as follows:
 
-#### Read the data
+
 
 ```{r}
 data(acp29) #read the data from a local file
@@ -36,7 +36,7 @@ names(acp29)<-c(1:17) # rename the sequences to clean up the output
 
 Let's start with a possible tree that purports to trace our sequences to a common ancestor.  The easiest way to do that is with a function in the package `phangorn`[@phangorn] (which may need to be installed in the usual way)
 
-```{r, eval=FALSE}
+```{r}
 #install.packages("phangorn") # uncomment if you need to install
 library (phangorn) #note that this make take a while to load
 ```
@@ -62,6 +62,7 @@ tr <-ms(nsam=17,nreps=6,opts ="-s 15 -r 0 702 -T" )
 ```
 
 #### Plotting the trees
+
 We will talk a lot more about using ms output, but for now, we can use the read.tree function in `ape`[@Paradis2004] to extract the data and then plot the trees:
 
 ```{r, results='hide', fig.height=15}
@@ -77,6 +78,4 @@ These could be thought of as the gene genealogies of six different genes, **all 
 
 Everything we have covered assumes that a given set of alleles has a common ancestor (usually referred to as MRCA, or most recent common ancestor).  We have also assumed that the processes that gave rise to the set of alleles we've sequenced are the stochastic processes of mutation and drift, which are the components that go into &theta;, the neutral parameter.  What we see, however, is that there are, even for a small sample of alleles, a nearly infinite number of geneologies that can give rise to the observed data.  What we will now do is to divert into theory for a bit and ask how we might use some of the work we have done in analyzing DNA polymorphisms to see how we can better quantify the coalescent process.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-### References

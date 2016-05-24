@@ -11,7 +11,7 @@ output:
     toc_depth: 5
 ---
 
-### Introduction
+## The Underlying Theory
 
 So keep in mind - our essential questions is the following:  *Given an observed set of allelic DNA sequences, what can we infer about the evolutionary processes that gave rise to them?*  For now, we're going to simplify the question by only asking whether the data can be explained by the processes of mutation and drift occurring in a finite population.  Furthermore, since we are working backwards from extant species, we needn't be concerned about the vast number of new variants that would have been lost by the processes we've already discussed.
 
@@ -27,11 +27,11 @@ Suppose we go back r generations.  What we want to figure first is the probabili
 
 \(P\{coalescence\,in\,generation\,r\}= (1-\frac{1}{2N})^{r-1}*\frac{1}{2N}\)
 
-Let's look at this a little more closely.  What we are saying is that there is a certain probability, over some time interval t, that an event (coalescence) occurs, which, we've seen is 1/2N.  Now for the next interval t, the same probability exists, only this now a sample size of (1-1/(2N)).  This would continue on out as t -> infinity.  What this is is a geometric distribution, described in Appendix A. We can summarize it as follows:
+Let's look at this a little more closely.  What we are saying is that there is a certain probability, over some time interval t, that an event (coalescence) occurs, which, we've seen is 1/2N.  Now for the next interval t, the same probability exists, only this now a sample size of (1-1/(2N)).  This would continue on out as t -> infinity.  What this is is a geometric distribution.  We can summarize it as follows:
 
 Suppose there is some event that occurs with probability p during a particular time period.  *What we are examining is the time to the first occurrence of the event.*  In our case, the event is the most recent coalescent event.
 
-Rather than get into the math of it, let's look at what our expectation would be, using simulation.  Let's assume a population of 100, with 2N thus =200, and generate 1000 geometrically distributed random values
+Rather than get into the math of it, let's look at what our expectation would be, using simulation.  Let's assume a population of 100, with 2N thus = 200, and generate 1000 geometrically distributed random values
 
 ```{r}
 N <-100
@@ -148,10 +148,4 @@ The top panel shows the distribution of TMRCA; the bottom one that of total leng
 ### Summary
 
 Remember where we want to be.  We want to be able to find summary statistics that describe the coalescent process, which we can then use to compare observed data to the expected distribution.  Now we have two numbers for coalescence - TMRCA and total tree length - and we can simulate both their expected values and their distributions.  But remember the summary statistics we have for DNA - π (mean pairwise differences) and S (number of segregating sites).  How can we bring these together?  That's where we're headed next.
-
-### References
-
-```{r,echo=FALSE,message=FALSE}
-write.bibtex(file="bibliography.bib")
-```
 
