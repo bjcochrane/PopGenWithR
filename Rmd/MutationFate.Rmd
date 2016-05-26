@@ -1,13 +1,15 @@
 ---
-title: <center>The Fate of New Mutations</center>
+title: <h1>The Fate of New Mutations</h1>
 date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
+bibliography: ../TPG.bib
 output:
   html_document:
     css: ~/Chapter.css
     toc: yes
     toc_depth: 5
+    code_fold: show
 ---
-### Background
+## The Fate of a Mutation
 
 So we see that mutation is random with respect to adaptation, and that the occurrence of mutation is rare.  But it does happen, so we need to look at the expected fate of a mutation.  In so doing we will think about three stages:
 
@@ -15,7 +17,7 @@ So we see that mutation is random with respect to adaptation, and that the occur
 2.  We know that with genetic drift, the ultimate fate of all alleles are fixation aor loss.  How does mutation enter into that process?
 3.  When we compare taxa at the molecular level, what we usually look for are fixed differences, or substitutions, at homologous positions.  That means that some mutations occur in a lineage and go to fixation.  What are the dynamics of that process?  How long does it take?
 
-In his chapter on stochastic processes in evolution, Gillespie (2006) begins with "Pity the fate of the  mutation".  Why?  It is worth exploring this question in some detail.
+In his chapter on stochastic processes in evolution, @Gillespie2006 begins with "Pity the fate of the  mutation".  Why?  It is worth exploring this question in some detail.
 
 #### Setting the stage - the first generation
 
@@ -35,7 +37,7 @@ So approximately 36% of the time, *by chance alone*  that mutation will be lost.
 
 #### What would happen in subsequent generations?
 
-For this, we turn away from our simulation approach.  It turns out that [Fisher, 1930, pp 73-77](https://ia600301.us.archive.org/29/items/geneticaltheoryo031631mbp/geneticaltheoryo031631mbp.pdf) has a pretty straight forward analytical one.  
+For this, we turn away from our simulation approach.  It turns out that @Fisher1930 has a pretty straight forward analytical one.  
 
 We start by noting that, while we did it via simulation, we could also have calculated the probability associated with the zero class in a Poisson distribution with mean 1 by the formula e^c(x-1)^, where x is the probability of leaving zero ancestors in the previous generation and c is the mean number of progeny (in our case 1)
 
@@ -131,4 +133,3 @@ There are a few general responses we can make at this point.  First, although mu
 
 Not so fast.  Before we get to that, we need to consider the issue of population size more closely.  For that, we will now incorporate mutation into our thinking about genetic drift
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

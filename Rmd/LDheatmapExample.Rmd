@@ -8,7 +8,7 @@ output:
        toc: yes
        toc_depth: 5
 ---
-### Background
+## Visualizing Multilocus Linkage Disequilibrium
 
 While it is techinically possible to think of linkage disequilibrium among more than two loci, in fact the calculations are onerous and the values rapidly converge on zero.  Thus the usual procedure when considering a large number of linked SNPs is to calculate the data in a pairwise fashion, and then construct a "heatmap", in which a color matrix is produced, and the intensity of the color (usually yellow to red) is correlated with the degree of LD.
 
@@ -32,7 +32,7 @@ library(TeachingPopGen)
 ```
 ### A hypothetical example
 
-suppose we have the following situation:  We have genotyped three SNPs (A, B and C) in a population, determined the haplotype relationships (not a trivial undertaking but doable) and found The following values for pairwise linkage disequilibrium:
+Suppose we have the following situation:  We have genotyped three SNPs (A, B and C) in a population, determined the haplotype relationships (not a trivial undertaking but doable) and found The following values for pairwise linkage disequilibrium:
 
 SNP1|SNP2|D
 ---|---|---
@@ -96,4 +96,4 @@ LDheatmap(hya.ceu[[1]],hya.ceu[[2]],col=heat.colors(20),text=FALSE,title="CEU")
 LDheatmap(hya.chb[[1]],hya.chb[[2]],col=heat.colors(20),text=FALSE,title="CHB")
 ```
 
-Note that, in general, LD is higher in the Chinese population than in the European one.  In fact, this is an example we may return to later - it has been hypothesized by Ding et al.(2014) that the segment in question contains a haplotype derived from Denisovans, which has been subsequently the target of positive selection in Asian populations.
+Note that, in general, LD is higher in the Chinese population than in the European one.  In fact, this is an example we may return to later - it has been hypothesized by @Ding2014 that the segment in question contains a haplotype derived from Denisovans, which has been subsequently the target of positive selection in Asian populations.

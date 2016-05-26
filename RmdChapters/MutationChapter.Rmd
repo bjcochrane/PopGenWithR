@@ -1,5 +1,5 @@
 ---
-title: <h1>Introduction</h1>
+title: <h1>Mutation</h1>
 author: <h2></h2>
 date: <h2>`r format(Sys.Date(),format="%B %d %Y")`</h2>
 bibliography: ../TPG.bib
@@ -11,28 +11,17 @@ output:
        toc_depth: 5
        code_folding: show
 ---
-```{r child="../Rmd/Introduction.Rmd"}
+
+```{r,child="../Rmd/Mutation.Rmd"}
 
 ```
 
----
-
-```{r child="../Rmd/NewIntroR.Rmd"}
+```{r,child="../Rmd/MutationFate.Rmd"}
 
 ```
 
----
-
-```{r child="../Rmd/MethodBiblio.Rmd"}
+```{r child="../Rmd/MutModels.Rmd"}
 
 ```
-
----
-
-```{r child="../Rmd/Bibliography.Rmd"}
-
-```
-
----
 
 ## References

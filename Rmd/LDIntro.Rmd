@@ -1,6 +1,6 @@
 ---
 title: 
-- <center> Equilibria II </br> Gametic Phase (Linkage) Disequilibrium</center>
+- <h1> Equilibria II </br> Gametic Phase (Linkage) Disequilibrium</h1>
 date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
 output:
   html_document:
@@ -10,7 +10,7 @@ output:
 ---
 
 
-### Background
+##  What is it?
 
 Up to this point, we have by and large been treating different genes as independent entities, either by looking at them one at a time, or when looking at multiple genes, assuming that (as Mendel proposed in the "law" of independent assortment) they behave independently of one another.  But, of course, we know that genes occur on chromosomes, and that the closer two loci are to one another, the more likely they are to cosegregate in meiosis.  So the question then becomes how this impacts the distribution of allelic variation in populations.  In this unit we will look at this question theoretically; we will subsequently address how we can infer the effects of linkage from real data.
 
@@ -40,8 +40,11 @@ Gamete|Scenario 1 | Scenario 2
 
 Now, suppose, instead of having done the controlled cross, we actually were determining haplotype frequencies in a population.  Under the null hypothesis of independent assortment, we would expect results like case 1 above to occur - that is, the frequencies of gametes should be simply the products of the frequencies of the alleles making up that gamete.  So let's define a statistic D to be simply the difference between the observed and the expected number of gametes or 
 
-D = f(AiBi)obs-f(AiBi)exp 
-  = f(AiBi)-f(Ai)f(Bi) 
+\(\large{D = f(A_iB_i)_{obs} - f(A_iB_i)_{exp}}\) 
+
+\(\large{= f(A_iB_i) - f(A_i)f(B_i)}\)
+
+
   
 Here's a trivial little R function to do that calculation.  It takes as input the frequency of two alleles, one at each locus, and that of the gamete containing those alleles.
 
@@ -130,7 +133,33 @@ And we see that the values we obtain are much lower.  But referring back to the 
 
 Nielsen and Slatkin (page 110-111) have a nice explanation of this.  Their argument is summarized briefly below.
 
-![gamete frequencies](http://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/Dmax.png)
+First, as we have seen above, the gametes can be described as follows:
+
+\(\large{f_{AB} = f_Af_B+D}\) 
+
+\(\large{f_{Ab}=f_Af_b-D}\)  
+
+\(\large{f_{aB}=f_af_B-D}\)  
+
+\(\large{f_{ab}=f_af_b+D}\)  
+
+Second, knowing that gametes cannot have a negative frequency, we can write the following inequalities.
+
+\(\large{0 \leq f_Af_B+D}\)
+
+\(\large{0 \leq f_Af_b-D}\)
+
+\(\large{0 \leq f_af_B-D}\)
+
+\(\large{0 \leq f_af_b+D}\)
+
+And from these, we can do a little rearrangement to come up with the following:
+
+\(\large{+D \leq \min{(f_Af_b,f_af_B)}}\)
+
+\(\large{-D \leq \min{(f_Af_B,f_aF_b)}}\)
+
+
 
 We can explore this relationship by writing another simple R function, which will take as inputs the four allele frequencies and return values of Dmx and Dmin
 
@@ -198,12 +227,12 @@ Dp3 <-.01/Dm2[1]
 Dp4 <-.03/Dm2[1]
 Dp3; Dp4; Dp4-Dp3
 ```
-So the same absolute magnitude of difference in observed values of D gives quite different differences in D'.  Thus, for statistical analysis, this measure is problematic.  However, again per Nielsen and Slatkin 
+So the same absolute magnitude of difference in observed values of D gives quite different differences in D'.  Thus, for statistical analysis, this measure is problematic.  However, again per @nielsen2013introduction: 
 
 1.  If one gamete is missing from the sample, then D'= 1
 2.  In the case of a polymorphic locus (A/a) and a monomorphic one (B/B), if a new mutation occurs, such that there is now one Ab or ab gamete, D' will also equal 1, since until recombination occurs, one gamete will be missing.
 
-#### r^2^"`r Sys.Date()`"
+#### r^2^
 
 As we saw with D', one of the problems we have to deal with is that, depending on which gametes (coupling or repulsion) are in excess, the sign of D can differ.  However, we consider both to be departures from expectation, so we would like both to be positive.  As we did with the chi square, we could square our observed values
 
@@ -256,4 +285,3 @@ Finally, it is very important to note that all of the above assumes that we can 
 We will address these questions soon.  But before doing so, we have to remember that recombination is an ongoing process and ask what that says, in theory, about the fate of linkage disequilibrium.
 
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

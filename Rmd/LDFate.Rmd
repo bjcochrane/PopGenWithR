@@ -1,6 +1,6 @@
 ---
 title: 
-- <center> The Fate of Linkage Disequilibrium</center>
+- <h1> The Fate of Linkage Disequilibrium</h1>
 date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
 output:
   html_document:
@@ -9,40 +9,40 @@ output:
     toc_depth: 5
 ---
 
-### Background
+## The Fate of Linkage Diequilibrium
 
 Having seen how we measure linkage disequilibrium, we need to address what the fate of disequilibrium would be in an equilibrium population.  We will do so in the context of a very simple model, that of two genes on the same chromosome, between which recombination occurs with some frequency r.
 
 
 ### The scenario
 
-Suppose we have two genes that are linked but undergo recombination some percent of the time (call it r).  Some fraction of those gametes are of the type A1B1.    We let the population mate at random (and assume recombination occurs in both sexes).  What happens to f(A1B1) after 1 generation? 
+Suppose we have two genes that are linked but undergo recombination some percent of the time (call it r).  Some fraction of those gametes are of the type \(A_1B_1\).    We let the population mate at random (and assume recombination occurs in both sexes).  What happens to \(f(A_1B_1)\) after 1 generation? 
 
 We would get these gametes from two possible sources
 
-1. Nonrecombinant -  these would be all of the A1B1 gametes that do **not** undergo recombination.  Since a fraction r do recombine, the nonrecombinant fraction would be 1-r, and  f'(A1B1)=(1-r)f(AB)
-2. Recombinant - Assuming that mating is random, then for that fraction of gametes that undergo recombination ,r, the probability of it being A1B1 is simply r multiplied by the allele frequencies, or r(f(A1)f(B1))
+1. Nonrecombinant -  these would be all of the A1B1 gametes that do **not** undergo recombination.  Since a fraction r do recombine, the nonrecombinant fraction would be 1-r, and  \(f'(A_1B_1)=(1-r)f(AB)\)
+2. Recombinant - Assuming that mating is random, then for that fraction of gametes that undergo recombination ,r, the probability of it being \(A_1B_1\) is simply r multiplied by the allele frequencies, or \(r(f(A_1)f(B_1))\).
 
 Taken together, the expected frequency in the next generation (f'(A1B1)) is simply the sum of these, or 
 
-> f'(A1B1) = (1-r)(fA1B1)+rf(A1)f(B1)
+\(f'(A_1B_1) = (1-r)(fA_1B_1)+rf(A_1)f(B_1)\)
 
 Remmber also that 
 
-D = f(A1B1) - f(A)f(B)
+\(D = f(A_1B_1) - f(A)f(B)\)
 
-we can  subtract f(A1)f(B1) from both sides, do a little algebra (see Felsenstein, pg 18 for more details),  and get  
+we can  subtract \(f(A_1)f(B_1)\) from both sides, do a little algebra (see @FelsensteinBook, pg 18 for more details),  and get  
 
 
-> D'=(1-r)D<sub>0</sub>
+\(D'=(1-r)D_0\)
 
 If we then repeat this process for a second generation
 
-> D'' =(1-r)^2^ Do
+\(D'' =(1-r)^2 Do\)
  
   And at time t
 
-> Dt = (1-r)^t^ Do
+\(Dt = (1-r)^t Do \)
 
 4.  So let's look at this graphically for various values of r
 
@@ -120,7 +120,7 @@ As will become a common theme throughout, we see that in finite populations (whi
 
 ### A Real Example
 
-And, just to bring some actual data below, [Clegg et al.(1978)](http://link.springer.com/article/10.1007/BF00127505) did an interesting experiment in which they monitored changes in allele and gamete frequencies of two allozyme loci initially in linkage disequilibrium with a dominant lethal allele in *Drosopshila melanogaster*. In four replicate populations, they observed the following:
+And, just to bring some actual data below, @Clegg1978 did an interesting experiment in which they monitored changes in allele and gamete frequencies of two allozyme loci initially in linkage disequilibrium with a dominant lethal allele in *Drosopshila melanogaster*. In four replicate populations, they observed the following:
 
 ![Clegg](../images/CleggLD.jpg)
 
@@ -134,6 +134,5 @@ Their conclusion was that, as a result of recombination, particular haploytpes w
 
 ### Conclusions
 
-So is linkage equilibrium, like the Hardy-Weinberg equilibrium, an expected property of ideal populations?  The answer is yes, but with a major caveat.  That is, in the case of Hardy-Weinberg equilibrium, it is easy to show that if a population falls out of equilibrium, then a generation of random mating (at least for autosomal loci) will restore it.  Not so in the case of linkage equilibrium, however - as we have seen, if LD exists, the population does return to equilibrium (D=0), but only exponentially, with the rate dependent on the frequency of recombination between the loci in question
+So is linkage equilibrium, like the Hardy-Weinberg equilibrium, an expected property of ideal populations?  The answer is yes, but with a major caveat.  That is, in the case of Hardy-Weinberg equilibrium, it is easy to show that if a population falls out of equilibrium, then a generation of random mating (at least for autosomal loci) will restore it.  Not so in the case of linkage equilibrium, however - as we have seen, if LD exists, the population does return to equilibrium (D=0), but only exponentially, with the rate dependent on the frequency of recombination between the loci in question.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.en_US">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.

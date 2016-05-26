@@ -1,13 +1,16 @@
 ---
 title: 
-- <center>Mutation Models</center>
+- <h1>Mutation Models</h1>
 date: <center>`r format(Sys.time(), '%d %B, %Y')`</center>
+bibliography: ../TPG.bib
+csl: ../genetics.csl.txt
 output:
   html_document:
-    css: ~/Chapter.css
+    css: ../Chapter.css
     keep_md: yes
     toc: yes
     toc_depth: 5
+    code_fold: show
 ---
 
 ```{r,echo=FALSE}
@@ -15,9 +18,9 @@ library(Matrix)
 library(phangorn)
 ```
 
-### Background
+## Mutation Models
 
-We now need to think a little bit more about mutation as an evolutionary process.  The data we have available to us are (usually) two or more contemporary sequences, and we can determine the number of *differences* between them.  However, what we are interested in as a process is the number *substitutions* that have occurred giving rise to those differences.  To get at that question, we need to think in more detail about what a sequence is.  In brief
+We now need to think a little bit more about mutation as an evolutionary process.  In particular, and for the first time, we need to really think about genes as DNA sequences.  The data we have available to us are (usually) two or more contemporary sequences, and we can determine the number of *differences* between them.  However, what we are interested in as a process is the number *substitutions* that have occurred giving rise to those differences.  To get at that question, we need to think in more detail about what a sequence is.  In brief
 
 1.  It's a set of k **sites**
 2.  Each site of a particular sequence can be occupied by one of the four bases - A, G, C, or T.
@@ -29,20 +32,20 @@ We now need to think a little bit more about mutation as an evolutionary process
 
 For our purposes, we're going to assume that at a given time, the probability of a given mutation is constant and is the same for each position being considered.  Thus, we can think of there being a stable *Transition matrix* conisting of the probabilities of all possible state changes (no change, transition, transversion).  And if our model is "time-reversible" then p(A - > G) is the same as p(G ->A) and the matrix is symmetric.
 
-![MutationMatrix](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/images/MutationMatrix.png)
+![Figure 1](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/images/MutationMatrix.png)
 
 ### The Jukes Cantor Model
 
 We will start with the simplest model.  In it we assume that there are four possible states at each position (A, G, C, and T), and that there is some rate &alpha; at which one base mutates to one of the other three.  Thus, for example, if we start with an A at time t, at time t+1, the probability of no mutation coccuring would be 
 
-P(AA) = 1-3&alpha; (remembering that mutation occurs to each of three bases with rate &alpha;)
+\(p_{a,a}= 1-3\alpha\) (remembering that mutation occurs to each of three bases with rate &alpha;)
 
-and P(A ->C), for example, would be &alpha;
+and \(p_{a,c}\), for example, would be &alpha;
 
 For simplicity's sake for the moment, let's set alpha equal to one, so that we are using substitution rate as our time unit.  We can also think that there are three ways we can lose a particular base (as represented on the diagonal) and one way we can gain it (the other elements of the matrix.  We can thus start with a matrix Q, which shows the *relative rates* of all possible transitions:
 
 ```{r}
-Q1 <-matrix(c(-3,1,1,1,1,-3,1,1,1,1,-3,1,1,1,1,-3),nrow=4)
+Q1 <-matrix(c(-3,1,1,1,1,-3,1,1,1,1,-3,1,1,1,1,-3), nrow=4)
 Q1
 ```
 
@@ -54,12 +57,14 @@ Q2
 
 ```
 
-This is what is known as the "instantaneous transition rate matrix".  But what we need is a "transition probability matrix".  I turns out that this is pretty easy to get (at least with a computer) - we simply exponentiate our rate matrix:
+This is what is known as the "instantaneous transition rate matrix".  But what we need is a "transition probability matrix".  It turns out that this is pretty easy to get (at least with a computer) - we simply exponentiate our rate matrix:
 
 ```{r}
 Qt <-expm(Q2)
 Qt
 ```
+
+Note that the rows and columns of this matrix sum to one.  This is as it should be - if we refer back to our original matrix above (Figure 1), we realize that the first each row can be thought of as the fate of a particular base, and so the probability that it will be A, G, C, or T after one generation must be one.
 
 Down the road, we will return to the elements of this matrix and look at what they mean with respect to relating number of substitutions to observed sequence differences, but for now, let's ask the following question:  Given that there is a position that is fixed for A, what would the base frequencies be after one time unit?  To do that, we simply use matrix multiplication to calculate the new base frequencies
 
@@ -92,9 +97,9 @@ What we see is that both lines assymptotically approach .25, reflective of the f
 
 What we have done so far is obviously simplistic - as noted at the outset, other factors are involved as well.  One of those is that it is well established that transition mutations occur more frequently than transversions.  In the following, k is a rate associated with transitions and &beta; with transversions:
 
-![K80](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/images/K80.png)
+![](https://dl.dropboxusercontent.com/u/9752688/PopGenWithR/images/K80.png)
 
-If we set k to 4 and &beta/ to 1/(2+k), then we can get first, our transition rate matrix:
+If we set k to 4 and &beta; to 1/(2+k), then we can get  our transition rate matrix:
 
 ```{r}
 k=4
@@ -126,7 +131,7 @@ So we see that the transition probabilities are higher than the transversion, al
 
 ### Choosing models
 
-There are three additional models that are implemented in BEAST, and each one of them has even more twists that can be specified.  
+There are three additional models that are commonly used in modeling the evolutionary process, and each one of them has even more twists that can be specified.  
 
 2.  The Felsenstein model, which incorporates base composition
 3.  The HKY model combines both base composition and transition-transversion differences, along with variable rates, into what is at present the most widely used model.
@@ -135,7 +140,7 @@ There are three additional models that are implemented in BEAST, and each one of
 So which should we use?  There are two possible approaches
 
 1.  Keep it simple.  As the models become more complex, there are more parameters that must be estimated from the data.  This is risky - there may simply not be enough data to come up with accurate assessments of each.
-2.  Compare the different models.  Here, we won't go into great detail, but there is a procedure that does that, which is implemented in the phangorn package of R.  An example, using the demo data we generated for our initial BEAST run, is shown below:
+2.  Compare the different models.  Here, we won't go into great detail, but there is a procedure that does that, which is implemented in the phangorn package of R.  An example, We will look at a small simulated DNA sequence data set:
 
 ```{r}
 dat <-read.FASTA("../BEAST/demo1.fasta")
@@ -146,7 +151,7 @@ dat.mt <-modelTest(dat.phy,G=FALSE,I=FALSE)
 dat.mt[with(dat.mt,order(dat.mt$BIC)),c(1:3,6)]
 ```
 
-Here, the models are listed from the best fit to the worst, and we find out that, for these data, the Jukes and Cantor model works fine.  But that's the model we did the simulation with, so that is no surprise.  What if we use some real data?  We can use the data from fur seals that we did skyline plots with (and will use again in BEAST) as follows
+Here, the models are listed from the best fit to the worst, and we find out that, for these data, the Jukes and Cantor model works fine.  But in fact that's the model that was used to simulate the data, so that is no surprise.  What if we use some real data?  We can use some mitochondrial DNA sequences from fur seals [@Hoffman2011] as an example.
 
 ```{r}
 data(furseals)
@@ -158,31 +163,13 @@ fur.mt[with(fur.mt,order(fur.mt$BIC)),c(1:3,6)]
 
 Now we see that it is the HKY model that best fits the data, while the JC model is the worst.  Again, this is as we expected, as the HKY model was explicitly developed to be applicable to mammalian mitochondrial DNA.
 
-
-### A Note on Rates
-
-
-With BEAST, one can either use a predetermined substitution rate (preferably derived from independent data) or ask the program to estimate it.  In either case, the rate that BEAST works from is substitutions/site/unit time.  And if you can estimate of the rate as part of the model (i. e. you have one or more calibration points), you do need to specify a prior distribution.  Here, the authors recommend selecting a log-normal distribution, for which you specify a mean and standard deviation.  In one of the worked examples (RSV), for example, the recommendation is for a log-normal distribution with mean of -2 and standard deviation of 1.25.  This distribution looks like the following
-
-```{r}
-x <-seq(.001,2,.001)
-y <-dlnorm(x,-2,1.25)
-plot(x,y,type="l")
-mean(y)
-quantile(y,c(0.025,.975))
-```
-
-So in this case, you would be restricting your prior to a range of something like .015 to 4.2 substitutions/site/year, a range that is reasonable for viral evolution.
-
 ### Summary
 
-So at this point, we need to review the basic approach we are using
+From what we have covered in this chapter, there are a number of points that need to be re-emphasized.
 
+1.  Mutation is random with respect to mutation
+2.  The fate of most new mutations is that they are lost.
+3.  Those that are not lost are what underly observed sequence differences
+4.  The challenge for the evolutionary geneticist is to infer the number of substitutions that occur based on observed sequence differences.
 
-1.  We want to create a posterior distribution of gene genealogies that best explain the data.
-2.  To do so, we have to specify a tree model (constant, skyline, etc.)
-3.  We need to select a mutation model and set appropriate prior distributions for its parameters.
-4.  With all that (plus more we haven't gotten to yet), we put BEAST to work to find the posteriors.
-
-And then comes the analysis of the results.  We will be moving to that next, but first, we'll work through a couple of real data examples.
-
+But suppose we can estimate rates.  Could we then use sequence data to make inferences about evolutionary history?  The short answer is that we can, but before doing so we need to explore the dynamics of allele frequencies and gene genealogies in finite populations.

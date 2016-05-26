@@ -1,13 +1,17 @@
 ---
-title: <center>Mutation</center>
+title: <h1>Mutation</h1>
+date:  <h2>`r format(Sys.Date(),format="%B %d %Y")`</h2>
+bibliography: ../TPG.bib
+csl:  ../genetics.csl.txt
 output:
   html_document:
-    css: ~/Chapter.css
+    css: ../Chapter.css
     toc: yes
     toc_depth: 5
+    code_fold: show
 ---
 
-### Background
+## Mutation - Random or Adaptive?
 
 Look in any introductory biology, genetics, or evolution text, and you will likely find the following statements made in some form, often quite dogmatically
 
@@ -29,18 +33,18 @@ The idea that mutation is a random process is so engrained in modern biology tha
 1.  The mutations occurred at random, while the bacteria were being grown *in the absence of T4*.
 
 
-In 1943, [Luria and Delbruck](http://www.genetics.org/content/28/6/491.full.pdf) did exactly in this experiment, but in a way that allowed them to elegantly distinguish between the two hypotheses.  The basic experiment was simple - grow several cultures of sensitive cells as described above, and then plate samples of those  cultures on T4-containing agar plates.  Count the resistant colonies on the replicate plates and then compute the mean and variance.  
+@Luria1943 did exactly  this experiment, but in a way that allowed them to elegantly distinguish between the two hypotheses.  The basic experiment was simple - grow several cultures of sensitive cells as described above, and then plate samples of those  cultures on T4-containing agar plates.  Count the resistant colonies on the replicate plates and then compute the mean and variance.  
 
 So what does that give us?  Consider the two possibilities; in both cases recognizing that the number of mutations that occurs relative to the total number of bacterial cells is quite small
 
 #### Hypothesis I - Mutations are adaptive.
 
-If the mutations occur in response to T4, then the probability of mutations occurring on the different plates would be the same, since they are all being exposed to the same mutation-inducing agent (the bacteriophage).  For such a rare event (sort of akin to the probability of being struck by lightning), the most likely event on a given plate would be the occurrence of a small number of resistant colonies (perhaps even zero), and the probabilities of larger numbers occurring would be smaller - a classic Poisson process.
+If the mutations occur in response to T4, then the probability of mutations occurring on the different plates would be the same, since they are all being exposed to the same mutation-inducing agent (the bacteriophage).  For such a rare event (sort of akin to the probability of an auto accident occurring at a particular intersection on a given day), the most likely event on a given plate would be the occurrence of a small number of resistant colonies (perhaps even zero), and the probabilities of larger numbers occurring would be smaller - a classic Poisson process.
 
 As an aside, a Poisson process is one in which a particular event occurs with some probability per unit time.  Examples might be
 
 1.  The number of cars passing a particular point in a given period of time.
-2.  The number of persons killed by lightening per year.
+2.  The number of persons killed by lightning per year.
 3.  In our case, the number of mutations that occur in response to T4 per plate.
 
 The classic example of a Poisson process is the number of times Prussian Cavalry officers were killed by horse kicks between 1875 and 1894.  Data were maintained for sixteen companies and are widely available on the web.  We could look at it in a couple of ways:
@@ -84,13 +88,13 @@ And we see that they are very close.  So getting back to the experiment, this le
 
 #### Hypothesis 2 - Mutation is random
 
-Now let us see what we would expect if mutation did not occur n response to selection, but rather occurred at random while the cells were growing *in the absence of the selective agent*.  Remember that Luria and Delbruck grew multiple independent cultures, which were the source of bacteria for plating.  If mutation is random, then in  some cultures, it might occur early in the growth period, and through subsequent rounds of cell division produce a large number of progeny.  In others, it might occur late, shortly before plating, so that only a small number of resistant cells would be present at the time of plating.  The result would be an extremely large variance in the number of resistant colonies on the "replicate" plates.  Predicting the exact distribution under this hypothesis is not trivial; to quote [Harmon and Ycart (2012)](http://projecteuclid.org/download/pdfview_1/euclid.ejs/1343310297), "It can be interpreted as a compound Poisson distribution (for the number of mutations) of exponential mixtures (for the developing time of mutant clones) of geometric distributions (for the number of cells produced by a mutant clone in a given time)." While numerous solutions (one of which we will briefly implement below) have been proposed, for our purposes at the moment, we can make the following prediction:
+Now let us see what we would expect if mutation did not occur n response to selection, but rather occurred at random while the cells were growing *in the absence of the selective agent*.  Remember that Luria and Delbruck grew multiple independent cultures, which were the source of bacteria for plating.  If mutation is random, then in  some cultures, it might occur early in the growth period, and through subsequent rounds of cell division produce a large number of progeny.  In others, it might occur late, shortly before plating, so that only a small number of resistant cells would be present at the time of plating.  The result would be an extremely large variance in the number of resistant colonies on the "replicate" plates.  Predicting the exact distribution under this hypothesis is not trivial; to quote @EsHamon2012, "It can be interpreted as a compound Poisson distribution (for the number of mutations) of exponential mixtures (for the developing time of mutant clones) of geometric distributions (for the number of cells produced by a mutant clone in a given time)." While numerous solutions (one of which we will briefly implement below) have been proposed, for our purposes at the moment, we can make the following prediction:
 
 **If mutation is random, then we would expect the variance in number of colonies on the plate to greatly exceed the mean**
 
 #### The results
 
-So what did Luria and Delbruck actually find?  Here, We will use some functions developed by Hamon and Ycart; included in their material are some data from one of the original experiments, in which 42 plates were scored:
+So what did Luria and Delbruck actually find?  Here, We will use some functions developed by EsHamon2012; included in their material are some data from one of the original experiments, in which 42 plates were scored:
 
 ```{r}
 source("http://ljk.imag.fr/membres/Bernard.Ycart/LD/LD.R")
@@ -156,5 +160,3 @@ print(paste("Average number of mutations = ",est[1],"Relative fitness of mutatio
 
 So what we see is that, in multiple generations of an exponentially growing population, a very small number of actual mutational events have occurred.  This then leads to our next question - what happens to mutant alleles once they arise?
 
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
