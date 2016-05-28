@@ -1,10 +1,11 @@
 ---
-title: "<center>Drift, Mutation and the Infinite Alleles Model</center>"
+title: "<h1r>Drift, Mutation and the Infinite Alleles Model</h1>"
 date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
-bibliography: TPG.bib
+bibliography: ../TPG.bib
+csl: ../genetics.csl.txt
 output:
   html_document:
-    css: Chapter.css
+    css: ../Chapter.css
     keep_md: yes
     toc: yes
     toc_depth: 5
@@ -15,7 +16,7 @@ output:
 library(TeachingPopGen)
 ```
 
-### Background
+## Combining Drift and Mutation
 
 Gaving looked at drift and mutation independently, we now need to examine them jointly.  In doing so, we want to bear in mind a few things:
 
@@ -23,7 +24,7 @@ Gaving looked at drift and mutation independently, we now need to examine them j
 2.  The fate of most new mutations is also loss, however if it does persist, then it becomes subject to drift dynamics.
 3.  The results of these processes is what we observe when we assess genetic variation in a population sample.
 
-At this point, it is important to distinguish two approaches that have been used in population genetics.  The first (and what we have been using thus far) can be thought of as the "look forward" approach, that is, we ask "given a set of assumptions, what do we predict will happen?"  The second, the "look back approach" asks "Given what we observed, what can we infer about the processes that have taken place?"  Much of the power of modern population genetics comes from the latter, and Nielsen and Slatkin rightly focus on that.  However, it is instructive to at least briefly consider the former, as it served as the basis for much of the "look back" theory, usually referred to as "coalescence".
+At this point, it is important to distinguish two approaches that have been used in population genetics.  The first (and what we have been using thus far) can be thought of as the "look forward" approach, that is, we ask "given a set of assumptions, what do we predict will happen?"  The second, the "look back approach" asks "Given what we observed, what can we infer about the processes that have taken place?"  Much of the power of modern population genetics comes from the latter.  However, it is instructive to at least briefly consider the former, as it served as the basis for much of the "look back" theory, usually referred to as "coalescence".
 
 ### The infinite alleles model
 
@@ -58,11 +59,11 @@ So given this model, P{ibd}, which we will call Ft, becomes a critical parameter
 
 The term 4Neµ is an incredibly important one as we will see - in fact it has earned its own greek letter designation - &theta;.  
 
-#### What does this mean?
+### What does this mean?
 
 We need to explore some properties of this relationship.  First and foremost, it involves the product of two quantities, Ne and µ, that are extremely difficult to determine empirically.  Nevertheless, it does allow us to make some predictions about things like heterozygosity and allele frequency distributions in finite populations in which the infinite allele model holds.  We will consider those below:
 
-##### Expected homozygosity and heterozygosity.
+#### Expected homozygosity and heterozygosity.
 
 In looking at our equation, we see that in fact F is inversely proportional to &theta;.  Remembering also that F is simply expected homozygosity, (1-F) is expected heterozygosity.  We can plot these very quickly and see what we see.
 
@@ -75,9 +76,9 @@ lines(th,1-f, lty=2)
 
 So we see, not surprisingly, that as &theta; increases (that is, mutation rate and/or population size increase), so does heterozygosity.
 
-##### Estimating theta from real data
+#### Estimating theta from real data
 
-For the following, we will use some allozyme frequency data for the Adk-1 locus in *Drosophila willistoni* (Ayala and Tracy, 1974; cited in Hartl and Clark).
+For the following, we will use some allozyme frequency data for the Adk-1 locus in *Drosophila willistoni* [@Ayala1974; cited in @Hartl2006].
 
 ```{r}
 freqs <-c(.574,.309,.114,.003) # frequencies of four alleles
@@ -88,7 +89,7 @@ th.adk
 ```
 In fact, this value is higher than most reported for similar data in other species of *Drosophila*, but how do we interpret it?  Given the nature of theta, and the fact that this is electrophoretic data, this is a problem.
 
-##### What about expected allele frequencies
+#### What about expected allele frequencies?
 
 One of the remarkable features of what we have developed is that we are saying nothing about allele frequencies.  We used them to calculate F, that's true, but we subsumed them into a single measure - homozygosity - and have not incorporated their actual frequency spectrum.  As an illustration, we could imagine that in another survey, such as the one described above, all four allele frequencies were equal:
 
@@ -109,7 +110,7 @@ th.eq
 
 We do see that homozygosity is lower and &theta; higher, but which is more consistent with the infinite alleles model?  To do that, we need to determine the expected distribution of allele frequencies and then compare our experimental results to them.  This is where the work we did earlier with simulating distributions comes into play.  
 
-##### The Ewens Formula and Sampling distribution.
+### The Ewens Formula and Sampling distribution.
 
 So we want to ask the following question:  "Given a sample of size n with k different alleles, how do the frequencies of those alleles compare to those expected in an equilibrium population under the infinite sites model"?  In a seminal paper, Ewens [-@Ewens1972]  addressed this issue.  First, he showed that the expected number of alleles (k) was the following:
 
@@ -167,7 +168,7 @@ To address that, let's look at what happens when, for the same number of alleles
 1.  Is it an equilibrium distribution?  Based on one sample, we have no way of knowing
 3.  Are all alleles detected?  In this case, it may be true with  respect to amino acids,  but it is  not with respect to nucleotides - silent substitutions cannot be detected by protein electrophoresis.
 
-##### Another application - The Lactase gene in humans
+### Another application - The Lactase gene in humans
 
 As one final example, let's use a data set that is exhaustive with respect to allele detection and where we have *a priori* expectations with respect to evolutionary history.  Lactase persistence, the ability to digest lactose post-weaning, is well recognized as a gene that has been subject to selection in human populations in which dairy is part of the diet.  Thus, we can compare dairy-adapted populations with those in which it hasn't occurred and ask the same question - is the distribution of allele frequencies in these populations consistent with the neutral infinite alleles model, and if not, are departures consistent with our expectations based on known histories of selection?
 
@@ -202,8 +203,6 @@ The order of the plots is the same as in the previous figure, and we see that in
 
 What we've been doing here is laying groundwork for what follows.  As noted at the outset, all of our logic has been based on the "look forward" approach.  We have used a combination of theory and simulations to generate predictions regarding expectations under a particular model, and then have compared those expectations with observations from real populations.  In so doing, we have seen the importance of identity by descent as an analytical statistic for finite populations and introduced the neutral parameter &theta;, one that we will use extensively in the future.
 
-But it bears repeating that all of the analytical approaches we have used today were developed prior to the advent of population-level DNA sequencing.  In essence, as in the lactase case we are still treating alleles as discrete units.  In so doing, we are ignoring much of the information that is there, in particular, given two sequences, how many differences are there between them?  What sites vary and what sites don't?  As we shall see, once we take those factors into consideration, we can move beyond the "what-ifs" of the look forward approach and instead ask "what did" by looking backwards in time from the data at hand.
+But it bears repeating that most of the analytical approaches we have used so far were developed prior to the advent of population-level DNA sequencing.  In essence, as in the lactase case we are still treating alleles as discrete units.  In so doing, we are ignoring much of the information that is there, in particular, given two sequences, how many differences are there between them?  What sites vary and what sites don't?  As we shall see, once we take those factors into consideration, we can move beyond the "what-ifs" of the look forward approach and instead ask "what did" by looking backwards in time from the data at hand.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
-### References

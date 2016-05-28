@@ -6,7 +6,7 @@ output:
     toc: yes
     toc_depth: 5
 ---
-### Review
+## More on Effective Population Size
 
 Let's start by reminding ourselves where we were.  We saw that, in finite populations, which otherwise fulfill Hardy Weinberg conditions, variance in allele frequencies among populations tends to increase, while heterozygosity decreases.  For convenience sake, we will redo some the last few plots from that exercise
 
@@ -75,7 +75,7 @@ plot(Fhat, main="Mean Heterozygosity within Replicates",type="l")
 lines(f100,col="red")
 ```
 
-The fist is not very good.  What if we knew the population history and used the mean?
+The fit is not very good.  What if we knew the population history and used the mean?
 
 ```{r}
 nmean <-mean(N)
@@ -110,5 +110,3 @@ At this point, the customary approach to understanding effective population size
 
 
 So overall, then, we've been able to develop some theory about genetic drift, effective population size, and mutation.  What we now need to work towards are ways that we can use that theory to make inferences about real populations.
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

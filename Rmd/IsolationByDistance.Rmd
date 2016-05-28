@@ -62,6 +62,13 @@ The strongest relationship was observed in the mainland-mainland comparisons (fi
 1.  Within population variation on islands is overall lower than on the mainland, while pairwise Fst values tended to be higher, suggesting repeated independent bottlenecks and/or founder effects on the islands.
 2.  In contrast, the lower differentiation among mainland populations and patterns of Fst suggest a larger overall population, with differentiation mediated by weak isolation-by-distance population structuring.
 
+<!-- Think about adding in Mantel etc. here -->
+
+```{r,eval=FALSE}
+m <-mantel.rtest(as.dist(sparrow.dat$dist.km),as.dist(sparrow.dat$dist.fst),nrepet=1000)
+plot(m)
+```
+
 ### Conclusions
 
 What we have done here is a very preliminary analysis; in real life we would have coded the data in such a way that we could, perhaps, look at nested F statistics or broken them out as shown above.  But this is an excellent example of how, combining theory, geography, and genetic data, we can obtain real insights into population differentiation.

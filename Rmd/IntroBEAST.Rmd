@@ -53,13 +53,13 @@ image.DNAbin(as.matrix(seqs))
 We now return to look at the output.  All of it was stored (at our choosing) in the folder BEAST.  Its contents are now
 
 ```{r}
-list.files("./BEAST")
+list.files("./BeastDemo")
 ```
 
 The key files are demo1.log and demo1.trees.  Our focus for now will be on the trees.  They are stored in what is called a "nexus" format, and they can be easily read by R.
 
 ```{r}
-trees <-read.nexus("./BEAST/demo1.trees")
+trees <-read.nexus("./BeastDemo/demo1.trees")
 length(trees)
 ```
 
@@ -85,6 +85,24 @@ par(mfrow=c(1,1))
 Now we see they are much more similar (although still not identical).
 
 So obviously, at this point we need to think more about where the distribution of branch lengths came from.  To do so, we need to diverge into mutation theory.
+
+### The log file - what is in it
+
+As noted above, BEAST produces two output files, one containing the distribution of trees and the other calculations derived from each of those trees.  The log file is almost never used directly - rather it is used as input for analysis in TRACER.  However, for completeness sake, we can briefly look at its contents:
+
+```{r}
+dat.log <-read.table("./BeastDemo/demo1.log",header=TRUE)
+head(dat.log)
+```
+
+About the only one of these headings that makes any sense at this point is popSize; in fact, by visualizing it, we can see the posterior distribution of population size estimate from our data:
+
+```{r}
+colhist(dat.log$popSize,xlab="Scaled Population Size",ylab="Frequency",main="Population Size Posterior Distribution")
+abline(v=median(dat.log$popSize),col="darkred")
+```
+
+As we will see however, we can learn much more from this output.
 
 ### A Note on Rates
 
