@@ -102,6 +102,14 @@ colhist(dat.log$popSize,xlab="Scaled Population Size",ylab="Frequency",main="Pop
 abline(v=median(dat.log$popSize),col="darkred")
 ```
 
+We can also get a preview of one of the kinds of output we will be looking at:
+
+```{r}
+plot(dat.log$popSize,xlab="Sample",ylab="N", main="Population Size Scaled by Substitution Rate",type="l")
+```
+
+What we see is evidence for good "mixing" - that is, there are no evident correlations among sequentially accepted values in the distribution.
+
 As we will see however, we can learn much more from this output.
 
 ### A Note on Rates
