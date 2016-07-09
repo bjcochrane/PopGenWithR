@@ -10,7 +10,7 @@ output:
        toc_depth: 5
 ---
 
-### Background
+## BEAST - An Introduction
 
 So up to this point, we've seen that we've used coalescent theory, starting from a set of nucleotide sequences, to make inferences about past population history, and in fact we managed to achieve some at least semi-plausible results.  However, none of the work we have done, either in class or in lab, would even begin to appropach publishable standards.  Think again what our work has been based on:
 
@@ -25,7 +25,7 @@ With those assumptions, we found that we could take a Bayesian approach, startin
 3.  Based on those, generate a *distribution* of gene geneaologies that best explain our data
 4.  Use that posterior distribution to estimate the gene genealogy, and from that do our Skyline (or other analyses).
 
-BEAST stands for Bayesian Evolutionary Analysis by Sampling Trees - as its name implies, it does all of the following.  It is an incredibly complex program, but if managed correctly, it can be very powerful.  Thus, before delving into the actual workings of the program, we need to get at at least a few of the underpinnings.
+BEAST stands for Bayesian Evolutionary Analysis by Sampling Trees - as its name implies, it does all of the following.  It is an incredibly complex program, but if managed correctly, it can be very powerful.  Thus, before delving into the actual workings of the program, we need to get at at least a few of the underpinnings. For an in-depth introduction to both  theory and practice with BEAST, see @BeastBook.
 
 ### Dealing with Forests of Trees
 
@@ -38,7 +38,7 @@ system("ms 10 1 -s 15 -r 0 703 -seed 1 2 3 | ms2dna >./BEAST/demo1.fasta")
 We can visualize them in the usual way:
 
 ```{r}
-seqs <-read.FASTA("./BEAST/demo1.fasta")
+seqs <-read.FASTA("../BeastDemo/demo1.fasta")
 image.DNAbin(as.matrix(seqs))
 ```
 
@@ -59,7 +59,7 @@ list.files("./BeastDemo")
 The key files are demo1.log and demo1.trees.  Our focus for now will be on the trees.  They are stored in what is called a "nexus" format, and they can be easily read by R.
 
 ```{r}
-trees <-read.nexus("./BeastDemo/demo1.trees")
+trees <-read.nexus("../BeastDemo/demo1.trees")
 length(trees)
 ```
 
@@ -91,7 +91,7 @@ So obviously, at this point we need to think more about where the distribution o
 As noted above, BEAST produces two output files, one containing the distribution of trees and the other calculations derived from each of those trees.  The log file is almost never used directly - rather it is used as input for analysis in TRACER.  However, for completeness sake, we can briefly look at its contents:
 
 ```{r}
-dat.log <-read.table("./BeastDemo/demo1.log",header=TRUE)
+dat.log <-read.table("../BeastDemo/demo1.log",header=TRUE)
 head(dat.log)
 ```
 

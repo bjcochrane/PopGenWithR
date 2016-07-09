@@ -20,7 +20,7 @@ options(warn = -1)
 
 ## Background
 
-We have all seen examples in which sequence variation has been used to make inferences about past population history.  But how is that done?  In fact, what is involved is no more than a (very) sophisticated application of coalescent theory.  At its core, of course, the key to any coalescent model is an estimate of &theta;, which in turn needs to be parsed into its two components, Ne and &mu;.  Other factors - migration, recombination, subdivision, etc. are also important, but for now we will focus on those two.  First, we will see what we can learn from simple simulations, in which the gene genealogy is known.   Then we will turn to some Bayesian methods for working with real data.
+We have all seen examples in which sequence variation has been used to make inferences about past population history.  But how is that done?  In fact, what is involved is no more than a (very) sophisticated application of coalescent theory.  At its core, of course, the key to any coalescent model is an estimate of &theta;, which in turn needs to be parsed into its two components, Ne and &mu;.  Other factors - migration, recombination, subdivision, etc. are also important, but for now we will focus on those two.  First, we will see what we can learn from simple simulations, in which the gene genealogy is known.   Then we will turn to some Bayesian methods for working with real data.  
 
 ## Skyline plots
 
@@ -196,13 +196,16 @@ So to proceed, we need to do two things:
 1.  We need to build a test phylogeny
 2.  We need to apply the above analyses to it.
 3.  Based on an estimate of mutation rate, then we should get a profile of the population, scaled in years.
+
 ```{r}
 data(furseals)
 image.DNAbin(as.matrix(fur.dat))
 fur.dat
 length(seg.sites(fur.dat))
 ```
+
 Now make a distance matrix
+
 ```{r}
 
 fur.dist <-dist.dna(fur.dat)
@@ -253,6 +256,7 @@ What we see is that there is clear evidence for an historically stable populatio
 #### Putting a time frame on this
 
 Hoffman et al draw on other sources to estimate per site substitution rates; below we have converted them to the number expected for the 263 base pair fragmnet under investigation, to get Mu, an estimate of the rate of substitutions per sequence
+
 ```{r}
 gtime <-9.89
 mu <-2.71*10^-6
@@ -275,7 +279,10 @@ Note that the dates are obviously quite sensitive to the mutation rate; the one 
 
 ### Conclusion
 
-So at this point you should have a grasp on the basics - Skyline plots associate the length of branches and the occurrence of coalescent events with demographic events, thus allowing some inference about past population processes.  But what we've looked at so far is two fairly simple models.  In the first case, we proceed from the assumption that substitutions occur linearly with time, and that coalescent events reflect changes in population size only.  We have subsequently changed that to average over small branches, thus reducing noise in the system, and we see that the situation becomes more simplified.  Finally, by what is basically a Bayesian curve-fitting algorithm, we can go from a stepwise model to a more realistic continuous one.  But remember - the original data for skyline plot analysis is the inferred genealogy, and as we know, a particular set of sequences could be the result of a myriad of different ones.  Hence, we need to step back and consider how this analysis might be refined by treating the geneaolgies as a random variable - that is, to explore tree-space, find the distribution of geneolgies that best fit the data, and then go from there.  This is where BEAST comes in.
+
+In fact, as we shall see, in order to do real analyses such as this, we really need to turn to BEAST, which allows us to build much more detailed (and hopefully realistic) models, in which we set priors for all of the parameters involved in tree estimation.  Remember that what we have based our analysis on hear is the simplest possible algorithm (UPGMA), one that is rarely if ever used in modern analysis.
+So at this point you should have a grasp on the basics - Skyline plots associate the length of branches and the occurrence of coalescent events with demographic events, thus allowing some inference about past population processes.  But what we've looked at so far is two fairly simple models.  In the first case, we proceed from the assumption that substitutions occur linearly with time, and that coalescent events reflect changes in population size only.  We have subsequently changed that to average over small branches, thus reducing noise in the system, and we see that the situation becomes more simplified.  Finally, by what is basically a Bayesian curve-fitting algorithm, we can go from a stepwise model to a more realistic continuous one.  But remember - *the original data for skyline plot analysis is the inferred genealogy, and as we know, a particular set of sequences could be the result of a myriad of different ones.*  Hence, **you should treat everything we have done to this point as a demonstration only, NOT as an rigorous analytical approach to data analysis**  You may want to use it for preliminary data examination, however, for a rigorous analysis,  we need to step back and consider how this analysis might be refined by treating the geneaolgies as a random variable - that is, to explore tree-space, find the distribution of geneolgies that best fit the data, and then go from there. In some cases, we may also be able to empirically estimate substitution rates.   This is where BEAST comes in.
+
 
 ### Bonus 1. Doing MCMC on the growth model
 
@@ -290,7 +297,8 @@ lines(gr.pop,col="red")
 ```
 And we see a much nicer fit than we got with the previous models.  
 
-###>  Bonus 2.  What about spaghetti squash as a substitute for fur?
+###
+Bonus 2.  What about spaghetti squash as a substitute for fur?
 ```{r}
 data(spaghetti)
 spaghetti
@@ -320,9 +328,4 @@ ss.pop <-extract.popsize(ss.mc)
 plot(skyline(ss.tr,ss.eps))
 lines(ss.pop,col="red")
 ```
-At this point, one would need to do some more investigation, asking such questions as
 
-1.  Do we have any estimate of mutation rate?
-2.  What do we know about the past history of this population?
-
-In fact, as we shall see, in order to do real analyses such as this, we really need to turn to BEAST, which allows us to build much more detailed (and hopefully realistic) models, in which we set priors for all of the parameters involved in tree estimation.  Remember that what we have based our analysis on hear is the simplest possible algorithm (UPGMA), one that is rarely if ever used in modern analysis.
