@@ -1,0 +1,43 @@
+---
+title: "Maintenance"
+author: "Bruce Cochrane"
+date: "July 9, 2016"
+output: html_document
+---
+
+```{r}
+library(git2r)
+repo <- repository()
+```
+
+See if we are on master and all is good
+
+```{r}
+
+checkout(repo,"master")
+repo
+```
+
+Useful stuff from hadley.  To create a branch, open the shell and enter
+
+git checkout -b <branch-name>
+
+Also need to create branch on github with
+
+git push --set-upstream origin <branch-name>
+
+A couple of merges:
+
+1.  regularly merge master into branch so that they remain consisitent with
+
+git merge master
+
+2.  When done, return to master (either with dropdown or git checkout master) and then
+
+git merge <branch-name>
+
+And to delete (only works if merged
+
+git branch -d <branch-name>
+
+Branch will now show in dropdown; you can work to your hearts content and the master will be undisturbed.  Then, to merge
