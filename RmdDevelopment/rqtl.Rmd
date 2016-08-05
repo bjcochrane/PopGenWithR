@@ -9,8 +9,9 @@ output:
        toc_depth: 5
 ---
 
+### Conventional QTL Mapping with R
 
-A quick and very rough introduction to qtl mapping in R.  
+What follows is at this point just a rough introduction to one package (qtl) that will use genotype/phenotype data to look for associations.  More information on the methodolodologies can be found at the [rqtl web site](http://www.rqtl.org  
 
 ```{r}
 library(qtl)
