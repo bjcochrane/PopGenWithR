@@ -1,0 +1,22 @@
+---
+title: "Testing RStudio New Tricks"
+author: "Bruce Cochrane"
+date: "12/11/2016"
+output: 
+  html_document: 
+    css: ~/Chapter.css
+    theme: cerulean
+    toc: yes
+---
+This is just a foolaround file with the new RStudio shortcuts (available at file:///Applications/RStudio.app/Contents/Resources/www/docs/keyboard.htm).  
+
+1.  Assignment - supposed to be option -, however only works in chunk
+2.  pipe operator - CmdSftM -- %>% -- works fine
+3.  output yaml can be modified by clicking on the gear wheel at the top of the editing pane, followed by output options
+4.  Note - under global options/rmarkdown, uncheck show chunk output inline to retain traditional RSTudio look 
+
+```{r}
+x <- rnorm(100,0,1)
+hist(x)
+```
+

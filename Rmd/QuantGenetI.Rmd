@@ -23,8 +23,8 @@ But now, what if more loci are involved?  In the following, we illustrate the ex
 
 ```{r,results='hide'}
 par(mfrow=c(1,3))
-n <-c(4,10,20)
-sapply(n,function(x) hist(rbinom(1000,x,.5),xlab="Phenotype",main=paste(x,"Loci",sep=" ")))
+n <-c(4)
+sapply(n,function(x) hist(rbinom(1000,x,.5),xlab="Phenotype",main=paste(x/2,"Loci",sep=" ")))
 ```
 And we see that as the number of loci increases, the phenotypic distribution becomes more continuous.  
 

@@ -69,7 +69,7 @@ scatterplot3d(dat.samp3[,2:4])
 And now, how can we make any sense of it?  This is where PCA begins to show its usefulness:
 
 ```{r}
-samp3.pr <-prcomp(dat.samp3[,2:4])
+samp3.pr <-princomp(dat.samp3[,2:4])
 biplot(samp3.pr,var.axes=TRUE)
 summary(samp3.pr)
 ```

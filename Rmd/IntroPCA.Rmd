@@ -106,7 +106,7 @@ Up to this point, we've been looking at the data on a snp-by-snp basis.  What we
 
 ```{r,echo=FALSE}
 x <-indpca(genos.gen)
-plot(x,cex=0.5,col=c(1:11),ax1=3,ax2=4,eigen=TRUE)
+plot(x,cex=0.5,col=c(1:11),ax1=1,ax2=2,eigen=FALSE)
 ```
 
 While the plot is not the clearest, you will see that there are three broad clusters.  To the left is one that includes most African and African-American individuals, to the top is one that includes most European and North American ones (including those from GIH, Gujarati Indians living in Houston), and one that includes primarily Asian individuals (CHB, CHD, JPT).  But Note the small group of individuals, including ones from CEU, JPT, YRI and CHB.  They have diverse geographic origins, but yet they are virtually indistinguishable based on this analysis.  What might be an explanation for them?

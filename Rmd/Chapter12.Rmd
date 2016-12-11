@@ -1,0 +1,44 @@
+---
+title: "Chapter 12"
+author: "Bruce Cochrane"
+date: "September 27, 2016"
+output: html_document
+---
+
+Do Luria Delbruck analysis
+
+```{r}
+source("http://ljk.imag.fr/membres/Bernard.Ycart/LD/LD.R")
+length(LD43a)
+LD43a
+```
+And doing our test is as simple as computing the mean and variance
+```{r}
+m2 <-signif(mean(LD43a),3)
+m2
+v2 <-signif(var(LD43a),4)
+v2
+```
+
+```{r}
+leg <-as.list(expression(paste(mu, "= 36.7")), expression(paste(sigma, " = 2068")))
+```
+
+```{r}
+ex <-expression(atop(mu "= 36.7",sigma "= 2068"))
+```
+
+```{r}
+hist(LD43a,xlab="Number of Colonies",ylab="Number of Plates",main=NULL)
+#text(120,15,paste(expression(paste(mu,"=36.7")),"\n",expression(paste(sigma," = 2067"))sep=""),bty="n")
+#text(80,5,paste(expression(paste(mu,"=36.7")),"\n",#expression(sigma, " = 2068"),sep=""))
+#legend(80,5,ex)
+```
+
+Some borrowed code
+
+```{r}
+h <- rnorm(mean = 5, sd = 1, n = 1000)
+hist(h, main = expression(paste("Sampled values, ", mu, "=5, ", sigma,"=1")))
+```
+
