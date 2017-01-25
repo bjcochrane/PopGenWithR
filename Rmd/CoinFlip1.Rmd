@@ -88,6 +88,7 @@ So we see that the **exact** probability of getting 18 heads is about 1 in 1000,
 Obs17 <-length(which(flips==17))
 Obs17
 ```
+
 So our expectation (calculated by multiplying the exact probability by 10,000) based on the binomial was `r round(P17*10000,0)` and we observed `r Obs17`.
 
 But while R can do this calculation easily, it is a pain to do manually, and even in R, as N and K get large, the computational load gets considerable.  Furthermore, in real life, we are often interested in a slightly different question - what is the probability of getting as much or greater deviation from our expected outcome (17 observed when 10 are expected in this case)?  Here the analytical solution can quickly become very onerous (although we will see that such an exact test of Hardy-Weinberg is sometimes necessary).

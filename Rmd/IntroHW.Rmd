@@ -22,13 +22,13 @@ The starting point for in population genetics is the  Hardy Weinberg equilibrium
 
 ### A Sample Problem
 
-So let's approach this as a problem in data analysis.  The following are data for the presence(+) or absence (-) pf an insertion in the &delta;-32 gene in human populations (one that has been associated with resistance to HIV infection)
+So let's approach this as a problem in data analysis.  The following are the data that were part of the opening day "quiz" - frequencies of Single Nucleotide Polymorphism (SNP) number rs3739020 from the 1000 Genomes Project.
 
 Genotype | Number
 ---|---  
-+ + | 224
-+ - | 64
-- - | 6
+G G | 6
+G T | 28
+T T | 66
 
 We want to ask two questions:
 
@@ -39,7 +39,7 @@ We want to ask two questions:
 
 So for question 1 let's proceed as follows.  First of all, we will create a vector with of the observed data.
 ```{r}
-obs <- c(224,64,6)
+obs <- c(6,28,66)
 ```
 Note that c() is a function that concatenates a number of values, in this case integers, in order to create a vector.
 
@@ -55,18 +55,18 @@ p <-nA/(2*N)
 p
 
 ```
-Now, we could repeat that process to determine the frequency of -, but here one of the simplest but most important relationships comes in to play.  Note that this is a biallelic locus, so if a particular allele is not A, it has to be G.  Thus, if we set the frequency of G to be q, then p+q must equal 1, or
+Now, we could repeat that process to determine the frequency of -, but here one of the simplest but most important relationships comes in to play.  Note that this is a biallelic locus, so if a particular allele is not G, it has to be T.  Thus, if we set the frequency of T to be q, then p+q must equal 1, or
 ```{r}
 q <-1-p
 q
 ```
 #### Random Mating
 
-Now, suppose we turn the question around.  Given p and q, as calculated above, and assuming that random mating then occurs, what genotype numbers frequencies would we expect to see?  There are two ways we can approach this, one fairly simple and one a bit more involved.  First, the simple one.  Think of the population as orginating from a pool of alleles with frequencies p and q.  If that is the case, then we can calculate the expected probabilities of the three genotypes (AA, AG, and GG) as
+Now, suppose we turn the question around.  Given p and q, as calculated above, and assuming that random mating then occurs, what genotype numbers frequencies would we expect to see?  There are two ways we can approach this, one fairly simple and one a bit more involved.  First, the simple one.  Think of the population as orginating from a pool of alleles with frequencies p and q.  If that is the case, then we can calculate the expected probabilities of the three genotypes (GG, GT, and TT) as
 
-p{++} = p{+}*p{+} = p^2^  
-p{--} = p{-}*p{-} = q^2^  
-p{+-} =p{+-} or p{-+} = P{+} * P{-} + P{-} *P{+} = pq + qp = 2pq
+p{GG} = p{G}*p{G} = p^2^  
+p{TT} = p{T}*p{T} = q^2^  
+p{GT} =p{GT} or p{TG} = P{G} * P{T} + P{T} *P{G} = pq + qp = 2pq
 
 We can can make a vector of those frequencies as follows
 ```{r}

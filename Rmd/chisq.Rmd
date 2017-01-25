@@ -3,10 +3,12 @@ title: <center>A More General Approach </br>The &chi;^2^ Distribution</center>
 date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
 output:
   html_document:
-    css: Chapter.css
+    theme: paper
     toc: yes
     toc_depth: 5
 ---
+
+## The Chi-squared Distribution
 
 ```{r, echo=FALSE}
 
@@ -95,7 +97,7 @@ quantile(ch, .95)
 So, as we have done before, we conclude that if we were to observe a value of &chi;^2^ of this value or higher, we would reject our null hypothesis that the observed numbers are consistent with those predicted based on our hypothesis.  But the value we actually observed it .47, which is less.  We can illustrate this below:
 ```{r}
 
-colhist(ch,tail=1, xr=c(0,20),labs=c("chi-square","Number","Did Mendel's Data Fit His Hypothesis?"))
+colhist(ch,tail=1, xr=c(0,20),xlab+"Chi-squared",ylab="Number",main="Did Mendel's Data Fit?")
 abline(v=chi,col="blue")
 ```
 So in this case we can accept the null hypothesis and conclude that Mendel's laws of segregation and assortment do indeed explain his results.
