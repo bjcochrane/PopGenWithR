@@ -17,7 +17,7 @@ library(TeachingPopGen)
 ```
 
 
-### Background
+## Background
 
 Natural Selection is, of course, the basis for the Darwinian theory of evolution, and perhaps surprisingly, it is something we have barely touched upon up to this point.  The reason for that is important - without first having a thorough understanding of the stochastic processes of drift, mutation and so forth, it is difficult if not impossible to infer the action of selection in any definitive way.  So having done that, we now want to look at the genetics of selection; in so doing, we will follow address the following three questions:
 
@@ -25,11 +25,11 @@ Natural Selection is, of course, the basis for the Darwinian theory of evolution
 2.  At a theoretical level, how should selection, mutation and drift interact?
 3.  Given that theoretical basis, how can we identify the effects of selection based on molecular sequence data?
 
-### Fitness
+## Fitness
 
 Fitness is, broadly speaking, the contribution made by an individual to the subsequent generation, as measured by numbers of viable and fertile progeny.  For our purposes, of course, since we are interested in allele frequency dynamics in diploid population, what we really want to be considering is the contributions made by individuals of a given genotype.  In doing so, there are a couple of considerations we need to take into account
 
-#### Fitness components
+### Fitness components
 
 Numerous factors contribute to fitness, among them
 
@@ -40,7 +40,7 @@ Numerous factors contribute to fitness, among them
 
 In fact, there are many more elements that can be examined; we are going to restrict most of our attention (as do Nielsen and Slatkin) to viability as a measure of fitness, briefly considering fertility as somewhat of a special case.
 
-#### Absolute vs. relative fitness
+### Absolute vs. relative fitness
 
 In our simple formulation, fitness is measured by the average number of progeny produced by individuals of a particular genotype.  But, just as we did when we first developed Hardy-Weinberg theory, we need to be able to use those numbers to generate expectations about frequencies, both of genotypes and alleles.  
 
@@ -103,7 +103,7 @@ And we see that the allele frequency change that results is identical to what we
 
 So from here on out, we will work with relative fitnesses, defined as follows.  One genotype, usually that one with the highest absolute fitness, will be assigned a relative fitness of 1, and the others some values 1-s and 1-t, where s and t, the selection coefficients, reflect the intensity of selection and assume values between 0 and 1.
 
-### A Simple case - A Recessive Lethal
+## A Simple case - A Recessive Lethal
 
 With a little simple algebra, we were able to show that, when an allele is a heterozygous lethal, its expected frequency at time t is simply  
 
@@ -120,7 +120,7 @@ plot(qt,type="l", xlab="Generation",ylab="q",ylim=c(0,1),col="red")
 ```
 So what we see is that, as expected, the frequency of a recessive allele drops quickly, so that by 10 generations or so, it is effectively zero
 
-### A more general approach
+## A more general approach
 
 We could repeat the algebra we did for lethal selection for other scenarios; for example  where the fitness of the recessive homozygote is 1-s, where s<1.  Instead of doing so, we can easily derive a more general equation, given the model of
 
@@ -164,7 +164,7 @@ p
 }
 ```
 
-#### Selection against a deleterious recessive
+## Selection against a deleterious recessive
 
 We can start with the case of h=0 and s=1, the lethal situation we described above (we set the initial value of p to .1 and thus q to .9)
 ```{r}
@@ -204,7 +204,7 @@ deltap(.1,.5,.2,plot=TRUE)
 ```
 Now we see that delta p is maximized when p=.5  .  Of course, we know from Hardy-Weinberg theory that this is when heterozygotes are most common, and since selection in this case is acting on them, this result is as expected.
 
-#### A special case - heterozygote advantage
+## A special case - heterozygote advantage
 
 
 

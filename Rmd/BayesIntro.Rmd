@@ -32,21 +32,22 @@ pr.c <-.819 #proportion that is Caucasian
 pr.m <-.137 # Maori
 pr.wp <-.044 # Western Polynesion
 ```
-We then need the likelihoods that the particular genotype would be found in these populations (presumably done by some prior population-based genotyping)
+We then need the *likelihoods* that the particular genotype would be found in these populations (presumably done by some prior population-based genotyping).  These are essentially conditional probabilities, for example "what is the probability of getting the genotype, given that the individual is a Maori"?
 ```{r}
 l.c <-3.96*10^-9
 l.m <-1.18*10^-8
 l.wp <-1.91*10^-7
 ```
-These can be thought of as "the probability of getting the genotype from a member of a particular ethnic group".
 
-Next, we can calculate the total probability that this blood sample would be found in this population (p{X}) by multiplying each likelihood by its corresponding prior probability and summing:
+But note that this is the reverse of what we want.  We want to know the probability that an individual is, for example, a Maori, given it has the genotype.  To do this we proceed as follows.  First, we can calculate the total probability that this blood sample would be found in this population (p{X}) by multiplying each likelihood by the frequency of the three ethnic groups  (the *prior distribution*) and summing:
 
 ```{r}
 p.X <-pr.c*l.c+pr.m*l.m+pr.wp*l.wp
 p.X
 ```
+
 So over all, it's a rare genotype.  But we have it in our sample - that is a given.  What we want to know is what the probabilities are that the sample came from an individual from each of the three ethnicities.  To calculate these posterior probabilities, we do the following
+
 ```{r}
 ps.c <-(pr.c*l.c)/p.X
 ps.m <-(pr.m*l.m)/p.X
@@ -72,37 +73,44 @@ Returing to our coin-flipping obsession, suppose you flip a coin 10 times and ge
 
 So let's reframe the question as a Bayesian would. Suppose that the true probability of getting a head is somewhere between 0 and 1, but we don't know what it is.  How can we find it?  One way would be to conduct an experiment, in which we have a magical coin for which p{head} varies between 0 and 1  with each toss. If we could do that, we could then ask which trials, with what probabilities, led to the outcome of 10 heads.
 
-Not an easy experiment to do in real life, but simulating it is straightforward.  Let's suppose we do a million coin tosses, and for each one, there is a probability of a head of some value between zero and one.  First we can simulate the probabilities:
+Not an easy experiment to do in real life, but simulating it is straightforward.  Let's suppose we do a million coin tosses, and for each one, there is a uniform probability of a head that is some value between zero and one (this is considered and *uninformative prior*).  First we can simulate the probabilities:
 
 ```{r}
-set.seed(123)
+set.seed(12345) # sets random number generator seed so that results are reproducible
 p <-runif(1000000,0,1) # generate 1 million random numbers between 0 and 1
 head(p)
 ```
 
 And we can quickly plot these values as a histogram:
+
 ```{r}
 par(mfrow=c(1,1))
 hist(p,xlab="p", main="Prior Distribution of p")
 
 ```
-This is the epitomy of what statisticians call an "uniformative prior"
 
 Now, let's take each of those values of p and generate the hypothetical results of tossing a coin with that probability of success 10 times
+
 ```{r}
 outcomes <-rbinom(1000000,10,p)
 head(outcomes)
 ```
+
 And we can look at the distribution of outcomes we got
+
 ```{r}
 hist(outcomes)
 ```
+
 And we see that (not surprisingly) they are evenly distributed from 0 to 10.  But what we want to do is focus on those trials in which in fact the outcome was 8, and ask what values of p in our initial uniform prior led to that outcome
+
 ```{r}
 post <-p[which(outcomes==8)]
 head(post)
 ```
+
 We can then plot this posterior distribution and calculate its mean and upper and lower confidence intervals:
+
 ```{r}
 mean(post)
 
@@ -111,9 +119,10 @@ mean(post)
 quantile(post,(c(.025,.975)))
 abline(v=mean(post),col="blue")
 ```
+
 And we see that, if we consider the mean of this distribution to be our expectation of p, then it is about .75.  
 
-As we have done previously, we have shaded the upper and lower tails of the distribution.  However, here they have a new meaning.  What we are saying is that, **given our prior distribution and the particular outcome (8 heads), we conclude that there is a 95% chance that the true value of p falls within the range (in this case) of ~.5 and ~.95**.  This is known as the *maximum credible interval* and  is quite different from the confidence intervals we have considered earlier.  Remember that those are **the range of outcomes you would expect to see, given some null hypothesis about p (e. g. Ho:p=0.5)**
+As we have done previously, we have shaded the upper and lower tails of the distribution.  However, here they have a new meaning.  What we are saying is that, **given our prior distribution and the particular outcome (8 heads), we conclude that there is a 95% chance that the true value of p falls within the range (in this case) of ~.5 and ~.95**.  This is known as the *maximum credible interval* and  is quite different from the confidence intervals we have considered earlier.  Remember that those were **the range of outcomes you would expect to see, given some null hypothesis about p (e. g. Ho:p=0.5)**
 
 So, what have we done:
 
@@ -125,30 +134,44 @@ So, what have we done:
 
 Suppose I just told you the results of this experiment and asked you what your best estimate of p might be. Most likely it would be .8, yet what we saw from our Bayesian analysis is that we got something slightly lower - .75 or so.  Why the discrepency?
 
-Remember - we had a completely uninformative prior - we started by assuming that any outcome was possible.  However, having done the experiment, we  saw that now the distribution of p was no longer uniform; rather it is a unimodal one with a mean of .75.  What would happen if we did our experiment again and got the same outcome?  Now, we can use   this new (posterior) distribution as our prior.  And we could continue to do this, refining our prior after each experiment.  The code below will do that for 50 iterations; we will then plot the mean value of p obtained for each iteration.
+Remember - we did a single experiment and used an uniformative prior.  However, let's make the problem a bit more complicated.  Suppose that
 
+1.  The true probability of getting a head is actually 0.8, so the outcomes we observe are distributed binomially with p=0.8.
+2.  We do 100 coin flips, instead of the single one we did previously, and we refine our use our posterior for each coin flip as the prior for the nex.
+
+The code below does that:
 
 
 ```{r}
-out.mean <-rep(0,50)
-for(i in 1:50){
-  outcomes <-rbinom(1000000,10,p)
-  post1 <-p[which(outcomes==8)]
-  out.mean[i] <-mean(post1)
-  p <-sample(post1,1000000,replace=TRUE)
+set.seed(54321)
+out.mean <-rep(0,100)
+# The following loop performs 50 iterations
+for(i in 1:100){
+  outcomes <-rbinom(1000000,10,p) # Simulate the coin flips
+  out.8 <-rbinom(1,10,.8) # select an outcome that would be obtained assuming p=.8
+  post1 <-p[which(outcomes==out.8)] # select the probabilities associated with those outcomes
+  out.mean[i] <-mean(post1) #calculate the mean of those probabilities for future use
+  p <-sample(post1,1000000,replace=TRUE) # create the new prior distribution
 }
 ```
+
 We can look at this in a couple of ways.  First, we can plot the change in the mean of the posterior distribution of p with successive iterations:
+
 ```{r}
+par(mfrow=c(1,1))
 plot(out.mean, xlab="Iteration",ylab="p", type="l",main="Iterative Estimation of p")
 ```
-And we see that, as we expected intuitively, it approaches a value of .8.  We can also look at the final posterior distribution of p (after 50 iterations):
+
+And we see that, as we expected intuitively, it approaches a value of .8.  We can also look at the initial and final posterior distributions of p (after 50 iterations):
+
 ```{r}
 par(mfrow=c(1,2))
-colhist(post,xlab="P",ylab="Frequency",main="Initial Posterior Distribution")
-colhist(post1,xlab="P",ylab="Frequency",main="Final Posterior Distribution",xr=c(0,1)) 
+colhist(post,xlab="P",ylab="Frequency",main="Initial")
+colhist(post1,xlab="P",ylab="Frequency",main="Final ",xr=c(0,1)) 
 ```
-Two features are evident.  First, as we already saw, the mean of the distribution is very close to .8, which is what we would intuitively expect given that we keep getting 8 heads out of 10.  Second, compare the distribution with that we saw when we did the calculation based on our initial uniform prior distribution, we got the following confidence limits:
+
+Two features are evident.  First, as we already saw, the mean of the distribution is very close to .8, which is what we would intuitively expect given that we keep the true probability of a head.  Second, compare the distribution with that we saw when we did the calculation based on our initial uniform prior distribution, we got the following confidence limits:
+
 ```{r}
 quantile(post,c(.025,.975))
 quantile(post1,c(.025,.975))

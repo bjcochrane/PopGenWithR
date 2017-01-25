@@ -1,13 +1,17 @@
 ---
-title: "Testing RStudio New Tricks"
+title: <h3>Testing RStudio New Tricks</h3>
 author: "Bruce Cochrane"
 date: "12/11/2016"
 output: 
   html_document: 
-    css: ~/Chapter.css
-    theme: cerulean
+    fig_caption: yes
+    number_sections: yes
+    theme: paper
     toc: yes
+    code_folding: show
 ---
+# Overview {.tabset .tabset-fade .tabset-pill}
+
 This is just a foolaround file with the new RStudio shortcuts (available at file:///Applications/RStudio.app/Contents/Resources/www/docs/keyboard.htm).  
 
 1.  Assignment - supposed to be option -, however only works in chunk
@@ -15,8 +19,35 @@ This is just a foolaround file with the new RStudio shortcuts (available at file
 3.  output yaml can be modified by clicking on the gear wheel at the top of the editing pane, followed by output options
 4.  Note - under global options/rmarkdown, uncheck show chunk output inline to retain traditional RSTudio look 
 
+## Some more detail
+
+So I wonder if we could do this with the maps project - interesting possibilities
+
+## Some different material
+
+Put in at this point just to see what a subheading would look like
+
+# Some basic analysis {.tabset}
+
+First, we will generate some numbers, then we will plot it in a couple of ways:
+
 ```{r}
 x <- rnorm(100,0,1)
+```
+
+By clicking on the tabs below, you can see the data visualized as either a conventional histogram, or as a "qqplot", which is a good way to determine the extent to which observed data are explained by a normal distribution.
+
+## A histogram
+
+```{r,fig.cap="Figure 1.  A Histogram of 100 Normally Distributed numbers with mean of zero and standard deviation of one"}
 hist(x)
 ```
 
+## A qqplot
+```{r,fig.cap="Figure 2.  QQPlot, comparing the distribution of the data to that expected based on a normal distribution"}
+qqnorm(x)
+```
+
+---
+
+So with the chapters, we need to work on the yaml for the master file and then add tabsets within each as needed.

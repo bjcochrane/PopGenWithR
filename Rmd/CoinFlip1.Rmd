@@ -22,8 +22,8 @@ In the simplest case, working with genetic data is an exercise in the manipulati
 
 Where better to start a consideration of probability distributions (in particular the binomial) with a coin flip.  We can do a **trial**, flip a coin, that has two possible **outcomes** (heads or tails), and assuming its a fair coin, we can hypothesize that
 
-p{HEAD}= p = .5
-p{TAIL}= q = .5
+p{HEAD}= p = .5  
+p{TAIL}= q = .5  
 
 and since these are the only possible outcomes (we will ignore the improbable outcome of the coin landing on its edge), the two probabilities sum to 1.  And if we were to do 2N trials, our **expectation** is that  we would observe Np heads and Nq tails.  But of course, we know that chance plays a role as well.  So what we have to do is ask, given this hypothesis and expection, how can we characterize the expected **distribution** of outcomes?  
 

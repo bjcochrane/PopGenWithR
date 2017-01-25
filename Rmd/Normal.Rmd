@@ -38,6 +38,7 @@ hx <-dnorm(x,180,30) # calculates the density function, or theoretical exact pro
 plot(x,hx, type="l",xlab="Height (cm)", main="Hypothetical Distribution of Human Height",yaxt="n",ylab="Frequency")
 abline(v=180,col="red")
 ```
+
 This is of course, a normal distribution, with some mean (180 cm in this case) and a standard deviation.  So, as we did with repect to the coin flip, we can work through a problem.
 
 ####  The problem.
@@ -54,6 +55,7 @@ hist(runners,xlab="Weight",freq=FALSE,ylab="Probability",main="Weight of Long-Di
 curve(dnorm(x,163,10),col="blue",add=TRUE) # Add the theoretical distribution curve
 abline(v=185,col="red")
 ```
+
 And what we see is a pretty good normal distribution.  The bars represent the distribution of actual measurements; the blue line is the theoretical distribution, given the mean and the standard deviation.  The red line shows where our mystery person weighs in - definitely in the upper extreme of it, but is this the result of chance variation (i. e. is he likely to be a runner or not?)
 
 We can do the same thing we did with the binary.  First we can numerically determine the upper and lower 2.5% limits
@@ -66,6 +68,7 @@ And we can do this on a version of the plot
 colhist(runners,,tail=2,xr=c(140,190),xlab="Weight",ylab="Number",main="Is the Mystery Person a Runner?")
 abline(v=185,col="blue")
 ```
+
 And we see that, based on this analysis, just as in the case of the coin flip with 8 of 10 heads, we would reject the hypothesis that the 185 pound individual is a runner.
 
 #### Conclusions

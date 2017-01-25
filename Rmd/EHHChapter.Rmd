@@ -16,7 +16,7 @@ output:
 library(calibrate)
 
 ```
-### Background
+## Background
 
 Hopefully by now, the concept of a selective sweep has become rather intuitive.  Remember the scenario - a new, selectively favored mutation occurs on a particular chromosome with a particular haplotype of linked neutral variation (we will be talking primarily about SNP variation).  As a result of selection, that mutation increases in frequency; so too does the associated haplotype.  The results (at least until recombination works its inevitable effect) are
 

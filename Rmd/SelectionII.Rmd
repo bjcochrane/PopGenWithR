@@ -10,14 +10,14 @@ output:
 ---
 
 
-### Calculation of fitness from real data
+## Calculation of fitness from real data
 
 To quickly summarize, we have been focusing on one component of fitness (viability) and modeling the impact of various models on allele frequency dynamics.  In so doing, we have defined relative fitness, mean fitness, and selection coefficients and shown that, by itself, only heterozygote advantage leads to a stable polymorphism (at a cost in mean fitness).  However, other than the hypothetical example we started our discussion with, we have not addressed how we might estimate fitness parameters from real data.  In fact, this is something that is often difficult to do, especially when selection coefficients are small.  However, as shown in box 7.7, it is not impossible.
 
 This example involves the "tired old Bucephalus" of sickle cell anemia and goes from observed genotypes in a large sample of adults to an estimate of relative fitnesses of the three genomes.  The approach is based on observed departure from Hardy Weinberg in those adults **and the assumption that that deviation is the result of viability differences among the three genotypes**.
 
 
-#### Hardy-Weinberg Calculations
+### Hardy-Weinberg Calculations
 
 To start with, we can calculate the allele frequencies from the observed adult population and use them to determine the **expected** genotype distribution:
 
@@ -39,14 +39,14 @@ hw(genos.n)
 
 And we see that in fact the chi-squared value is astronomical.  So let's proceed
 
-#### Make some assumptions
+### Make some assumptions
 
 In what follows, we make two assumptions:
 
 1.  Mating is random, so **at the time of zygote formation, HWE exists.**
 2.  Any observed departure from Hardy-Weinberg ratios in adults is due to egg-to-adult viability differences among genotypes 
 
-#### Calculate relative fitnesses
+### Calculate relative fitnesses
 
 Given those assumptions there are two ways to proceed.  First, as is done in Nielsen and Slatkin, we could assume that there was a pool embryos of some arbitrary size (larger than the number surveyed) in HW equilibrium, calculate the numbers of the genotypes in that pool and then calculate the ratio of observed individuals to those numbers:
 
@@ -71,7 +71,7 @@ round(w2,3)
 ```
 And we get essentially the same answer.
 
-#### Summary
+### Summary
 
 This is a classic textbook type of calculation.  However, in addition to the assumptions we've already described, notice the magintude of the selecton coefficients:
 
@@ -85,7 +85,7 @@ s;t
 
 
 
-### Adding in mutation
+## Adding in mutation
 
 In our discussion thus far, we have used selection as the only factor affecting allele frequencies.  Of course, in an ideal population, we also have to consider mutation.  First, let's consider a recessive detrimental allele.  The loss due to selection will be q^2 * w(AA), or q^2 * (1-s).  Since q^2 &asymp; 0, we can approximate this as -sq^2.  If the gain due to selection is &mu; , then equilibrium will be reached when
 
@@ -150,7 +150,7 @@ And this makes a biologically important point. The equilibrium frequency of a de
 
 
 
-### Selection in finite populations
+## Selection in finite populations
 
 Now we need to address the joint effects of seletion and drift.  Based on intuition, we would expect the following.
 
@@ -187,7 +187,7 @@ barplot(Ntax/10000,names.arg=taxa,las=2,ylab=expression("Ne X 10"^-4))
 ```
 So is it believable that as wide a variety of taxa would all have effective population sizes in a range of &sim;10,000-40,000?  Selectionists argued that this was a serious flaw in the neutral theory - mutation and drift simply could not explain the relative uniformity of heterozygosity levels observed in populations of such disparate organisms.
 
-### Drift and the strength of selection
+## Drift and the strength of selection
 
 For our discussion below, we are going to assume the following relative fitnesses (a simple additive model):
 
@@ -301,7 +301,7 @@ This figure is worth some careful consideration with respect to what it predicts
 
 From these results, therefore, Ohta proposed that heterozygosity of weakly detrimental alleles would be expected to fall in a narrow range.  The upper limit, of course, is determined by selection - if heterozygosity  is high, the allele frequency must be high and thus there are more individuals (especially homozygotes) are the targets of selection.  When heteozygosity is low, on the other hand, selection is inefficient, so that heterozygosity is a function of drift (which is, of course, mediated by population size).
 
-### Conclusions
+## Conclusions
 
 So where are we at right now?  Keep the following points in mind as we go forward:
 

@@ -5,14 +5,14 @@ date: <center>`r format(Sys.time(), '%d %B, %Y')`</center></br>
 bibliography: TPG.bib
 output:
   html_document:
-    css: Chapter.css
+    theme: paper
     keep_md: yes
     toc: yes
     toc_depth: 5
 ---
 </br>
 
-## Population Genetics in 2016
+# Population Genetics in 2016
 
 Population genetics has a rich history.  The Hardy-Weinberg equilibrium dates back to the early part of the 20th century; the rich theoretical work of Fisher, Wright and Haldane in the 1920's and 1930's and the classic empirical work of Dobzhansky and others laid the groundwork for the selectionist-neutralist controversy of the mid-century, and the 1980's saw the Kingman [-@Kingman1982] coalescent and the beginnings of DNA sequence-based analysis of genetic variation.  But for most of its history, population genetics has been a field rich in theory but starving for data.
 
@@ -20,11 +20,11 @@ That has now changed.  In the last twenty years, we have seen two revolutionary 
 
 Given this new environment, new pedagogical approaches are needed.  It is no longer sufficient to limit even basic instruction in the discipline to the "big A little a" philosophy.  More specifically:
 
-1.  The "struggle to measure variation" @Lewontin1974 is over.  In the era of 1000 human genomes and 101 dog genomes, detection and quantitation of genetic variation is no longer an experimental challenge (although making the genotype-phenotype connection remains a challenge).
+1.  The "struggle to measure variation" @Lewontin1974 is over.  In the era of thousands of human genomes and 101 dog genomes, detection and quantitation of genetic variation is no longer an experimental challenge (although making the genotype-phenotype connection remains one).
 2.  The single-gene approach to the field is only the starting point - variation can now be (and indeed must be) considered at the genomic level.  
 3.  The computational power of even the most basic laptop computer makes large-scale data retrieval and analysis straightforward.
 
-### Analytical vs. Numerical Approaches
+# Analytical vs. Numerical Approaches
 
 If you were to open any classical population genetics text to a random page, chances are you would find equations.  Lots of them.  And some of them would be quite awful.  Here's an example, taken from @FelsensteinBook
 
@@ -37,21 +37,23 @@ In a quantitative field like this, some algebra (and occasionally higher math) i
 That is the approach we will be using, to the greatest extent possible.  And that also addresses the question as to why what follows is built within the R programming language[@RHome].  Quite simply, it is a freely available programming environment that makes this approach feasible with a minimum amount of coding required.  In addition, it operates on multiple operating systems and is highly extensible, so that over the years, simple functions have been developed to address complex problems, and all of that code and material is readily available from central repositories (e. g. CRAN, BioConductor, and github).
 
 
-### The Elements of this Project
+# The Elements of this Project 
 
-#### Publication and Revision
+The basic elements of the project are described below.  Click on each tab to get more information about variaous aspects.
+
+## Publication and Revision
 
 This project is (and will continue to be) published as a set of interconnected html pages.  The reason for this is twofold.  First, by so doing, it is possible to include not only text and code, but also external figures, videos, etc. when appropriate.  Of course, there is some risk to that, in that links to external material can be ephemeral, however my philosophy is that while some dead links may be inevitable, this is a price we pay for what information can be incorporated from active ones.
 
 And this leads to the second reason for this approach, which is revision.  By using web-based publishing, it is a simple matter to make changes in content as needed and make the most recent versions available to readers.  Thus, each chapter includes a date, which is that of the most recent revision.  
 
-####  Text and Code
+##  Text and Code
 
 Most of the material in this project has been developed in the RStudio environment and published as html directly from it.  For the most part, raw code is shown, however the reader can opt to hide some or all of it.  The original Rmd code is available on [github](http://www.github.com/bjcochrane/PopGenWithR) (and of course, the github-savvy reader could choose to clone the repository and tinker with the code at will).
 
 
 
-#### TeachingPopGen
+## TeachingPopGen
 
 TeachingPopGen, or TPG, is an R package developed in conjunction with this project, which is envisioned as one that will simplify the learning curve of users who are not conversant with coding in general or R in specific.  It was built on the following principles:
 
@@ -69,7 +71,7 @@ install_github("bjcochrane/TeachingPopGen")
 library(TeachingPopGen)
 ```
 
-#### R vs. not R
+## R vs. not R
 
 The R purist (and there are many) thinks first about how a problem can be approached purely in that environment.  But in the spirit of trying to be accessible to users with varying computer proficiency, there are references to other programs, and often times data manipulations outside of R may be recommended.  Again, the goal is not to train programmers but rather to teach population genetics.  Thus, for example, Excel, especially with the Genalex add-on, is often a better way to get at some problems.  Similarly, it would be foolish to ignore elegant standalone packages like STRUCTURE and BEAST.  But all of those packages produce numerical output, and at times, working with them in R provides unique new opportunities for exploration.
 

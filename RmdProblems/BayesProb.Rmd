@@ -1,12 +1,8 @@
 ---
-title: <center>A Discrete Bayesian Problem</center>
+title: <center><h2>A Discrete Bayesian Problem</h2></center>
 author: <center></center>
 date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
-output: 
-    html_document:
-       css: Chapter.css
-       toc: no
-       toc_depth: 5
+output: word_document
 ---
 ```{r,echo=FALSE,warning=FALSE}
 library(knitr)
@@ -77,6 +73,9 @@ kable(dat)
 
 ### 5.  Interpretation
 
+1.  What prior assumptions do make regarding the data?
 1.  Explain in your own words the difference between the likelihood of the genotype that you calculated for each tribe in part 3 and the probabilities you calculated in part 4.  What data did you use in the latter calculation that you didn't in the former?  
 2.  Based on your calculations, what would you conclude about the origin of this particular sample?  As an experimenter, what might you do to strengthen your conclusion?
+
+
 

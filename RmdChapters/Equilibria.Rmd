@@ -4,7 +4,7 @@ date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
 bibliography:  ~/Dropbox/TPG.bib
 output: 
     html_document:
-       css: ~/Dropbox/Chapter.css
+       theme:  paper
        toc: yes
        toc_depth: 5
        code_folding: show

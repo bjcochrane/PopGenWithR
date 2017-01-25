@@ -1,12 +1,11 @@
 ---
-title: <h1>Introduction</h1>
-author: <h2></h2>
-date: <h2>`r format(Sys.Date(),format="%B %d %Y")`</h2>
+title:  Introduction
 bibliography: ../TPG.bib
 csl: ../genetics.csl.txt 
+date: <i>`r format(Sys.Date(),format="%B %d %Y")`</i>
 output: 
     html_document:
-       css: ../Chapter.css
+       theme: paper
        toc: yes
        toc_depth: 5
        code_folding: show

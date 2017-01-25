@@ -176,7 +176,7 @@ f.del
 ```
 #### Positive Selection
 
-So about 40% of polymorphism are deleterious.  What about positive selection?  How many of the substitutions that have occurred are adaptive?  Here, we can focus on the high frequency sites and compare levels of polymorphism with levels of divergence.  We've already done the above calculation (as.low above, with a value of `r as.low`)  From the data, we also know, for the same sites, the dNdS ratio:
+So about 40% of polymorphism are deleterious.  What about positive selection?  How many of the substitutions that have occurred are adaptive?  Here, we can focus on the high frequency sites and compare levels of polymorphism with levels of divergence.  We've already done the above calculation (as.high above, with a value of `r as.high`)  From the data, we also know, for the same sites, the dNdS ratio:
 
 ```{r}
 p.high =465/2411
