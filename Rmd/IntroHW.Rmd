@@ -32,7 +32,7 @@ T T | 66
 
 We want to ask two questions:
 
-1.  What are the allele frequencies (i. e. how many +'s and how many -'s are there)?
+1.  What are the allele frequencies (i. e. how many G's and how many T's are there)?
 2.  Most importantly, if these individuals were to mate at random, what would be the allele frequencies in the F1 generation?
 
 #### Determining Allele Frequencies
@@ -43,7 +43,7 @@ obs <- c(6,28,66)
 ```
 Note that c() is a function that concatenates a number of values, in this case integers, in order to create a vector.
 
-Now, let's ask how many +'s there are.  Recognizing that every + + homozygote  has two and every + - heterozygote has one, we can calculate that by
+Now, let's ask how many G's there are.  Recognizing that every GG homozygote  has two and every GT heterozygote has one, we can calculate that by
 ```{r}
 nA <-2*obs[1]+obs[2]
 nA
@@ -55,7 +55,7 @@ p <-nA/(2*N)
 p
 
 ```
-Now, we could repeat that process to determine the frequency of -, but here one of the simplest but most important relationships comes in to play.  Note that this is a biallelic locus, so if a particular allele is not G, it has to be T.  Thus, if we set the frequency of T to be q, then p+q must equal 1, or
+Now, we could repeat that process to determine the frequency of T, but here one of the simplest but most important relationships comes in to play.  Note that this is a biallelic locus, so if a particular allele is not G, it has to be T.  Thus, if we set the frequency of T to be q, then p+q must equal 1, or
 ```{r}
 q <-1-p
 q
@@ -66,7 +66,10 @@ Now, suppose we turn the question around.  Given p and q, as calculated above, a
 
 p{GG} = p{G}*p{G} = p^2^  
 p{TT} = p{T}*p{T} = q^2^  
-p{GT} =p{GT} or p{TG} = P{G} * P{T} + P{T} *P{G} = pq + qp = 2pq
+p{GT} =p{GT} or p{TG}   
+= P{G} * P{T} + P{T} *P{G}  
+= pq + qp   
+= 2pq
 
 We can can make a vector of those frequencies as follows
 ```{r}

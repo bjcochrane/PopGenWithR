@@ -50,9 +50,10 @@ If we then repeat this process for a second generation
 Do <-.25
 r <-c(.001,.01,.05,.1,.5)
 r <-rev(r) # simple way to reverse order of elements; not needed if they had been input from largest to smallest
-t <-c(1:50)
+t <-c(0:50)
 D <- sapply(r, function(x) Do*(1-x)^t )
 matplot(D, type="l",main="Decay of Linkage Disequilibrium", xlab ="Generation", ylab="D",lty=1)
+legend(40,.12,r,fill = 1:5,title="Recomb. Rate")
 ```
 
 From these results, two results are worth noting:

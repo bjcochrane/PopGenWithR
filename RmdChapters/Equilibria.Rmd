@@ -1,5 +1,5 @@
 ---
-title: <h1>The Hardy Weinberg Equilibrium</h1>
+title: <center>The Hardy Weinberg Equilibrium</center>
 date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
 bibliography:  ~/Dropbox/TPG.bib
 output: 
@@ -26,4 +26,4 @@ output:
 
 ```
 
-
+### References

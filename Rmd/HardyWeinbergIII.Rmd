@@ -1,6 +1,5 @@
 ---
-title: 
-- <center>Hardy Weinberg III <br> The Relationship between Genotype and Allele Frequencies</center>
+title: <center>Hardy Weinberg III <br> The Relationship between Genotype and Allele Frequencies</center>
 output:
   html_document:
     css: Chapter.css
@@ -33,6 +32,7 @@ p <-1-q
 fhet <-q/p
 plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
 ```
+
 And we see that as q increases, the ratio increases exponentially.  This becomes even more extreme as we approach 1:
 ```{r}
 q <-seq(.9,1,.001)
@@ -40,7 +40,9 @@ p <-1-q
 fhet <-q/p
 plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
 ```
+
 In fact, in this range, we can use the approximation of q ≈ 1, so that the ratio then ≈ 1/p:
+
 ```{r}
 plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
 lines(q,1/p,col="red", type="l")
@@ -50,9 +52,11 @@ And we see that indeed the fit is quite close
 #### Exploring the entire range of allele frequencies
 
 Now we want to examine expected heterozygosity for the entire range of possible values for p (0 to 1).  We can explore this graphically, using what is called a DeFinetti diagram (or sometimes a ternary plot).  It is best to work through a few by example.  Fortunately, the R package HardyWeinberg has excellent capabilities in this regard.
+
 ```{r,message=FALSE}
 library(HardyWeinberg)
 ```
+
 We will start by generating a plot that shows the theoretical relationship between p and heterozygosity.  First, however, we need to generate simulated  multiple locus data; for example 100 genes in a sample of 100
 
 ```{r}
@@ -71,6 +75,7 @@ And its structure is pretty clear.  We will come back to using these numbers in 
 HWTernaryPlot(dat, hwcurve=TRUE,addmarkers=FALSE,region=0,vbounds=FALSE,axis=2,vertexlab=c("0","","1"),axislab="P",main="Theoretical Relationship betweeen p and H",cex.main=1.2)
 abline(h=.5,lty=2)
 ```
+
 The parabola in this curve indicates the expected heterozygosity given the value of p plotted on the x axis.  What we see is that heterozygosity is maximized at 0.5 when p equals .5  (indicated by the dashed line).  
 
 Now we can add our simulated data to the plot.  Remember that we generated 100 simulated data points (genotype distributions for 100 alleles in a sample size of 100, all drawn from expected HW distribution).  Let's put them onto the de Finetti diagram

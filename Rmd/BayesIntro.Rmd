@@ -130,6 +130,8 @@ Remember - we had a completely uninformative prior - we started by assuming that
 
 
 ```{r}
+set.seed(12345)
+p <-runif(1000000,0,1)
 out.mean <-rep(0,100)
 for(i in 1:100){
   outcomes <-rbinom(1000000,10,p)

@@ -157,7 +157,7 @@ So first, what are the observed frequencies?
 genos.f.obs <-genos/sum(genos)
 genos.f.obs
 ```
-The observed heterozygosity is thus`r round(genos.f.obs[2],3)`; to make the notation easier, we'll assign that a name
+The observed heterozygosity is thus `r round(genos.f.obs[2],3)`; to make the notation easier, we'll assign that a name
 ```{r}
 Hobs <-genos.f.obs[2]
 ```
@@ -213,16 +213,16 @@ p<sub>i</sub> = f(homozygotes)+ 1/2∑ f(heterozygotes)
 
 And also, by extension, from an observed set of genotypes, we can estimate n allele frequencies and then estimate expected genotype frequencies and numbers, noting that if
 
-f(A1) = p
-f(A2) = q
-f(A3) = r
+f(A1) = p  
+f(A2) = q  
+f(A3) = r  
 
 then 
 
-f(A1A1)<sub>exp</sub> = p^2^
-f(A1A2)<sub>exp</sub> = 2pq
-f(A1A3)<sub>exp</sub> = 2pr
-etc. for six total genotypes
+f(A1A1)<sub>exp</sub> = p^2^  
+f(A1A2)<sub>exp</sub> = 2pq  
+f(A1A3)<sub>exp</sub> = 2pr  
+etc. for six total genotypes  
 
 And of course, we can again do a chi square test, with degrees of freedom; since we estimate both p and q from the data, we lose a total of three degrees of freedom (one for each parameter estimated and one for the number of categories) giving us a total of 6-3=3.
 
