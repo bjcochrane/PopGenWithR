@@ -36,10 +36,10 @@ But is pooling acrpss loci appropriate?  [Shapiro et al 2007](http://www.pnas.or
 We can do an MK test on the combined numbers as follows:
 
 ```{r}
-MK(c(130,250),c(60,180))
+MK(c(130,60),c(250,180))
 ```
 
-And we get a significant result, with FI>1, implying (as in the case of the Adh example) that there may have been positive selection giving rise to substitutions.  We know, however, that this is actually an artifact, due to the fact that the second locus is more constrained with respect to divergence (total substitutions=200 vs. 180) but more polymorphic (180 vs. 60).  Thus, there is a negative correlation between A/S and P/D. So what we need to do is the following:
+And we get a significant result, with FI>1, implying (as in the case of the Adh example) that there may have been positive selection giving rise to substitutions.  We know, however, that this is actually an artifact, due to the fact that the second locus is more constrained with respect to both polymorphism and divergence (both have dNds ratios of 0.2.  Thus, there is a negative correlation between A/S and P/D. So what we need to do is the following:
 
 1.  Generate an expected distribution of FI, based on the overall observed numbers
 2.  Calculate FI on a gene by gene basis for the actual data set and determine the mean
@@ -49,9 +49,9 @@ And we get a significant result, with FI>1, implying (as in the case of the Adh 
 
 First, let's create a matrix of the overall observations
 ```{r}
-N <-c(465,2307)
-S <-(c(2411,6286))
-Obs <-rbind(N,S)
+N <-c(465,2307) #nonsynonymous polymorphism, divergence
+S <-(c(2411,6286)) # synonymous polymorphism divergence
+Obs <-rbind(N,S) # make a matrix of them
 NS <-rowSums(Obs)
 Obs <-cbind(Obs,NS)
 PD <-colSums(Obs)
@@ -164,7 +164,7 @@ Here, the logic is that a derived allele with low frequency is likely to be the 
 
 ![Shapiro4](http://www.pnas.org/content/104/7/2271/F4.large.jpg)
 
-Note that the first three columns (derived alleles with 1, 2, and 3 copies in the sample) have N/S polymorphism levels higher than the rest, suggesting that,  there is a lower level of nonsynonymous polymorphism relative to synonymous because of purifying selection acting against these alleles.  based on this, we can first calculate the total ratios for these two classes:
+Note that the first three columns (derived alleles with 1, 2, and 3 copies in the sample) have P~n~/P~s~ ratios, reflective of the expectation that there are numerous nonsynonymous (but detrimental) polymorphisms in these classes, more than are seen in the more frequent, neutral classes.  Based on this, we can first calculate the total ratios for these two classes:
 ```{r}
 as.tot <-1462/4695
 as.high <-450/2413
@@ -187,7 +187,7 @@ So what we need to do is to determine how much higher, on average, FI is in the 
 
 ```{r}
 FI.obs <-1.97
-FI.exp <-1.40
+FI.exp <-1.40 
 ns.pos <-(FI.obs-FI.exp)/FI.obs
 ns.pos
 ```

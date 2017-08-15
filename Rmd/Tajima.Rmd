@@ -12,7 +12,7 @@ output:
 ---
 
 
-### Background
+## The Tajima Statistic (D)
 
 Now that we have our two estimators, we need to compare them and then somehow determine if they differ by more than we would expect by chance.  This brings us to one of the most widely  used statistics in molecular population genetics - Tajima's D.  What we will see is that, while the calculation of the estimator is straightforward, its distribution is another one (like the Ewens estimator) that is best determined by simulation. In addition, it is important to note at the outset is that there is not necessarily a single explanation for an outcome that differs significantly from expectation.   What we will do first, therefore, is to define the measure and then look at some real data.
 
@@ -53,7 +53,7 @@ D
 We note that three values are returned:
 
 1.  $D is the actual value of the statistic.  In this case we see that it is negative, suggesting that the tendency is towards a disproportionate number of low frequency variants.
-2.  $Pval.normal and $Pval.beta are estimates of the probability of the data, based on the assumption of the distribution of D being either normal or a beta distribution.  These values are approximations at best; we will see that simulation provides a much better means of comparing our results to an expected distribution.
+2.  $Pval.normal and $Pval.beta are estimates of the probability of the data, based on the assumption of the distribution of D being either a normal or a beta distribution.  These values are approximations at best; we will see that simulation provides a much better means of comparing our results to an expected distribution.
 
 ### What does this tell us?
 

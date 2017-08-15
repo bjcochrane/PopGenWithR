@@ -6,7 +6,7 @@ bibliography: ../TPG.bib
 csl: ../genetics.csl.txt 
 output: 
     html_document:
-       css: ../Chapter.css
+       theme: paper
        toc: yes
        toc_depth: 5
        code_folding: show
@@ -16,6 +16,18 @@ output:
 ```
 
 ```{r,child="../Rmd/CoalescenceTheory.Rmd"}
+
+```
+
+```{r,child="../Rmd/PiSCoalescence.Rmd"}
+
+```
+
+```{r,child="../Rmd/PiSCoalescenceII.Rmd"}
+
+```
+
+```{r,child="../Rmd/Tajima.Rmd"}
 
 ```
 

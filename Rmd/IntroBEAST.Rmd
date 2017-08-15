@@ -5,8 +5,7 @@ date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
 bibliography: TPG.bib
 output: 
     html_document:
-       css: Chapter.css
-       toc: yes
+       theme:  paper
        toc_depth: 5
 ---
 
@@ -38,13 +37,13 @@ system("ms 10 1 -s 15 -r 0 703 -seed 1 2 3 | ms2dna >./BEAST/demo1.fasta")
 We can visualize them in the usual way:
 
 ```{r}
-seqs <-read.FASTA("../BeastDemo/demo1.fasta")
+seqs <-read.FASTA("./BeastDemo/demo1.fasta")
 image.DNAbin(as.matrix(seqs))
 ```
 
 .  However, rather than staying in R, we will detour (in class) to the BEAST pipeline, doing the following:
 
-1.  Load the data into BEAUTi, the program that prepares the model for BEAST analysis.  In so doing, we will, with two exceptions.  First, we will specify that we want to use a constant size coalescent model as our prior distribution of trees.  Second,   We will reduce the number of MCMC cycles to 1,000,000 and specify a burn-in (early trees we discard) of 100,000.  Note also that we will only save every 1000th tree.
+1.  Load the data into BEAUTi, the program that prepares the model for BEAST analysis.  In so doing, we will, with two exceptions, stick to defaults.  First, we will specify that we want to use a constant size coalescent model as our prior distribution of trees.  Second,   We will reduce the number of MCMC cycles to 1,000,000 and specify a burn-in (early trees we discard) of 100,000.  Note also that we will only save every 1000th tree.
 2.  Run BEAST
 3.  Return to R to see some of what we got.
 
@@ -59,14 +58,14 @@ list.files("./BeastDemo")
 The key files are demo1.log and demo1.trees.  Our focus for now will be on the trees.  They are stored in what is called a "nexus" format, and they can be easily read by R.
 
 ```{r}
-trees <-read.nexus("../BeastDemo/demo1.trees")
+trees <-read.nexus("./Beast/demo1.trees")
 length(trees)
 ```
 
 So we see we have `r length(trees)` of them.  What we can now do is to sample a few of them and look at their topology:
 
 ```{r}
-par(mfrow=c(2,2))
+par(mfrow=c(1,1))
 s <-sample(length(trees),4)
 x <-sapply(s, function(x) plot(trees[[x]]))
 
@@ -91,7 +90,7 @@ So obviously, at this point we need to think more about where the distribution o
 As noted above, BEAST produces two output files, one containing the distribution of trees and the other calculations derived from each of those trees.  The log file is almost never used directly - rather it is used as input for analysis in TRACER.  However, for completeness sake, we can briefly look at its contents:
 
 ```{r}
-dat.log <-read.table("../BeastDemo/demo1.log",header=TRUE)
+dat.log <-read.table("./Beast/demo1.log",header=TRUE)
 head(dat.log)
 ```
 
@@ -105,7 +104,7 @@ abline(v=median(dat.log$popSize),col="darkred")
 We can also get a preview of one of the kinds of output we will be looking at:
 
 ```{r}
-plot(dat.log$popSize,xlab="Sample",ylab="N", main="Population Size Scaled by Substitution Rate",type="l")
+plot(dat.log$popSize,xlab="Sample X 10^3",ylab="N", main="Population Size Scaled by Substitution Rate",type="l")
 ```
 
 What we see is evidence for good "mixing" - that is, there are no evident correlations among sequentially accepted values in the distribution.

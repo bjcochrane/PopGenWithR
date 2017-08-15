@@ -11,7 +11,7 @@ output:
     toc_depth: 5
 ---
 
-## The Underlying Theory
+## Part 2.  The Underlying Theory
 
 So keep in mind - our essential questions is the following:  *Given an observed set of allelic DNA sequences, what can we infer about the evolutionary processes that gave rise to them?*  For now, we're going to simplify the question by only asking whether the data can be explained by the processes of mutation and drift occurring in a finite population.  Furthermore, since we are working backwards from extant species, we needn't be concerned about the vast number of new variants that would have been lost by the processes we've already discussed.
 
@@ -94,7 +94,7 @@ And we see that the expectation is that E(TMRCA)  is `r sum(t)`.  Keep this valu
 
 #### Total branch length
 
-In looking at our tree, we can also ask what the total lengths of the branches are.  Based on our previous calculations, this actually turns out to be easy.  if we have k lineages at a given point, each with an expected time to coalescence (which we've already determined) then for the tree length in going from k to k-1 is simply k(E(k)).  For the entire tree, therefore, we can sum this, like we did before, over k=2 to k=n.  The algebra of this is pretty straightforward (see equation 3.13 in NS) - it ends up to be
+In looking at our tree, we can also ask what the total lengths of the branches are.  Based on our previous calculations, this actually turns out to be easy.  if we have k lineages at a given point, each with an expected time to coalescence (which we've already determined) then for the tree length  in going from k to k-1 is simply k(E(t~k~)).  For the entire tree, therefore, we can sum this, like we did before, over k=2 to k=n.  The algebra of this is pretty straightforward  - it ends up to be
 
 \(E[tree\,length]=2∑_{k=1}^{n-1}\frac{1}{k}\)
 
@@ -134,11 +134,12 @@ The first column of this is simply the estimates of TMRCA for each of the 1000 s
 ```{r,results='hide',fig.height=10}
 tms <-2*sims.out$times
 sim.mean <-apply(tms,2,mean) #ms scales in terms of 4N, so we've mutliplied by 2 for comparison's sake.
-par(mfrow=c(2,1))
+#par(mfrow=c(2,1))
 sapply(1:2,function(x){ hist(tms[,x],main=colnames(tms)[x],xlab=" ")
                         abline(v=sim.mean[x],col="red")})
 
 sim.mean
+par(mfrow=c(1,1))
 ```
 
 

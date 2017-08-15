@@ -126,12 +126,13 @@ The remarkable part of this equation is that k is simply a function of &theta; a
 2.  Based on n and k (the number of samples and the number of alleles in our data) simulate the expected distribution of F<sub>t</sub> (just as we did earlier for the binary and normal distributions)
 3.  Compare our observed value to that distribution and ask if the deviation from expectation is significant at the .05 level.
 
-The problem at the time (1980 or thereabouts) was that in all of this, we are assuming that we can detect every allele, and with electrophoresis as our tool, that is not possible.  However, Jerry Coyne in Richard Lewontin's lab developed a technique known as sequential electrophoresis, that came close to meeting this assumption.  Keith et al [-@Keith1985] applied the technique to the Xdh locus in 89 lines of *Drosophila pseudoobscura* and obtained the following results:
+The problem at the time (1980 or thereabouts) was that in all of this, we are assuming that we can detect every allele, and with electrophoresis as our tool, that is not possible.  However, Jerry Coyne in Richard Lewontin's lab developed a technique known as sequential electrophoresis, that came close to meeting this assumption.  Keith et al [-@Keith1985] applied the technique to the Xdh locus in 89 homozygous lines of *Drosophila pseudoobscura* and obtained the following results:
 
 ```{r}
 Xdh <- c(52,9,8,4,4,2,2,1,1,1,1,1,1,1,1) # vector of observed allele numbers
 k =length(Xdh) # number of alleles = k
 n = sum(Xdh) #number of samples = n
+k; n
 ```
 
 There are thus `r k` alleles in a sample of `r n` total alleles.  We can quickly visualize their distribution (or *allele frequency spectrum*):
@@ -154,6 +155,7 @@ Fx
 
 Now, we can look at how our observed F<sub>t</sub> compares to the distribution of 1000 simulated values, providing the function Ewens with n, k, and our expected homozygosity:
 ```{r}
+par(xpd=FALSE)
 Ewens(n,k,Fx)
 freq.even <-rep(k/n,k)
 Fx.even <- fhat(freq.even)

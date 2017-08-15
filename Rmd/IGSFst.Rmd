@@ -17,9 +17,9 @@ library(hierfstat)
 library(knitr)
 cite_options("citation_format" = "pandoc",hyperlink = TRUE,max.names = 2)
 ```
-### Background
+## An example - the Idaho Giant Salamander
 
-In our previous unit, we saw how we could quantify population subdivision based on variation in allele frequencies among subpopulations. However, we only considered the simplest possible case, one in which there are some number populations, and we want to assess how well they are differentiated from one another.  But consider another possibility - suppose we'd like to look at multiple levels of division - for example among populations within a region, among regions within a continent, etc.  A wonderful paper on Idaho Giant Salamanders `r citet ("10.1111/j.1365-294X.2010.04541.x")` does just that (albeit on a smaller scale).  This is the creature:
+In our previous unit, we saw how we could quantify population subdivision based on variation in allele frequencies among subpopulations. However, we only considered the simplest possible case, one in which there are some number of populations, and we want to assess how well they are differentiated from one another.  But consider another possibility - suppose we'd like to look at multiple levels of division - for example among populations within a region, among regions within a continent, etc.  A wonderful paper on Idaho Giant Salamanders `r citet ("10.1111/j.1365-294X.2010.04541.x")` does just that (albeit on a smaller scale).  This is the creature:
 
 ![IDS1](https://dl.dropboxusercontent.com/u/9752688/QPopgen/figs/IDS.jpeg)
 
@@ -115,8 +115,3 @@ And we see that, based on this analysis, the distribution of genotypes among str
 
 So what have we accomplished so far? In the case of the Idaho Giant Salamander, differentiation among catchments is the most striking, suggesting limited or no gene flow among them, akin to the Death Valley Model.  In contrast, when we look within catchments, while significant differentiation exists among streams, its lower level is consistent with more gene flow, perhaps consistent with the stream hierarchy model.  But at this point, we are basing everything on an overall assessment of population structure.  What we have not done is to look at particular comparisons.  For example, how does differentiation among streams within one particular catchment compare with another?   
 
-### References
-
-```{r,echo=FALSE,message=FALSE}
-write.bibtex(file="bibliography.bib")
-```

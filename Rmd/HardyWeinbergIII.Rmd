@@ -13,7 +13,7 @@ Think about relationship between p and heterozygosity (fraction of individuals t
 
 #### Thinking about rare alleles
 
-In diploids particular allele (call it a) can exist in one of two states - either in a homozygote or a heterozygote.  If its frequency is q, and the size of the population is N, then there are 2N copies of the allele, and the number that are in homozygotes is simply 2Np^2^.  Thus, we can determine the fraction of a alleles that occur in homozygotes to be
+In diploids particular allele (call it a) can exist in one of two states - either in a homozygote or a heterozygote.  If its frequency is q, and the size of the population is N, then there are 2N copies of the allele, and the number that are in homozygotes is simply 2Nq^2^.  Thus, we can determine the fraction of a alleles that occur in homozygotes to be
 
 2Nq^2^/2Nq = q
 
@@ -30,22 +30,22 @@ And that leads us to the following critical prediction:  **Most rare alleles are
 q <-seq(0,.9,.001)
 p <-1-q
 fhet <-q/p
-plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
+plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p",xlab="p")
 ```
 
-And we see that as q increases, the ratio increases exponentially.  This becomes even more extreme as we approach 1:
+And we see that as p increases, the ratio increases exponentially.  This becomes even more extreme as we approach 1:
 ```{r}
 q <-seq(.9,1,.001)
 p <-1-q
 fhet <-q/p
-plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
+plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p",xlab="p")
 ```
 
 In fact, in this range, we can use the approximation of q ≈ 1, so that the ratio then ≈ 1/p:
 
 ```{r}
 plot(q, fhet,type="l", ylab="heterozygote/homozygote", main="Heterozygote/Homozygote as a Function of p")
-lines(q,1/p,col="red", type="l")
+lines(q,1/p,col="red", type="l",xlab="p")
 ```
 And we see that indeed the fit is quite close
 

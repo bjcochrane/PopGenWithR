@@ -15,7 +15,7 @@ library(TeachingPopGen)
 ```
 
 
-### Background
+## Introducing F~st~
 
 Having spent some time thinking about the history of alleles, we now want to turn our attention back to genotypes and their distributions.  Of course, all of our considerations in this context have been in terms of departure from Hardy-Weinberg expectations, which we can test for significance by a &chi;^2^ test or related procedure.
 
@@ -35,18 +35,24 @@ We can start with one population, of size 100.  It has some allele frequency p. 
 
 ```{r}
 set.seed(1123)
-pop1 <-HWData(nm=1,n=100,f=runif(1,0,1), p=runif(1,.05,.5))$Xc # generate data for a random locus with some p between .05 and .5 and some f between 0 and 1
+pop1 <-HWData(nm=1,n=100,f=runif(1,0,1), p=runif(1,.05,.5))# generate data for a random locus with some p between .05 and .5 and some f between 0 and 1
 pop1
 ```
 Now we want to calculate the expected heterozygosity (2pq).  This is fairly straightforward; we can do it as follows
 ```{r}
-p <-pop1[1]+pop1[2]*.5
+p <-(2*pop1[1]+pop1[2])/(2*sum(pop1))
 Hexp <-2*p*(1-p)
 Hexp
 ```
-And of course, Hobs is the observed frequency of AB, the second element in pop1, or `r pop1[2]` in this case.  So we can get F as follows
+And of course, Hobs is the observed frequency of AB, the second element in pop1:
+
 ```{r}
-F.pop1 <-1-(pop1[2]/Hexp)
+Hobs <-pop1[2]/sum(pop1)
+Hobs
+```
+
+```{r}
+F.pop1 <-1-(Hobs/Hexp)
 F.pop1
 ```
 So if this were all we had, we would conclude that observed heterozygosity is less than expected, suggesting, for example, some form of assortative mating or inbreeding, leading to the observed reduction.
@@ -58,7 +64,7 @@ Now consider the following - we have two populations with the following allele f
 pop1 <-c(.64,.32,.04)
 pop2 <-c(.09,.42,.49)
 ```
-We saw that both were in Hardy-Weinberg equilibrium, so in the context of our current consideration
+We saw easily seethat both are in Hardy-Weinberg equilibrium, so in the context of our current consideration
 
 * F(pop1) = F(pop2) = 0
 
@@ -87,7 +93,7 @@ In the preceding discussion, we showed two ways , given a single sample of genot
 
 We'll use the package HardyWeinberg to generate our data, allowing for both variation in allele frequency (p) and within-subpopulation departure from expected heterozygosity (f):
 ```{r}
-dat <-(sapply(c(1:5),function(x) (HWData(nm=1,n=100,f=runif(1,.05,.2),p=runif(1,.1,.9))$Xc)))
+dat <-(sapply(c(1:5),function(x) (HWData(nm=1,n=100,f=runif(1,.05,.2),p=runif(1,.1,.9)))))
 rownames(dat) <-c("AA","AB","BB")
 dat
 ```
@@ -96,7 +102,7 @@ dat
 First, we can simply ask qualitatively whether heterozygosity in each of the five populations differs from expected:
 
 ```{r}
-f1 <-apply(dat,2,Fis)
+f1 <-apply(dat,2,Fis,freq=FALSE)
 f1
 ```
 And we see that we have varying degrees of departure from expectation.
@@ -105,6 +111,7 @@ And we see that we have varying degrees of departure from expectation.
 
 Think back on what we've said so far about within-population departures from expectations and those resulting from the Wahlund effect.  In the case of the former, the critical parameter is observed heterozygosity; in the latter, the critical elements are the allele frequencies of the subpopulations.  So let's create a matrix that includes those numbers - p, q, and Hobs - for each population
 ```{r}
+dat <-apply(dat,2,function(x) x/sum(x))
 p <-apply(dat,2,function(x) x[1]+.5*x[2])
 dat.2 <-rbind(p,1-p,dat[2,])
 rownames(dat.2) <-c("p","q","Hobs")

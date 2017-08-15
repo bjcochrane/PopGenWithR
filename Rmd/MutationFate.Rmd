@@ -23,7 +23,7 @@ In his chapter on stochastic processes in evolution, @Gillespie2006 begins with 
 
 For simplicity's sake, we're going to use a haploid model for this exercise.  Let N be the population size, which is constant, and suppose that in generation zero, a single mutation occurs.  All of the members then reproduce, with the number of progeny of each individual being a Poisson variable with mean 1 (i. e. the average progeny per individual is one.).  We can simulate that as follows:
 ```{r}
-N <-10000
+N <-100000
 u <-rpois(N,1)
 hist(u,xlab="N",main="Simulated Poisson Distribution, N=10000, µ=1") 
 ```
@@ -48,7 +48,7 @@ x1
 
 And note that if we use the results from our LB analysis above, in which we found the mean reproduction rate of mutants to be 1.08, then we would get
 ```{r}
-exp(.95*(-1))
+exp(1.08*(-1))
 
 ```
 Which is not that much different!  Even though the mutant cells have an 8% fitness advantage, usually considered to be quite large, there is still a 33% chance that it will be lost due to chance in population of constant size.

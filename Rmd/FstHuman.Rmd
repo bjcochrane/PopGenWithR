@@ -19,7 +19,7 @@ cite_options("citation_format" = "pandoc",hyperlink = TRUE,max.names = 2)
 
 
 
-### Introduction
+## Application to Human Data
 
 In this unit we want to do three things.  First, from our browser, we will take a look at ALFRED, a database of human allele frequencies maintained by Ken Kidd at Yale University.  Second, we will use some of those data to introduce the idea of nested F statistic analysis, wherein we ask at what level (population and/or continent) population subdivision occurs.
 
@@ -61,7 +61,7 @@ head(dat.cont)
 barplot(dat.cont$Nq/dat.cont$N2,names.arg=dat.cont$Continent,las=2,main= "Figure 2")
 ```
 
-### Calculating Fst
+### Calculating F~st~
 
 #### By Continent
 
@@ -84,9 +84,9 @@ And we can summarize the results:
 
 Source | Statistic | Value
 ---|---|---
-Among Populations Within Continent | Fsr | `r fst.n$Fsr`
-Among Populations Relative to Total | Fst | `r fst.n$Fst`
-Among Continents Relative to Total | Frt | `r fst.n$Frt`
+Among Populations Within Continent | F~sr~ | `r fst.n$Fsr`
+Among Populations Relative to Total | F~st~ | `r fst.n$Fst`
+Among Continents Relative to Total | F~rt~ | `r fst.n$Frt`
 
 ### Interpretation
 

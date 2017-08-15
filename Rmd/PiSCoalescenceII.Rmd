@@ -13,14 +13,10 @@ output:
 library(knitr)
 ```
 
-### Background
+## Exploring Further
 
 So, combining analysis of DNA sequence variation with coalescence theory, we see that we have two simple estimators of &theta;, one based on the number of segregating sites in the data (S) and the other, which is in fact just the mean pairwise differences, or π.  Since they are estimates of the same paramter (and are both unbiased), we might expect them to yield the same value, right?  Let's explore that further.
 
-```{r}
-
-library(TeachingPopGen)
-```
 
 ### A simple tree
 
@@ -30,13 +26,13 @@ So what we will do is to use ms to get us a very simple data set.  We will then 
 
 First, we will use ms to generate a tree and dataset with 6 samples and three segregating sites
 ```{r}
-
+par(mfrow=c(1,1))
 set.seed(123)
 tr <-ms(nsam=6, nreps=1, opts=("-s 3 -T"))
 plot(read.tree(text=tr),use.edge.length=FALSE)
 ```
 
-#### Look at the data
+### Look at the data
 
 Now let's  see the actual gametes that gave rise to this tree
 ```{r}
@@ -48,7 +44,7 @@ kable(gams,align="l")
 
 As an exercise, you should now be able to walk through the tree, remembering that the ancestral haplotype was (0 0 0) and position the mutations accordingly.  Having done that, we now want to calculate the two estimators of &theta;.
 
-#### Calculating π
+### Calculating π
 
 Remember that we just need to take every pair of sequences, count the number of differences, and divide the sum of those differences by n(n-1)/2.  The following function will do that
 
@@ -73,7 +69,7 @@ pi.sim
 ```
 And that, of course, is our estimator of &theta;
 
-#### Estimating &theta;<sub>w</sub>
+### Estimating &theta;<sub>w</sub>
 
 For the Watterson estimator of &theta; remember that  we need to divide S by ∑(1/k) summed over 1 to k-1
 ```{r}
@@ -101,10 +97,11 @@ And as you map these mutations, you will see that they all occur in the tip bran
 
 ```{r}
 pi.2 <-picalc(g2)
+pi.2
 ```
 And we get a value of `r pi.2`, which can be compared with the value from the original data set of `r pi.sim`.  Not a huge difference, but a difference nevertheless.  And remember - the Watterson estimator is identical for the two scenarios.  So we need to explore the relationship between π and the location of mutations on the tree more closely.
 
-### π, S, and the Site Frequency Spectrum
+## π, S, and the Site Frequency Spectrum
 
 Remember that the site frequency spectrum simply consists of the numbers of sites that differ at 1,2, . . .n/2 among the sequences sampled.  It should be very obvious that if we take the sum of all of the classes in the SFS, what we get is S.  For π, the relationship is a bit more complicated, but with a little bit of thought, we can get to the following relationship:
 

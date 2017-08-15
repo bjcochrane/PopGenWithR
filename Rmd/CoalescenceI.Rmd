@@ -43,7 +43,8 @@ library (phangorn) #note that this make take a while to load
 ```{r}
 
 tree.rat <-pratchet(as.phyDat(acp29),trace=0) # Do parsimony; requires conversion of data to different type of object
-plot(tree.rat) # Plot the data, ignoring inferred branch lengths
+tree.rat <-root(tree.rat,16,resolve.root=TRUE)
+plot(tree.rat,root.edge=TRUE) # Plot the data, ignoring inferred branch lengths
 ```
 
 Don't take this tree too seriously; it is simply a possible gene genealogy, and there are no doubt many more.  Remember - we are dealing with alleles in a population, not genes in different species.  So we need to dig further.
@@ -66,7 +67,7 @@ tr <-ms(nsam=17,nreps=6,opts ="-s 15 -r 0 702 -T" )
 We will talk a lot more about using ms output, but for now, we can use the read.tree function in `ape`[@Paradis2004] to extract the data and then plot the trees:
 
 ```{r, results='hide', fig.height=15}
-par(mfrow=c(3,2))
+#par(mfrow=c(3,2))
 trees <-read.tree(text=tr)
 sapply(trees,plot)
 par(mfrow=c(1,1))

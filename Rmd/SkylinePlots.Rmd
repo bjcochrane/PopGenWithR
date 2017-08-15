@@ -39,11 +39,11 @@ tr <-read.tree(text=tr)
 Now we can look at the tree, along with a simple skyline plot of the tree
 
 ```{r,fig.show='hold'}
-
-plot(tr)
+par(mfrow=c(2,1))
+plot(tr,cex=.5)
 sk <-skyline(tr)
 plot(sk)
-
+par(mfrow=c(1,1))
 ```
 
 Note that in all of these plots, the Y axis is in actuality Ne multiplied by the substitution rate (something that we would have to provide).  
@@ -65,6 +65,7 @@ eps
 And if we plug that into our skyline plot, and compare it with our previous plot
 
 ```{r,fig.show='hold'}
+par(mfrow=c(2,1))
 plot(skyline(tr), main="Uncorrected")
 plot(skyline(tr,eps),main=paste("epsilon = ",round(eps,3)))
 ```
@@ -89,7 +90,7 @@ tree.gr <-read.tree(text=m.out)
 And we can repeat what we did above to get an initial skyline plot
 ```{r,fig.show='hold'}
 
-plot(tree.gr)
+plot(tree.gr,cex=.5)
 plot(skyline(tree.gr))
 ```
 
@@ -199,7 +200,7 @@ So to proceed, we need to do two things:
 
 ```{r}
 data(furseals)
-image.DNAbin(as.matrix(fur.dat))
+image.DNAbin(as.matrix(fur.dat),show.labels = FALSE)
 fur.dat
 length(seg.sites(fur.dat))
 ```

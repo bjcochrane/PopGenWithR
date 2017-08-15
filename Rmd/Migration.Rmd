@@ -15,7 +15,7 @@ library(TeachingPopGen)
 ```
 
 
-### Background
+## Migration
 
 Having now developed the basic analytical framework for quantifying population subdivision, we need to consider the process that prevents populations from being completely isolated from one another - migration, or gene flow.  There are some fairly simple deterministic models that can be used to predict expected  outcomes with respect to allele frequency changes; we will consider them briefly.  However, bearing in mind that our real goal is to make inferences about how past migratory patterns have contributed to current distributions of genetic variation, it is worth is to explore migration in the context of coalescence in some detail.
 
@@ -37,13 +37,13 @@ p'-p^\*^ = (1-m)(p-p^\*^ )
 
 and for t generations, we get
 
-p^t^ -p^\*^ = (1-m)^t (p-p^\*^ )
+p^t^ -p^\*^ = (1-m)^t^ (p-p^\*^ )
 
 or
 
 p^t^ = p^\*^ + (1-m)^t^ (p-p^\*^)
 
-This, of course, we can visualize.  We will examine the case where the allele we are following is initially fixed on the island population and absent on the continent, and m=.01
+This, of course, we can visualize.  We will examine the case where the allele we are following is initially fixed on the island population, has a frequency of 0.05 on the continent, and m=.01
 
 ```{r}
 pstar=.05
@@ -52,9 +52,10 @@ m=.01
 t <-c(1:500)
 p <-pstar+(1-m)^t*(p0-pstar)
 plot(p, type="l")
+p[500]
 p[500]-pstar
 ```
-And perhaps not surprisingly, We see that the island allele frequency declines, such that by 500 generations it is `r p[500]`, which differs from the frequency onf the continent by `r p[500]-pstar`.
+And perhaps not surprisingly, We see that the island allele frequency declines, such that by 500 generations it is `r p[500]`, which differs from the frequency on the continent by `r p[500]-pstar`.
 
 #### The Island Model
 
@@ -80,9 +81,10 @@ plot(t,xlim <-c(1:50), ylim=c(0,1), xlab="Generation", ylab="p", main="Island Mo
 traj <-lapply(p,function(x) pmean+(1-m)^t*(x-pmean))
 lapply(traj,lines)
 ```
+
 ### Migration and Fst
 
-There are other important models we need to consider - notably isolation by distance and divergence - but for now, from these verhy basic calculations we've done, it should be clear that migration is a strong force to reduce allele frequency differentiation among subpopulations.  That suggests that we should be able to derive a relationship between migration rate and Fst.  Remember that Fst is a measure of the reduction of heterozygosity resulting from allele frequency, and is thus a measure of the probability of identity by descent resulting from subdivision.  
+There are other important models we need to consider - notably isolation by distance and divergence - but for now, from these verhy basic calculations we've done, it should be clear that migration is a strong force to reduce allele frequency differentiation among subpopulations.  That suggests that we should be able to derive a relationship between migration rate and Fst.  Remember that Fst is a measure of the reduction of heterozygosity resulting from allele frequency variation, and is thus a measure of the probability of identity by descent resulting from subdivision.  
 
 In that context, therefore, we can consider the following relationship:
 
@@ -141,6 +143,7 @@ set.seed(456)
 M <-c(.1,.5,1,5)
 sapply(M,migtree)
 ```
+
 For visual effect, we've color-coded the samples from the three subpopulations.  A few things are evident:
 
 1.  At low migration (e. g. M=.1) the three supopulations largely form separate clades.  As M increases, this effect decreases, such that when M=5, there is no visually evident association between subpopulation and position on the geneology.
@@ -150,7 +153,7 @@ For visual effect, we've color-coded the samples from the three subpopulations. 
 
 We've already seen that we can use S and π as estimators of &theta; and that we can use the Tajima statistic as one means to test whether observed data fit the expectations of neutral coalescence.  We have also shown, using classical analysis of heterozygosity, that we have a measure of subdivision, Fst, and that Fst is dependent on a &theta; -like parameter, 4Nem.  It is a fairly simple process to demonstrate that in fact, the migration parameter functions very similarly to &theta; in affecting mean time to coalescence and so forth.  But what we'd like to do now is to put these things together to explore the effect of migration in more detail.
 
-To do so, we are going to turn to msABC to do our simulations, since it returns a much richer set of summary statistics, including, when the -I parameter is specified, values for Fst.  Let's do an example, with 4NeM equal to 1:
+To do so, we are going to turn to msABC to do our simulations, since it returns a much richer set of summary statistics, including, when the -I parameter is specified, values for Fst.  Note that msABC does not run on a Mac anymore; this was executed on the Redhawk cluster in Linux.    Let's do an example, with 4NeM equal to 1:
 
 ```{r}
 #system("msABC 30 1000 -t 3 -I 3 10 10 10 2 >msabc.migout")
@@ -158,7 +161,9 @@ To do so, we are going to turn to msABC to do our simulations, since it returns 
 sum.mig <-read.table("../msabc.migout",header=TRUE)
 names(sum.mig)
 ```
+
 And what we see is we get a whole bunch of data.  Some of them (those whose name end with a number) are for the individual subpopulations; others are for the population as a whole.  For now, we can concentrate on them, in particular the two we have alluded to before, Fst and D.
+
 ```{r}
 par(mfrow=c(2,1))
 fst.sim <-sum.mig$s_fst
@@ -168,15 +173,16 @@ d.sim <-sum.mig$s_tajimasD
 mean(d.sim)
 colhist(d.sim, xlab="D",ylab= "Number",main="D - Migration")
 ```
+
 So we see that Fst, based on the simulation approach, is significantly different from zero.  D, while positive, is not.
 
 ### Another Scenario - Divergence
 
 #### Overview
 
-Up until now, we have considered a model of a subdivided population, in which migration is a constant over time (the island model).  But what about the case in which subpopulations result from a vicariance event, in which a single population was, at some point in history, split into two?  In that case (illustrated in Figure 4.6).
+Up until now, we have considered a model of a subdivided population, in which migration is a constant over time (the island model).  But what about the case in which subpopulations result from a vicariance event, in which a single population was, at some point in history, split into two?  
 
-We will take the same approach we did with respect to migration.  First, we will build a model as follows.  We have taken 10 samples of 1000 bases from each of two populations; will assume an overall effective population size at time zero of 40,000 and a per locus mutation rate of 10^-5 .  Thus &theta; = 4X40000*10^-5 = `r 4*40000^10^-5`.   Then we will posit a vicariant split 30,000 generations ago, in which population two split from population.  For events of this nature, ms scales time in terms of 4N generations, so we can calculate the time accordingly as 30,000/(4*40,000), or `r 30000/160000`.  We specify that with the ej parameter as in the statement below.  
+We will take the same approach we did with respect to migration.  First, we will build a model as follows.  We have taken 10 samples of 1000 bases from each of two populations; will assume an overall effective population size at time zero of 40,000 and a per locus mutation rate of 10^-5 .  Thus &theta; = 4X40000\*10^-5^ = `r 4*40000^10^-5`.   Then we will posit a vicariant split 30,000 generations ago, in which population two split from population one.  For events of this nature, ms scales time in terms of 4N generations, so we can calculate the time accordingly as 30,000/(4*40,000), or `r 30000/160000`.  We specify that with the ej parameter as in the statement below.  
 
 So let's look at two trees and see what we get
 
@@ -196,6 +202,7 @@ nmcol[which(nm2>10&nm2<=20)]="darkgreen"
 plot(tr.div,tip.col=nmcol)
 }
 ```
+
 And in general, what we see is something similar to what we saw with the migration model - nonrandom clustering of lineages with respect to subdivision, reflective of coalescence events that occurred subsequent to the population split.  But of course we need to quantitate this, so again, we'll use msABC simulations with the same parameters to look at the mean and distribution of Fst:
 
 ```{r}
@@ -203,6 +210,7 @@ And in general, what we see is something similar to what we saw with the migrati
 msabc.div <-read.table("../msabc.div",header=TRUE)
 #names(msabc.div)
 ```
+
 And we can look at what we see:
 
 ```{r}
@@ -211,6 +219,7 @@ colhist(msabc.div$s_tajimasD,xlab="D",ylab="Number",main="D - Divergence")
 mean(msabc.div$s_fst)
 mean(msabc.div$s_tajimasD)
 ```
+
 So if we compare results from the two models, we can see that Fst does not distinguish between them.  With respect to D, while the migration mean of the migration model is positive and that of the divergence one is negative, in fact neither value is significantly different from zero.
 
 ### Conclusions
@@ -218,7 +227,7 @@ So if we compare results from the two models, we can see that Fst does not disti
 We can wrap up our use of coalescent simulations up to now with a few broad statements:
 
 1.  The neutral coalescent provides us with an excellent way to model DNA sequence evolution in populations - we can compare observed data (π and S) to those expected under either simple (&theta; as the only parameter) or more complex models.
-2.  In the simple case of constant population size and mutation rate, with no subdivision, we can use Bayesian logic as a means of getting at least a rough estimate of the neutral paramter.
+2.  In the simple case of constant population size and mutation rate, with no subdivision, we can use Bayesian logic as a means of getting at least a rough estimate of the neutral parameter.
 3.  As we make the model more complex, adding demographics and/or population structure into the mix, our problems multiply.  
 4.  Using the statistics we have focused on to date, we find ourselves unable to distinguish between two very distinct models of population history.
 

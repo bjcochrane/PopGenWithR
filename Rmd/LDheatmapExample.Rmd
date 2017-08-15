@@ -46,7 +46,7 @@ One way we can visualize this is as a *heatmap*:
 dat <-rbind(c(0,.25,.10),c(.25,0,.15),c(.10,.15,0))
 dat <-dat/.25
 colnames(dat) <-rownames(dat) <-c("A","B","C")
-xx <-LDheatmap(dat,color = heat.colors(10),add.key = FALSE,SNP.name = c("A","B","C"),add.map = TRUE)
+xx <-LDheatmap(dat,color = heat.colors(10),add.key = FALSE,SNP.name = c("A","B","C"),add.map = TRUE,text = FALSE)
 ```
 
 Note that the strongest LD is between locus A and B; in the heatmap the block connecting the two is red. It is somewhat less between B and C, hence the lighted color.  And the least is between A and C; that color is lighter still.
@@ -56,8 +56,9 @@ Note that the strongest LD is between locus A and B; in the heatmap the block co
 We will load some hapmap data off the web and then examine it.  It was originally downladed as genotypes.  We will load one set from the CEU (European) population and the other from CHB (Chinese)
 
 ```{r}
-hya.ceu <-read.hapmap.genotype("http://users.miamioh.edu/cochrabj/Data/hyal2.ceu.genotype") #European
-hya.chb <-read.hapmap.genotype("http://users.miamioh.edu/cochrabj/Data/hyal2.chb.genotype")
+#hya.ceu <-read.hapmap.genotype("http://users.miamioh.edu/cochrabj/Data/hyal2.ceu.genotype") #European
+#hya.chb <-read.hapmap.genotype("http://users.miamioh.edu/cochrabj/Data/hyal2.chb.genotype")
+load("./Data/dat.hya.rda")
 ```
 And we can inspect them with the summary command
 
@@ -70,7 +71,7 @@ summary(hya.chb)
 This tells us that there are 39 SNP genotypes in the CEU dataset and 35 in the CEU. We can look at one of the genotypes as follows:
 
 ```{r}
-summary(hya.ceu$Genotypes[1])
+summary(dat.hya$Genotypes$CEU)
 ```
 
 And that shows us that it includes 165 genotypes of the snp rs7641224, 156 of which are C/C and 9 of which are C/T.

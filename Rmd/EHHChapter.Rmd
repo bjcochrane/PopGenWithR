@@ -14,7 +14,7 @@ output:
 #source("./R/dfunctions.R")
 #source("./R/printx.R")
 library(calibrate)
-
+library(rehh)
 ```
 ### Background
 
@@ -37,9 +37,7 @@ The measure she developed can be described as follows:
 
 If our selective sweep scenario is correct, then we should see significant EHH scores for derived core haplotypes extending for a further distance than we would for ancestral.  So how can we do such an analysis?  As always, the good news is that there is an r package for it:
 
-```{r,results='hide'}
-library(rehh)
-```
+
 And there  is an [excellent tutorial](http://bioinformatics.oxfordjournals.org/content/suppl/2012/03/11/bts115.DC1/rehh_tutorial.pdf) that walks the user through the various steps of the program, using some sample SNP data from the bovine genome.
 
 The bad news, however, is that it requires considerable data manipulation to, for example, analyze human diversity data from HapMap with this package.  The input required is two files - a data file listing haplotypes and an information file, providing both the map positions of SNP's and the identity of ancestral and derived alleles.  The haplotype data can be obtained from HapMap, of course.   For most human SNPs, ancestral alleles have been determined by comparison with other primate genomes, however those data have to be obtained separately from the human SNP data base.  Those data are available, however merging and formatting data from the two sources is not a trivial exercise. 
@@ -48,9 +46,10 @@ What we are going to do is to work with some previously prepared data from five 
 ``
 ```{r}
 
-hap.rehh<-data2haplohh(hap_file="/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.hap",map_file="/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.map",chr.name=3) # read in the data and put it into a usable object
+hap.rehh<-data2haplohh(hap_file="/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.hap3",map_file="/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.map",chr.name=3) # read in the data and put it into a usable object
 
 ```
+
 Now, instead of a core haplotype, we're going to start with a single snp - rs2680672.  Why we chose this one will become apparent shortly.  We need to specify it as the "mark" and go from there.
 ```{r}
 mark <-which(hap.rehh@snp.name=="rs2680672") # Identify the number of the core SNP in the data set
@@ -65,6 +64,7 @@ bifurcation.diagram(hap.rehh,mark,all_foc=2)
 Alternatively, we can examine each allele's EHH score as a function of distance from the core SNP
 ```{r}
 par(mfrow=c(1,1))
+dev.off()
 dat.ehh <-calc_ehh(hap.rehh,mark)
 ```
 
@@ -89,32 +89,28 @@ In the above example, we used a seemingly arbitrarily chosen SNP for illustrativ
 [Voight et al (2006)](http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.0040072#pbio-0040072-g007) 
 developed a method for doing so, one that is conceptually quite simple.  Look again at the curves we generated above, and think about that the result of integrating those curves would be.  Doing so might be computationally difficult, however, at least qualitatively, the result is pretty clear - the area under the ancestral curve is much smaller  than that under the derived.  So, what we could do would be to do a "sweep" of SNPs in a region of interest, and for each one calculate the ratio of those two intergals, and determine when they differ significantly from 1.  For details of the mathematics involved, see wither [Voight et al (2006)](http://www.plosbiology.org/article/info%3Adoi%2F10.1371%2Fjournal.pbio.0040072#pbio-0040072-g007) or the [rehh vignette](http://bioinformatics.oxfordjournals.org/content/suppl/2012/03/11/bts115.DC1/rehh_tutorial.pdf); for our purposes, suffice it to say that if we define those integrals as iHHS-A and iHHS-D (ancestral and derived), then we can define
 
-iHs =ln(iHHS-A/iHHS-D)
+iHs =ln(iHS~A~/iHS~D~)
 
 Note that this statistic will be negative if the score for the ancestral allele is lower and positive if it is greater than one.  This raw statistic is then normalized to correct for variance in allele frequencies (again, see Voight et al or the rehh vignette for details) to give our final statistic, which can then be visualized graphically.  rehh provides a routine to perform such a scan; it's syntax is
 
-```{r,eval=FALSE}
+```{r}
 res.scan<-scan_hh(hap.rehh)
 ```
 
-Where hap.rehh is our haplohh object we created earlier.  However, running this is a fairly lengthy process, so while you may wish to do it yourself as an excercise, we will load the results of a previous run with the same chromosome 3 dataset.
-
-```{r}
-load("/Users/cochrabj/Dropbox/Public/PopGenWithR/Data/hyal2.res-scan")
-
-```
+Where hap.rehh is our haplohh object we created earlier.  
 That creates the object "res.scan"; we can look at a bit of it:
+
 ```{r}
-head(res.scan)
+res.scan[1000:1010,]
 ```
-And we see that it contains the raw information we need - IHHa, IHHd, and IES.  Now we want to normalize the data based on allele frequency and plot the results.
+And we see that it contains the raw information we need - IHHa, IHHd, and IES (calculated in two separate ways.  Now we want to normalize the data based on allele frequency and plot the results.
 
 ```{r}
 hya.ihs <-ihh2ihs(res.scan,freqbin=.05) # normalize the raw data.  Expectations are calculated based on binned frequencies
 ```
 The object that is returned, a list with two elements is worth exploring further.  
 ```{r}
-head(hya.ihs[[1]]) # look at the first five entries of the first list element
+hya.ihs[[1]][1000:1010,]# look at the first five entries of the first list element
 ```
 We see that this gives us the actual iHS scores, along with the probability that they would be observed due to chance.  This function also returns expected values for ranges of p (the frequency of the target SNP derived allele):
 
@@ -125,19 +121,23 @@ kable(hya.ihs[[2]])
 And we can now plot the results:
 
 ```{r}
-ihsplot(hya.ihs$res,plot.pval="FALSE")
+dev.off()
+ihsplot(hya.ihs,plot.pval="FALSE")
 rs.data <-hya.ihs[[1]][which(rownames(hya.ihs[[1]])=="rs2680672"),]
-textxy(which(rownames(hya.ihs[[1]])=="rs2680672"),rs.data[4],"rs2680672",cex=.8,col="red")
-
+#textxy(which(rownames(hya.ihs[[1]])=="rs2680672"),rs.data[4],"rs2680672",cex=.8,col="red")
+text(rs.data$POSITION/1000000+.5,rs.data[3],rownames(rs.data),col="red",cex=.7)
 ```
 Note that we've marked our snp of interest.
+<!-- mostly works through here - the following is still problematic -->
 
 Note that scores can be either positive or negative.  What we have been focusing on previously are the negative ones - where iHHSd>iHHsa.  However we could certainly imagine cases in which the reverse situation could be true; these would be worth exploring as well.  For example:
 
-```{r}
+```{r,eval=FALSE}
 dat <-data.frame(hya.ihs[[1]])
-mk2 <-rownames(dat[which(dat[,3]==max(dat[,3])),])
-mk <-which(hap.rehh@snp.name==mk2)
+mk2 <-dat$POSITION[which(dat$iHS==max(dat$iHS,na.rm=TRUE))]
+#mk2 <-rownames(dat[which(dat[,3]==max(dat[,3])),])
+mk <-which(hap.rehh@position ==mk2)
+dev.off()
 res <-calc_ehh(hap.rehh,mk)
 ```
 
@@ -145,10 +145,12 @@ This is, in fact, the example of Neantherthal introgression alluded to above.
 
 Finally, regardless of sign, which of these are significant?
 ```{r}
-
-ihsplot(hya.ihs$res.ihs) # plot the ihs scores
+dev.off()
+#ihsplot(hya.ihs) # plot the ihs scores
+plot(hya.ihs$iHS$POSITION/1000000, hya.ihs$iHS$`-log10(p-value)`,pch=16,cex=.5,xlab="Position",ylab="-log10 P",col="darkgreen")
+abline(h=2,col="red",lty=2)
 ```
-Here the probabilities are plotted on a log-likelihood scale, so using a threshold value of 2 (that the observed ihs score is likely to occur by chance less than 1% of the time), we see perhaps five regions that warrant further exploration.
+Here the probabilities are plotted on a log-likelihood scale, so using a threshold value of 2 (that the observed ihs score is likely to occur by chance less than 1% of the time), we see perhaps four or regions that warrant further exploration.
 
 ###  Conclusions
 

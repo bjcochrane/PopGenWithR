@@ -6,8 +6,8 @@ bibliography: ../TPG.bib
 csl: ../genetics.csl.txt
 output:
   html_document:
-    css: ../Chapter.css
-    keep_md: yes
+    theme:  paper
+    keep_md: no
     toc: yes
     toc_depth: 5
     code_fold: show
@@ -89,6 +89,8 @@ pAC <-sapply(Q.time,function(x) x[1,2])
 p.mat <-cbind(pAA,pAC)
 matplot(t,p.mat,type="l",lty=1,xlab="Genetic Distance (ut)",ylab="Transition Probability",main="Jukes-Cantor Model")
 abline(h=.25,lty=2)
+text(1.5,.5,"A ->A")
+text(1.5,.1,"A->C",col="red")
 ```
 
 What we see is that both lines assymptotically approach .25, reflective of the fact that, under our model, are equally probable to occupy a position, regardless of what the starting state was.
@@ -125,6 +127,9 @@ pAG <-sapply(Qk.t, function(x) x[1,3])
 p.mat <-cbind(pAA,pAC,pAG)
 matplot(t,p.mat,type="l",lty=1,xlab="Genetic Distance (ut)",ylab="Transition Probability",main="K80 Model")
 abline(h=.25,lty=2)
+text(1.6,.5,"A ->A",cex=.8)
+text(1.6,.1,"A->T",col="red",cex=.8)
+text(0.9,0.18,"A-G",col="green",cex=.8)
 ```
 
 So we see that the transition probabilities are higher than the transversion, although given sufficient time, once again all frequencies converge on 0.25.
@@ -143,12 +148,12 @@ So which should we use?  There are two possible approaches
 2.  Compare the different models.  Here, we won't go into great detail, but there is a procedure that does that, which is implemented in the phangorn package of R.  An example, We will look at a small simulated DNA sequence data set:
 
 ```{r}
-dat <-read.FASTA("../BEAST/demo1.fasta")
+dat <-read.FASTA("./BeastDemo/demo1.fasta")
 dat.phy <-phyDat(dat)
 
 dat.mt <-modelTest(dat.phy,G=FALSE,I=FALSE)
 
-dat.mt[with(dat.mt,order(dat.mt$BIC)),c(1:3,6)]
+dat.mt[with(dat.mt,order(dat.mt$BIC)),]
 ```
 
 Here, the models are listed from the best fit to the worst, and we find out that, for these data, the Jukes and Cantor model works fine.  But in fact that's the model that was used to simulate the data, so that is no surprise.  What if we use some real data?  We can use some mitochondrial DNA sequences from fur seals [@Hoffman2011] as an example.
@@ -157,7 +162,7 @@ Here, the models are listed from the best fit to the worst, and we find out that
 data(furseals)
 fur.phy <-phyDat(fur.dat)
 fur.mt <-modelTest(fur.phy,G=FALSE,I=FALSE)
-fur.mt[with(fur.mt,order(fur.mt$BIC)),c(1:3,6)]
+fur.mt[with(fur.mt,order(fur.mt$BIC)),]
 
 ```
 

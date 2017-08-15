@@ -4,11 +4,14 @@ author: <center></center>
 date: <center>`r format(Sys.Date(),format="%B %d %Y")`</center>
 output:
   html_document:
+    code_folding: show
     css: Chapter.css
     toc: yes
     toc_depth: 5
+    
 ---
 ```{r,echo=FALSE}
+knitr::opts_chunk$set(message = FALSE)
 library(HardyWeinberg)
 library(knitr)
 library(gap)
@@ -42,7 +45,7 @@ n.A <-2*pgm.geno[1]+pgm.geno[2]
 n.A
 ```
 
-First, let's calculate the exact probability of our data.  This is a complicated calculation, based on the binomial distribution, but rather than worry about it (see Weir if you are interested), we'll use the R function hwexact in the package HardyWeinberg:
+Next, let's calculate the exact probability of our data.  This is a complicated calculation, based on the binomial distribution, but rather than worry about it (see Weir if you are interested), we'll use the R function hwexact in the package HardyWeinberg:
 
 ```{r}
 pgm.pr <-HWExact(pgm.geno)
@@ -91,7 +94,7 @@ kable(pgm.df)
 If we do a quick plot of these, we get the following
 
 ```{r}
-barplot(pgm.df$Prob,names.arg=pgm.df$n.AB)
+barplot(pgm.df$Prob,names.arg=pgm.df$n.AB, xlab="Number Heterozygotes",ylab="Probability")
 ```
 
 Suppose we rearrange this, so that we go from the least likely to the most likely.  This takes a little r code munging:
@@ -128,7 +131,7 @@ Guo and Thompson (1992) proposed randomization, or Monte Carlo methods, to addre
 
 So we're going to briefly use some real data - data for one locus (DQR1) from the human major histocampatibility locus for 271 samples, available in the R package gap.  It takes a bunch of manipulation to extract, and since we will be actually doing these procedures using other programs, the code for doing so is hidden (but can be found in the .Rmd file).
 
-```{r,echo=FALSE}
+```{r}
 data(hla)
 dqa <-hla[,3:4]
 head(dqa)
@@ -137,15 +140,15 @@ nrow(dqa)
 
 Each line corresponds to an individual (there are a total of `r nrow(dqa)`), and the two columns are allele identifiers, numbered 1 through n.  So how many different alleles are there?
 
-```{r,echo=FALSE}
-y <- pgc(dqa,handle.miss=0,with.id=1) 
+```{r}
+y <- pgc(dqa,handle.miss=0,with.id=1) #count individuals with identical genotypes
 n.alleles <-max(dqa,na.rm=TRUE) # works since alleles are numbered 1 to n
 n.alleles
 ```
 
-And that gives an idea of the scope of the problem.  There are 25 possible homozgyous genotypes and `r (25*24)/2` heterozygous ones - there is simply no practical way to calculate the exact probability for each.  So we're going to use our sampling approach (after a little bit more hidden munging) to determine whether or not we should accept HWE for this sample.
+And that gives an idea of the scope of the problem.  There are 25 possible homozgyous genotypes and `r (25*24)/2` heterozygous ones - there is simply no practical way to calculate the exact probability for each.  So we're going to use our sampling approach (after a little bit more munging) to determine whether or not we should accept HWE for this sample.
 
-```{r,echo=FALSE,results="hide"}
+```{r,results="hide"}
 z <- vector("numeric",n.alleles*(n.alleles+1)/2)
 z[y$idsave] <- y$wt
 out <- hwe.hardy(a=z,alleles=n.alleles)

@@ -6,7 +6,7 @@ bibliography: ../TPG.bib
 csl: ../genetics.csl.txt 
 output: 
     html_document:
-       css: ../Chapter.css
+       theme: paper
        toc: yes
        toc_depth: 5
        code_folding: show

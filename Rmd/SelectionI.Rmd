@@ -38,13 +38,13 @@ Numerous factors contribute to fitness, among them
 1.  **Viability of progeny**  Having mated, the resulting embryos must survive to reproductive age
 4.  **Fertility of progeny**  And finally, those reproductive age progeny have to themselves be fertile
 
-In fact, there are many more elements that can be examined; we are going to restrict most of our attention (as do Nielsen and Slatkin) to viability as a measure of fitness, briefly considering fertility as somewhat of a special case.
+In fact, there are many more elements that can be examined; we are going to restrict most of our attention  to viability as a measure of fitness, briefly considering fertility as somewhat of a special case.
 
 #### Absolute vs. relative fitness
 
 In our simple formulation, fitness is measured by the average number of progeny produced by individuals of a particular genotype.  But, just as we did when we first developed Hardy-Weinberg theory, we need to be able to use those numbers to generate expectations about frequencies, both of genotypes and alleles.  
 
-Consider the example described in box 7.2 of Nielsen and Slatkin.  In this case, we are looking at a mouse coat color polymorphism, with two alleles, C and R:
+Consider the following example.   We are looking at a mouse coat color polymorphism, with two alleles, C and R:
 
 ```{r}
 fC <-.3
@@ -107,17 +107,18 @@ So from here on out, we will work with relative fitnesses, defined as follows.  
 
 With a little simple algebra, we were able to show that, when an allele is a heterozygous lethal, its expected frequency at time t is simply  
 
-q(t) =[q/(1+q)]^t
+q~t~ =[q/(1+q)]^t^
 
 Where q is its initial frequency.  we can see that graphically with the following code:
 
 ```{r}
 par(mfrow=c(1,1))
-t <-c(1:100)
+t <-c(0:100)
 q <- .9
 qt <-(q/(1+q))^t
 plot(qt,type="l", xlab="Generation",ylab="q",ylim=c(0,1),col="red")
 ```
+
 So what we see is that, as expected, the frequency of a recessive allele drops quickly, so that by 10 generations or so, it is effectively zero
 
 ### A more general approach
@@ -130,9 +131,9 @@ w(aa) = 1-s
 
 Having done so, we can then show that  
 
-&delta;p = p(w(A)-w)/w
+&delta;p = p(w~A~ - w)/w
 
-Where w(A) is the mean fitness of individuals with an A allele (homozygote or heterozygote) and w is the mean fitness of the population
+Where w~A~ is the mean fitness of individuals with an A allele (homozygote or heterozygote) and w is the mean fitness of the population
 
 The following R code implements that equation.  It takes as inputs the initial value of p, the values of h and s, and whether or not a plot is to be returned.  The default function returns a vector with the values of p.
 ```{r}
@@ -170,23 +171,26 @@ We can start with the case of h=0 and s=1, the lethal situation we described abo
 ```{r}
 out <- deltap(.1,0,1)
 plot(1-out,type="l",xlab="Generation",ylab="q",lwd=2,cex=1.5)
-lines(1-deltap(.1,0,.2,plot=FALSE), col="blue",lwd=2,cex=1.5)
-lines(1-deltap(.1,.5,.2),col="purple",lwd=2,cex=1.5)
+#lines(1-deltap(.1,0,.2,plot=FALSE), col="blue",lwd=2,cex=1.5)
+#lines(1-deltap(.1,.5,.2),col="purple",lwd=2,cex=1.5)
 ```
 Now, what is we had weaker recessive selection, say with s=.1?
-```{r}
-#lines(1-deltap(.1,0,.2,plot=FALSE), col="blue")
+```{r,eval=FALSE}
+lines(1-deltap(.1,0,.2,plot=FALSE), col="blue")
 ```
 And we see that, as expected, while q declines, is does so much more slowly.  But now let's add in selection against the heterozygote as well, setting h to .5 (meaning that the fitness of the heterozygote is intermediate to that of the homozygote.
-```{r}
-#lines(1-deltap(.1,.5,.2),col="purple")
+
+```{r,eval=FALSE}
+lines(1-deltap(.1,.5,.2),col="purple")
 ```
+
 The differences, while present, are not spectacular.  But what about rates of change?  After all, that is what determines the rate of evolution.  We can look at that with the same function, only now setting the plot flag to TRUE.
 
 First, the lethal case:
 ```{r,results="hide"}
 x <-deltap(.1,0,1, plot=TRUE)
 ```
+
 And we see that, as p increases, &delta;p declines, meaning that when *a detrimental allele becomes rare, selection becomes inefficient*.
 
 Now let us suppose that s=.1, as above
@@ -202,6 +206,7 @@ Finally, if we set the fitness of the heterozygote to be intermediate to that of
 ```{r,results="hide"}
 deltap(.1,.5,.2,plot=TRUE)
 ```
+
 Now we see that delta p is maximized when p=.5  .  Of course, we know from Hardy-Weinberg theory that this is when heterozygotes are most common, and since selection in this case is acting on them, this result is as expected.
 
 #### A special case - heterozygote advantage
@@ -210,16 +215,17 @@ Now we see that delta p is maximized when p=.5  .  Of course, we know from Hardy
 
 All of the above have been examples of directional selection, with one allele or the other ultimately going to fixation.  But what about the case of heterozygote advantage?  For example, suppose that w have the following:
 
-w(AA) = 1-s
-w(Aa) = 1
-w(aa) = 1-t
+w(AA) = 1-s  
+w(Aa) = 1  
+w(aa) = 1-t  
 
-And as an example, suppose that s=.4 and t=.3.  To use our function, we need to do some algebra to normalize relative fitnesses to that of AA, but when we do, we find that s=.166 and h=-4.125, so we can plug those into our function and we get
+And as an example, suppose that s=.4 and t=.3.  To use our function, we need to do some algebra to normalize relative fitnesses to that of AA, but when we do, we find that s=-.166 and h=-4, so we can plug those into our function and we get
 
 ```{r,results="hide"}
-deltap(.1,-4.125,.16,plot=TRUE)
+deltap(.1,4,-.16,plot=TRUE)
 abline(h=0,col="red")
 ```
+
 There are two things to note.  First of all, as expected, we see that there are nonzero equilibrium values for both p and q - after all, heterozygotes have the maximum fitness. This means that there are three equilibrium points in the &delta;p vs. p curve, when p=0, p=1, or when p and q are at their equilibrium values.
 
 But what is that mean fitness?  We can calculate it as follows:
@@ -229,5 +235,6 @@ q <-1-p
 wbar <-1 - .4*p^2- .3*q^2
 wbar
 ```
+
 And we see that it *the mean fitness of the population is less than 1*.  Thus, the good news about heterozygote superiority is that it maintains variation.  The bad news?  At a cost to population fitness.  We will address that more in the future.
 

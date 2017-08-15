@@ -148,7 +148,7 @@ persp(xx, xlab="Generation", ylab="Number of A Alleles", zlab="Number of Populat
 
 ```
 
-And what we see is that while initially all populations were heterozygous, by the end, all are fixed for one of the two alleles.  So does this happen in real life?  In 1956, @Buri1956 performed just this experiment, using populations of *Drosophila melanogaster* that were initially heterozygous for two alleles of the *bw* locus, one that affects eye color.   His results are shown below
+And what we see is that while initially all populations were heterozygous, by the end, all are fixed for one of the two alleles.  So does this happen in real life?   @Buri1956 performed just this experiment, using populations of *Drosophila melanogaster* that were initially heterozygous for two alleles of the *bw* locus, one that affects eye color.   His results are shown below
 
 
 ![Buri](https://dl.dropbox.com/u/9752688/ZOO%20422P/R/Buri.jpg)

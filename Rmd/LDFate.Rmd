@@ -113,7 +113,7 @@ for(j in 1:5){
 
 ```{r,results='hide',fig.height=10}
 par(mfrow=c(2,1)) #create two panels in the plot window
-sapply(c(1000,100),Dfin) # Do two simulations, one with N=1000 and one with N=100
+sapply(c(1000,100),Dfin) # Do  two simulations, one with N=1000 and one with N=100
 par(mfrow=c(1,1)) #restore single graphic panel
 ```
 

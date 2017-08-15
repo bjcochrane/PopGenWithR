@@ -78,9 +78,10 @@ These traits can be measured (and you can consult the [original paper](http://rs
 Their data are available on Dryad; we will use the rdryad package to access them directly.  First the pedigree file
 ```{r}
 
-url.ped <-download_url(id='10255/dryad.58625')
-Ped <-dryad_getfile(url.ped)
-Ped <-Ped[1:1354,1:3]
+#url.ped <-download_url(id='10255/dryad.1759')
+#Ped <-dryad_getfile(url.ped)
+Ped <-read.table("./Data/dace.pedigree.txt",header=TRUE)
+#Ped <-Ped[1:1354,1:3]
 head(Ped)
 tail(Ped)
 ```
@@ -91,8 +92,9 @@ And note in passing - there is a lot of uncertainty in this pedigree.  In fact, 
 Now we can obtain the phenotype data:
 
 ```{r}
-url.pheno <-download_url(id="10255/dryad.58626")
-Data <-dryad_getfile(url.pheno)
+#url.pheno <-download_url(id="10255/dryad.58626")
+#Data <-dryad_getfile(url.pheno)
+Data <-read.table("./Data/dace.phenotypes.txt",header=TRUE)
 names(Data)[1] <- "animal"
 attach(Data)
 colnames(Data)
@@ -114,7 +116,7 @@ The reason for using size is that it is a combined measure of age and parasite b
 
 Thus, we can think of our model as something like 
 
-Resistance ~ &mu; Size + a + station + site + station:site + &epsilon;
+Resistance ~ &mu; Size + a + station + year + station:year + &epsilon;
 
 where a is the additive effects of genes affecting whichever trait we are looking at (Resistance or Tolerance). So we want to estimate the variance components associated with each and then calculate heritability with our familiar formula.  And since we are taking a Bayesian approach, we can estimate 95% credible intervals for each parameter, as well as for h^2^, as well.
 
@@ -127,6 +129,7 @@ We won't spend a lot of time on this; suffice it to say that what we are using i
 ```{r}
 prior1.7 <- list(R=list(V=1,nu=0.002),G = list(G1 = list(V = 1, n = 1.002), G2 = list(V = 1,n = 1.002), G3 = list(V =1, n = 1.002),G4 = list(V = 1, n = 1.002)))
 ```
+
 
 Not that R is the prior for variance in the response and G1 through G4 are those for the four other  variables in the model.
 
@@ -155,7 +158,7 @@ We can visualize the results graphically as follows:
 ```{r}
 plot(model1$VCV)
 ```
-On the left are the "traces" - the values for each component added to the posterior as the chain progresses.  Ideally, these should oscillate randomly (and they do).  On the right wre the posterior distributions for each of the components - they should be unimodal and (ideally) normally shaped.  In most cases they are (although longer chains would likely improve them.)
+On the left are the "traces" - the values for each component added to the posterior as the chain progresses.  Ideally, these should oscillate randomly (and they do).  On the right are the posterior distributions for each of the components - they should be unimodal and (ideally) normally shaped.  In most cases they are (although longer chains would likely improve them.)
 
 But let's get some numbers for these - the mode of each posterior and the 95% credible intervals.
 

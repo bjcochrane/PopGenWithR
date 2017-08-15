@@ -231,7 +231,7 @@ But be forewarned, however - as i increases, the number of possible genotypes in
 Given k alleles, there are obviously k possible homozygotes.  The number of possible heterozygotes is (k(k-1))/2.  So we can plot this as
 
 ```{r}
-k <-1:25
+k <-1:8
 ngenos <-k+(k*(k-1))/2
 plot(k,ngenos, xlab="number of alleles", ylab="number of genotypes")
 ```

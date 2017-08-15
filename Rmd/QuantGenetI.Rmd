@@ -118,9 +118,9 @@ d = m12-(m11+m22)/2
 
 With these values, we can express the phenotypic values of the three geneotypes as 
 
-m11 = m+a
-m12 = m+d
-m22 = m-a
+m11 = m+a  
+m12 = m+d  
+m22 = m-a  
 
 ```{r}
 m11 <- 1.202

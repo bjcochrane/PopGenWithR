@@ -1,5 +1,5 @@
 ---
-title: <h1>Mutation</h1>
+title: <h1>Population Structure</h1>
 author: <h2></h2>
 date: <h2>`r format(Sys.Date(),format="%B %d %Y")`</h2>
 bibliography: ../TPG.bib
@@ -12,16 +12,19 @@ output:
        code_folding: show
 ---
 
-```{r,child="../Rmd/Mutation.Rmd"}
+```{r, child="../Rmd/FstIntro.Rmd"}
 
 ```
 
-```{r,child="../Rmd/MutationFate.Rmd"}
+```{r, child = "../Rmd/IGSFst.Rmd"}
 
 ```
 
-```{r child="../Rmd/MutModels.Rmd"}
+```{r,child="../Rmd/FstHuman.Rmd"}
 
 ```
 
-## References
+```{r, child="../Rmd/IGSPca.Rmd"}
+
+```
+

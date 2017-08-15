@@ -42,7 +42,7 @@ But let's go to something more realistic. Let's return to the acp29 data.  The d
 
 ```{r}
 #data(acp29) #Load data from TeachingPopGen
-acp29 <-read.FASTA("../Data/acp29.fasta") #Read the file we created in the last unit
+acp29 <-read.FASTA("./Data/acp29.fasta") #Read the file we created in the last unit
 spec.acp <-site.spectrum(acp29)
 plot(spec.acp)
 ```
@@ -80,7 +80,7 @@ So is what we observe consistent with neutral expectations?  Based on a single s
 
 
 ```{r, fig.height=15}
-par(mfrow=c(5,2))
+#par(mfrow=c(5,2))
 for(i in 1:10){
   system("ms 17 1 -s 15 -r 0 703 | ms2dna >test.fasta") # numbers set to mimic acp data; r parameter is essential
   test.dna <-read.FASTA("test.fasta")

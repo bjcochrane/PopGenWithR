@@ -99,6 +99,7 @@ p;q
 ```
 And note.  **p and q have not changed**.
 
+
 #### A Sample problem:
 
 Below are some (completely made-up) data.  Use them to 
@@ -144,6 +145,18 @@ So what have we shown?  We can summarize as follows:
 
 In other words, *A population that is in Hardy Weinberg Equilibrium is not evolving*.  Thus, it becomes the null hypothesis from which we work; hence a deep understanding of its properties is essential if we are to thoroughly understand the genetics of the evolutionary process.
 
+##### A more detailed derivation
+
+In the above, we simply treated mating as involving every individual contributing equally to a pool of gametes and then those gametes being drawn two at a time to create zygotes.  In fact, of course, more typically, individuals are mating with one another and it is their gametes that are combining.  Felsenstein (2016 version, pg.6)  Works this up by first, showing the expected frequencies of all possible random matings:
+
+![](../images/RandomMating.png)
+
+From this, the following can be calculated:
+
+![](../images/RandomMating2.png)
+</br></br>
+
+And inspection of the right side should show you that the expected genotype frequencies are indeed p^2^, 2pq, and q^2^.  
 
 ### Calculations Based on Genotype Frequencies
 
