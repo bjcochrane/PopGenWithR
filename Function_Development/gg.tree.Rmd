@@ -1,0 +1,51 @@
+---
+title: "Trees"
+author: "Bruce Cochrane"
+date: "1/5/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggtree)
+```
+
+install chunk
+
+```{r,eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("ggtree")
+```
+
+
+This is the big one
+
+## Single tree from ms
+
+```{r}
+tr <-ms(nsam=10,nreps=1,opts=c("-t 10 -T"))
+tr2 <-read.tree(text=tr)
+plot(tr2)
+```
+
+```{r}
+ggtree(tr2) +
+  geom_text2(aes(subset=!isTip, label=node), hjust=-.3,col="red",size=3) +
+  geom_tiplab() +
+  geom_nodepoint()
+```
+
+Bottom line - probably don't need to change the functions here for basic ms-type stuff, however for building pretty trees, it's a good one
+## Multiple trees
+
+Here's the basic (stolen) code for doing a multitree
+
+```{r}
+trees <- lapply(c(10, 20, 40,25), rtree)
+class(trees) <- "multiPhylo"
+ggtree(trees) + facet_wrap(~.id, scale="free",ncol=2) + geom_tiplab(size=2)
+```
+
+So the only trick is to add the facet_wrap; the scale allows each tree to be proportioned independently.
+## Multiple panels with different graphics

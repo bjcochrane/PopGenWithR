@@ -1,0 +1,37 @@
+---
+title: "Generate bibliography"
+author: "Bruce Cochrane"
+date: "1/1/2018"
+output: html_document
+bibliography:  "/Volumes/GoogleDrive/My Drive/gitio.home/bjcochrane.github.io/PGR2/bib2/TPG.bib"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+getwd()
+```
+
+Want to see if we can generate a complete list of what's in the bibliography
+
+```{r}
+library(bibtex)
+library(knitr)
+library(tidyverse)
+```
+
+```{r}
+bibs <-read.bib("../../bib2/TPG.bib")
+nms <-(paste0("@",names(bibs)))
+mn2 <-data.frame(ref=names(bibs),key=nms)
+```
+
+```{r}
+mn2 <- mn2 %>% arrange(ref)
+head(mn2)
+```
+
+Note to self - everything autoupdates from Mendeley
+`r (kable(mn2))`

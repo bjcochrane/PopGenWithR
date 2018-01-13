@@ -1,7 +1,6 @@
 library(pegas)
-library(compare)
 library(devtools)
 library(TeachingPopGen)
-library(knitcitations)
+library(tidyverse)
 #source("./R/style.Chapter.R")
 #source("./R/rendHtml.R")

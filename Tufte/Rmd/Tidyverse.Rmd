@@ -1,0 +1,183 @@
+---
+title:  "The Tidyverse"
+date:  "`r format(Sys.Date(),format='%B %d %Y')`"
+output:
+  tufte::tufte_html: default
+  tufte::tufte_handout:
+    citation_package: natbib
+    latex_engine: xelatex
+  tufte::tufte_book:
+    citation_package: natbib
+    latex_engine: xelatex
+bibliography: "/Volumes/GoogleDrive/My Drive/gitio.home/bjcochrane.github.io/PGR2/bib2/TPG.bib"
+link-citations: no
+---
+
+```{r,echo=FALSE}
+library(tidyverse)
+```
+
+# Introduction
+
+One of the hottest things to happen in the R world in the last few years is the development of the "tidyverse" ^[see [tidyverse home page](http://www.tidyverse.org)].  Developed by Hadley Wickham and colleagues, and well integrated into RStudio, it is an approach to data analysis that has three goals (at least):
+
+1.  Standardize the format of data, so that manipulations become simpler and more transparent.
+2.  Provide a graphics environment that is built on "The Language of Graphics", a concept developed by Edward Tufte and others @Wickham2010.
+3.  Use a coding structure that is more similar to natural language - that is, start with a subject (the data) and use verbs (functions) to manipulate it.
+
+In what follows, we will briefly outline some highlights of these approaches.
+
+#  What is "tidy"?
+
+There are all kinds of ways of formulating data, and developers have been quite inventive about creating new ones.  One of the simplest, and most intuitive, is the data frame.  Think of it as a spreadsheet, where each row is a subject and each column is a particular observation or value determined for that subject.  An example is the "iris" data set, part of the base R installation.  We can access it and look at the first three rows of it as follows:
+
+```{r}
+data(iris)
+head(iris)
+```
+
+These are measurements, made of individual plants classified into one of three species of iris.  We see that for each plant (row) there are five columns, consisting of length and width of sepals and stamens, as well as one column with indicating species.  This is a very straightforward  format, allowing us to do some very simple manipulations.  For example, suppose we want to know the mean sepal length.  We can get it as follows;
+
+```{r}
+m <- mean(iris$Sepal.Length)
+m
+```
+
+With a little bit more coding finesse, we could get this broken down by species:
+
+```{r}
+t <- tapply(iris$Sepal.Length,iris$Species, mean)
+t
+```
+
+But these are just numbers, and what do they tell us?  It would be much more informative to look at them graphically
+
+
+# Plotting Data
+
+Base graphics in R provide an easy means for plotting data.  For example, we can make a dot plot of the relationship between sepal length and petal length:
+
+```{r, fig.margin=TRUE}
+plot(iris$Sepal.Length,iris$Petal.Length)
+
+```
+
+Or, we could perhaps look at the two variables separately as histograms
+
+```{r,fig.margin=TRUE}
+par(mfrow=c(2,1))
+hist(iris$Sepal.Length)
+hist(iris$Petal.Length)
+par(mfrow=c(1,1))
+```
+
+And we can spiff these up, for instance by changing the titles with the option `main= ` or by changing the fill of the bars.  But there is a different perspective we can take.  Suppose we wanted to ask the question (in English) *Does the relationship between sepal length and petal length vary among the three species?*  Now we have three variable to manage - the two lengths, plus species.  How do we visualize that?
+
+A simple way would be to color the dots for the three species differently, and that can certainly be done in base graphics.  But ggplot2, part of the tidyverse, has both a better logical structure and it produces more meaningful graphics.  (For an in-depth look at graphical represention of data , see @Tufte1983).  The best introduction to its philosophy is perhaps @Wickham2010; for a full how-to treatment, see @Wickham2009b.  
+
+Let's start with the language, and rephrase our question more formally:
+
+*Using the iris data, show the relationship between sepal length and petal length. indicating the species of each plant*
+
+A call to ggplot follows this basic logic.  We can start with just the data:
+
+```{r,fig.margin=TRUE}
+ggplot(iris)
+```
+
+And that gets us nothing.  We've specified the source of the data but not the variables we wish to examine.  We cam add them in with the following
+
+```{r,fig.margin=TRUE}
+pl1 <-ggplot(iris, aes(Sepal.Length,Petal.Length))
+pl1
+```
+
+This is the minimum necessary to create a ggplot object - a data set and an *aesthetic*, essentially the variables that need to be visualized.
+
+Now we have a little more - we've added the axes and gridmarks, but still not data.  What we now have to specify is how we want the data plotted.  In the language of ggplot, we need to add a *geom*.  An ovious way to do that is as an xy scatterplot, which is specified by `geom_point()`.  Having created the base plot, we can now add a new layer, with the scatterplot, as follows:
+
+```{r,fig.margin=FALSE}
+pl2 <-pl1 +
+  geom_point()
+pl2
+```
+
+Finally, remember that we want to show species each plant belongs to.  An obvious way would be to differentiate them by color, which we can do by providing an aesthetic for the geom_point layer:
+
+```{r,fig.margin=FALSE}
+pl3 <- pl2 +
+  geom_point(aes(color=Species))
+pl3
+```
+
+And we now have a complete visualization with which we can (at least qualitatively) answer our original question.  
+
+One coding note - we could have done the whole process above with one single statement:
+
+`
+```{r}
+ggplot(iris,aes(Sepal.Length,Petal.Length)) +
+  geom_point(aes(color=Species))
+```
+`
+And often we will do so.  However, it is important to realize that the step by step approach allows us to make add layers as we deem appropriate.  For example, we could add in a title and a legend by
+
+```{r}
+pl4 <-pl3 +
+  ggtitle("Relationship Between Sepal Length and Petal Length in Iris") +
+  labs(caption="This plot barely scratches the surface of ggplot's capabilities")
+pl4
+```
+
+# Piping - yes or no?
+
+In the tidyverse, there is an alternative to writing expressions like 
+
+`function(x)`
+
+which is supposed to be more like natural language.  The above would be written 
+
+`x %>% function`
+
+And again, "x" is the subject and "function" is the verb.   And the utility of it is that if one wants to take the results of function (x) and apply it to function2, it would be written as 
+
+`x %>% function %>% function2` ^[Hadley Wickham has written a very good analogy, using the children's rhyme about "Little Bunny Foo-Foo"]
+
+An example, done in both notations, would be
+
+```{r, fig.margin=TRUE, fig.cap="Plotting with standar notation"}
+plot(iris$Sepal.Length,iris$Petal.Length)
+```
+
+or, using pipes, we can write it more as a sentence like "from the iris data, select plot Sepal.Length on the x axis and Petal.Length on the y axis"
+
+```{r,fig.margin=TRUE,fig.cap="Plotting using pipe notation"}
+iris %>% select(Sepal.Length, Petal.Length) %>% plot
+```
+
+
+As you can see, the results are identical.  So why one as opposed to the other?  In truth, there may not be a good answer. The argument for piping is that it makes grammatical sense - go left to right from A to B to C. However, there are enough examples where it doesn't work that make it problematical.  For example, this traditional notation works:
+
+```{r}
+mean(iris$Sepal.Length)
+```
+
+But for esoteric reasons, the `mean` function does not work with pipe notation.  So instead of writing
+
+`
+```{r}
+iris %>% select(Sepal.Length) %>% mean
+```
+`
+
+One has to write 
+
+```{r}
+iris %>% select(Sepal.Length) %>% colMeans
+```
+
+And there are other problems as well.  So guess what?  I'm not a super fan of piping as presently implemented, but anyone working with R needs to be aware of it, and at times, it is useful to make code compact and efficient.
+
+#References
+
+<div id=refs></div>

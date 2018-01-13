@@ -1,0 +1,74 @@
+---
+title: "Site Frequency Spectrum"
+author: "Bruce Cochrane"
+date: "1/5/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library (tidyverse)
+```
+
+II Site frequency spectrum
+
+From sfsDNA.Rmd.  Will use our sfs function with plot equals false; then plot the results with ggplot.  (Also need to see what we can do with the PEGAS function)
+
+```{r}
+set.seed(123)  
+rand <-ms(nsam=10, nreps=1,opts="-s 10")  
+rand <-read.ms.output(txt=rand)  
+x <-rand$gametes[[1]]  
+x  
+```
+
+So that gives the gametic array, to which we can apply sfs:
+
+```{r}
+sf <- sfs(x,pl=FALSE)
+sf
+```
+
+Not sure how we want to do this in the long run, but making a data frame works for now
+```{r}
+sf <- data.frame(i=1:length(sf[[2]]),Frequency=sf[[2]])
+sf
+```
+
+```{r}
+gg.spectrum <- function(sf,unfolded=FALSE){
+sf <- data.frame(i=1:length(sf),Frequency=sf)
+ttl <- ifelse(unfolded,"Unfolded Site Frequency Spectrum","Folded Site Frequency Spectrum")
+plt <- ggplot(sf,aes(i,Frequency)) +
+         geom_col(alpha=.4,fill="red") +
+        ggtitle(ttl) +
+        scale_x_continuous(breaks=c(1:nrow(sf))) +
+        scale_y_continuous(breaks=c(1:max(sf$Frequency)))
+
+plt
+}
+```
+
+Probably can add some more stuff to get rid of subticks.  
+
+
+OK.  So that should be an easy functional change (if we decide to go that route.  Now let's look and see if we can do something similar with Pegas function site.spectrum()
+
+```{r}
+acp29 <-read.FASTA("./Data/acp29.fasta")
+sp2 <- site.spectrum(acp29)
+sp3 <- as.numeric(sp2)
+```
+
+OK.  Try the above function on sp2 as is:
+
+```{r}
+gg.spectrum(sp3)
+
+```
+
+OK.  Good to go; eventually need to add faceting.
+

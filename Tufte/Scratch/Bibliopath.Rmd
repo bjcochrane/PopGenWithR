@@ -1,0 +1,23 @@
+---
+title: "Figuring out the reference mess"
+author: "Bruce Cochrane"
+date: "1/3/2018"
+output: html_document
+bibliography: "/Volumes/GoogleDrive/My Drive/gitio.home/bjcochrane.github.io/PGR2/bib2/TPG.bib"
+---
+
+Start by looking at files as they are accessed
+
+```{r}
+getwd()
+```
+
+```{r}
+list.files("../../bib2")
+```
+
+@Ding2014 remains one of my favorite papers
+
+So the secret is to include the full path for the bibliography, in quotes, as shown above.
+
+## References
